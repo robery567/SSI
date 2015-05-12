@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Facebook;   //mersi Mark Zuckerberg ~!
+using Facebook;
 using System.IO;
 using SSI.Properties; 
 namespace SSI
