@@ -39,7 +39,6 @@ namespace SSI
             {
                 try
                 {
-                    login = true;
                     string logoutURL = @"https://www.facebook.com/logout.php?next=" + System.Web.HttpUtility.UrlEncode(loginURL, ASCIIEncoding.UTF8)+"&access_token=" + Properties.Settings.Default.defkey;
                     LoginBrowser.Navigate(logoutURL);
                     Properties.Settings.Default.defkey = "notlogged";

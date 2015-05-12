@@ -86,7 +86,10 @@ namespace SSI
                 }
                 catch(FacebookOAuthException ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    if (ex.ErrorCode == 190)
+                        MessageBox.Show("Boss, it looks like your access time expired. Would you be so kind as to log in again ?");
+                    else
+                        MessageBox.Show(ex.Message);
                     Settings.Default.defkey = "notlogged";
                     Settings.Default.Save();
                     LoadData();
