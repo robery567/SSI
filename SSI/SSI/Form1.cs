@@ -23,7 +23,7 @@ namespace SSI
             InitializeComponent();
         }        
         private void Form1_Load(object sender, EventArgs e)
-        {
+        {         
             string loginURL = @"https://www.facebook.com/dialog/oauth?client_id=847697765303140&redirect_uri=https://www.facebook.com/connect/login_success.html&response_type=token&scope=email,user_photos";
             if (login)
             {
@@ -68,31 +68,27 @@ namespace SSI
                         Properties.Settings.Default.defkey = MainForm.TokenKey;
                         Properties.Settings.Default.Save();
                     }
+                    //timer1.Start();
+                    MainForm.loginOk = true;
                     timer1.Start();
-                    //LoginBrowser.Visible = false;               
+                    this.Visible = false;               
                 }
             }
-
+               
             if (LoginBrowser.Url.AbsoluteUri.Contains("skip_api_login=1&api_key") && login == false)
-                this.Close();
-        
+                    this.Close();
+               
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
             ticker++;
-            if(ticker==1)
+            if(ticker==5)
             {
                 ticker = 0;
                 MainForm.loginOk = true;
                 this.Close();
             }
-        }
-        private bool LoginSuccessful()
-        {
-            byte[] bytes;
-            timer1.Start();
-            return true;
         }
     }
 }

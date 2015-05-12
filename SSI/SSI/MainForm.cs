@@ -79,7 +79,7 @@ namespace SSI
                     dynamic data = fb.Get("/me");
                     label1.Text = data.name;
                     string uid = data.id;
-                    Console.WriteLine(GetProfileImageUrl(uid));
+                    
                     pictureBox1.Load(GetProfileImageUrl(uid));
                     pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
                     pictureBox1.Visible = true;
