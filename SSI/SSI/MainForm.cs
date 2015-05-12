@@ -27,9 +27,14 @@ namespace SSI
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            Form1.login = true;
-            Form1 f1 = new Form1();            
-            f1.Show();
+            if (LoginForm.status)
+                MessageBox.Show("Try again", "Sorry");
+            else
+            {
+                LoginForm.login = true;
+                LoginForm f1 = new LoginForm();
+                f1.Show();
+            }
             
         }
 
@@ -40,8 +45,9 @@ namespace SSI
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Form1.login = false;
-            Form1 f1 = new Form1();
+            LoginForm.login = false;
+            LoginForm f1 = new LoginForm();
+            f1.WindowState = FormWindowState.Minimized;
             f1.Show();
             button1.Visible = true;
             button3.Visible = false;
@@ -52,7 +58,7 @@ namespace SSI
         private void MainForm_Load(object sender, EventArgs e)
         {
             timer1.Start();
-            //Settings.Default.defkey = "notlogged";
+
             button1.Visible = false;
             button3.Visible = true;
             label1.Visible = true;
@@ -79,7 +85,6 @@ namespace SSI
                     dynamic data = fb.Get("/me");
                     label1.Text = data.name;
                     string uid = data.id;
-                    
                     pictureBox1.Load(GetProfileImageUrl(uid));
                     pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
                     pictureBox1.Visible = true;
