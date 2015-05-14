@@ -23,7 +23,7 @@ namespace SSI
         public static bool loginOk = false;
         public string GetProfileImageUrl(string facebookId)
         {
-            return "http://graph.facebook.com/" + facebookId + "/picture?type=large";
+            return "http://graph.facebook.com/" + facebookId + "/picture?width=150&height=150 ";
         }
         private void button1_Click(object sender, EventArgs e)
         {
