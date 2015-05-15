@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Facebook;
 using System.IO;
-using SSI.Properties; 
+using SSI.Properties;
+using System.Drawing.Drawing2D; 
 namespace SSI
 {
     public partial class MainForm : Form
@@ -21,9 +22,18 @@ namespace SSI
         }
         public static string TokenKey = " ";
         public static bool loginOk = false;
+        Random rand = new Random();
+        Brush[] brushes = new Brush[] {
+           Brushes.AliceBlue,
+           Brushes.AntiqueWhite,
+           Brushes.Aqua,
+           Brushes.Indigo,
+           Brushes.LightSkyBlue,
+           Brushes.LightYellow,
+           Brushes.Lime};
         public string GetProfileImageUrl(string facebookId)
         {
-            return "http://graph.facebook.com/" + facebookId + "/picture?width=150&height=150 ";
+            return "http://graph.facebook.com/" + facebookId + "/picture?width=150&height=150";
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -35,7 +45,7 @@ namespace SSI
                 LoginForm f1 = new LoginForm();
                 f1.Show();
             }
-            
+
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -53,6 +63,7 @@ namespace SSI
             button3.Visible = false;
             label1.Visible = false;
             pictureBox1.Visible = false;
+            tableLayoutPanel1.Visible = false;
         }              
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -78,6 +89,7 @@ namespace SSI
                 button1.Visible = false;
                 button3.Visible = true;
                 label1.Visible = true;
+                tableLayoutPanel1.Visible = true;
                 TokenKey = Properties.Settings.Default.defkey;
                 try
                 {
@@ -85,7 +97,12 @@ namespace SSI
                     dynamic data = fb.Get("/me");
                     label1.Text = data.name;
                     string uid = data.id;
+                    
                     pictureBox1.Load(GetProfileImageUrl(uid));
+                    System.Drawing.Drawing2D.GraphicsPath gp = new System.Drawing.Drawing2D.GraphicsPath();
+                    gp.AddEllipse(1, 1, pictureBox1.Width, pictureBox1.Height);
+                    Region rg = new Region(gp);
+                    pictureBox1.Region = rg;
                     pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
                     pictureBox1.Visible = true;
                 }
@@ -99,6 +116,10 @@ namespace SSI
                     Settings.Default.Save();
                     LoadData();
                 }
+                catch(FacebookApiException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
 
@@ -109,6 +130,15 @@ namespace SSI
                 LoadData();
                 loginOk = false;               
             }
+        }
+        int randomValue;
+        private void tableLayoutPanel1_CellPaint(object sender, TableLayoutCellPaintEventArgs e)
+        {
+             /*randomValue=rand.Next(0,brushes.Length);
+             Graphics g = e.Graphics;
+             Rectangle r = e.CellBounds;
+             g.FillRectangle(brushes[randomValue], r);*/
+             
         }
     }
 }
