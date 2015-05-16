@@ -22,6 +22,11 @@ namespace SSI
         }
         public static string TokenKey = " ";
         public static bool loginOk = false;
+        private bool isCreated = false;
+        TableLayoutPanel tableLayoutPanel1 = new TableLayoutPanel();
+        Label[] lb = new Label[45];   
+        private Label[] dow = new Label[8];
+        DateTime dt;
         Random rand = new Random();
         Brush[] brushes = new Brush[] {
             Brushes.CadetBlue,
@@ -35,6 +40,7 @@ namespace SSI
             Brushes.LightSeaGreen,
             Brushes.Chocolate
         };
+        
         public string GetProfileImageUrl(string facebookId)
         {
             return "http://graph.facebook.com/" + facebookId + "/picture?width=150&height=150";
@@ -68,17 +74,17 @@ namespace SSI
             button3.Visible = false;
             label1.Visible = false;
             pictureBox1.Visible = false;
-            monthCalendar1.Visible = false;
+           
             groupBox1.Visible = false;
-            
-            
+            tableLayoutPanel1.Visible = false;
+            timer1.Start();            
         }              
 
         private void MainForm_Load(object sender, EventArgs e)
-        {            
+        {
             button1.Visible = false;
             button3.Visible = true;
-            label1.Visible = true;
+            label1.Visible = true;       
             LoadData();      
         }
         
@@ -89,16 +95,23 @@ namespace SSI
                 button1.Visible = true;
                 button3.Visible = false;
                 label1.Visible = false;
-                
+                tableLayoutPanel1.Visible = false;
+                comboBox1.Visible = false;
             }
             else
             {
                 button1.Visible = false;
                 button3.Visible = true;
                 label1.Visible = true;
-               // TableLayoutCreator();
-                monthCalendar1.Visible = true;
-                groupBox1.Visible = true;
+                comboBox1.Visible = true;
+                DateTime currentdt = DateTime.Now;
+                comboBox1.SelectedItem=currentdt.ToString("MMMM");
+                if (!isCreated)
+                TableLayoutCreator();
+                
+                tableLayoutPanel1.Visible = true;
+                //monthCalendar1.Visible = true;
+                //groupBox1.Visible = true;
                 TokenKey = Properties.Settings.Default.defkey;
                 try
                 {
@@ -119,7 +132,10 @@ namespace SSI
                 {
                     if (ex.ErrorCode == 190)
                     {
-                        MessageBox.Show("Boss, it looks like your access time expired. Would you be so kind as to log in again ?");    
+                        MessageBox.Show("Boss, it looks like your access time expired. Would you be so kind as to log in again ?");
+                        Settings.Default.defkey = "notlogged";
+                        Settings.Default.Save();
+                        LoadData();
                     }
                     else
                     {
@@ -156,24 +172,141 @@ namespace SSI
             pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
         }
         
-       /* private void TableLayoutCreator()
+       private void TableLayoutCreator()
         {
-                       
-            Panel[] lb = new Panel[36];
-           // tableLayoutPanel1.GrowStyle = TableLayoutPanelGrowStyle.AddRows;            
-            int count = 1;
-            for (int i = 1; i < tableLayoutPanel1.RowCount; i++)
+            tableLayoutPanel1.Dispose();
+           tableLayoutPanel1 = new TableLayoutPanel();
+           tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+           tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Outset;
+           tableLayoutPanel1.ColumnCount = 7;
+           tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
+           tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.28572F));
+           tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.28572F));
+           tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.28572F));
+           tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.28572F));
+           tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.28572F));
+           tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.28572F));
+           tableLayoutPanel1.Location = new System.Drawing.Point(178, 44);
+           tableLayoutPanel1.Name = "tableLayoutPanel1";
+           tableLayoutPanel1.RowCount = 7;
+           tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28572F));
+           tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28572F));
+           tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28572F));
+           tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28572F));
+           tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28572F));
+           tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28572F));
+           tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28572F));
+           tableLayoutPanel1.Size = new System.Drawing.Size(686, 461);
+           tableLayoutPanel1.TabIndex = 5;
+           tableLayoutPanel1.Visible = true;
+           int count = 1;
+           dt = new DateTime(Decimal.ToInt32(numericUpDown1.Value), GetDateInt(comboBox1.Text), 1);
+           for (int i = 0; i < 7; i++)
+               dow[i] = new Label();
+           dow[0].Text = "Sun";
+           dow[1].Text = "Mon";
+           dow[2].Text = "Tue";
+           dow[3].Text = "Wed";
+           dow[4].Text = "Thu";
+           dow[5].Text = "Fri";
+           dow[6].Text = "Sat";        
+           for (int j = 0; j < 7; j++)
+              tableLayoutPanel1.Controls.Add(dow[j], j, 0);
+               for (int j = GetDayInt(dt.DayOfWeek.ToString()); j < tableLayoutPanel1.ColumnCount; j++)
+               {
+                   lb[count] = new Label();
+                   lb[count].Click += new System.EventHandler(LabelClickEvent);
+                   lb[count].Text = (count).ToString();
+                   lb[count].AutoSize = true;
+                   lb[count].Anchor = AnchorStyles.Top;
+                   lb[count].Dock = DockStyle.Fill;
+                   tableLayoutPanel1.Controls.Add(lb[count], j, 1);
+                   count++;
+               }                       
+            for (int i = 2; i < tableLayoutPanel1.RowCount; i++)
                for (int j = 0; j < tableLayoutPanel1.ColumnCount; j++)                
                 {
-                    lb[count] = new Panel();
+                    lb[count] = new Label();
+                    lb[count].Click += new System.EventHandler(LabelClickEvent);
                     lb[count].Text = (count).ToString();
-                    lb[count].AutoSize = true;                                     
+                    lb[count].AutoSize = true;
+                    lb[count].Anchor = AnchorStyles.Top;
+                    lb[count].Dock = DockStyle.Fill;
                     tableLayoutPanel1.Controls.Add(lb[count],j,i);
                     count++; 
                 }
-                        
-        }*/
+            tableLayoutPanel1.BackColor = Color.ForestGreen;
+            this.Controls.Add(tableLayoutPanel1);
+            isCreated = true;
+        }
 
+       private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+       {
+           TableLayoutCreator();
+       }
+       private void LabelClickEvent(object sender , EventArgs e)
+       {
+           MessageBox.Show(((Label)sender).Text);
+       }
+       private int GetDateInt(string date)
+       {
+           switch(date)
+           {
+               case "January":
+                   return 1;                   
+               case "February":
+                   return 2;
+               case "March":
+                   return 3;
+               case "April":
+                   return 4;
+               case "May":
+                   return 5;
+               case "June":
+                   return 6;
+               case "July":
+                   return 7;
+               case "August":
+                   return 8;
+               case "September":
+                   return 9;
+               case "October":
+                   return 10;
+               case "November":
+                   return 11;
+               case "December":
+                   return 12;
+           }
+           return 1;
+       }
+       private int GetDayInt(string dayWeek)
+       {
+           switch (dayWeek)
+           {
+               case "Monday":
+                   return 1;
+               case "Tuesday":
+                   return 2;
+               case "Wednesday":
+                   return 3;
+               case "Thursday":
+                   return 4;
+               case "Friday":
+                   return 5;
+               case "Saturday":
+                   return 6;
+               case "Sunday":
+                   return 0;
+           }
+           return 1;
+       }
 
+       private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+       {
+           TableLayoutCreator();
+       }
+  
     }
 }
