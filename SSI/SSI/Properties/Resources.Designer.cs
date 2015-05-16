@@ -63,6 +63,16 @@ namespace SSI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap clickheretoselect {
+            get {
+                object obj = ResourceManager.GetObject("clickheretoselect", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap facebookscratch {
             get {
                 object obj = ResourceManager.GetObject("facebookscratch", resourceCulture);
