@@ -4,4 +4,4 @@ SSI documentation:
  
  To be continued
 
-![Alt text](https://raw.github.com/robery567/SSI/codemap.png?raw=true "Codemap MainForm")
+![Alt text](https://raw.github.com/robery567/SSI/codemap.png "Codemap MainForm")
