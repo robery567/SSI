@@ -4,4 +4,4 @@ SSI documentation:
  
  To be continued
 
-![Settings Window](https://raw.github.com/robery567/SSI/codemap.png "Codemap MainForm")
+![Settings Window](https://raw.githubusercontent.com/robery567/SSI/master/codemap.png?token=ADgiufSvOnXwTmnpPuBiG7lJy80UYxW4ks5VYPhFwA%3D%3D "Codemap MainForm")
