@@ -74,7 +74,8 @@ namespace SSI
             button3.Visible = false;
             label1.Visible = false;
             pictureBox1.Visible = false;
-           
+            comboBox1.Visible = false;
+            numericUpDown1.Visible = false;
             groupBox1.Visible = false;
             tableLayoutPanel1.Visible = false;
             timer1.Start();            
@@ -104,6 +105,9 @@ namespace SSI
                 button3.Visible = true;
                 label1.Visible = true;
                 comboBox1.Visible = true;
+                numericUpDown1.Visible = true;
+                groupBox1.Visible = true;
+
                 DateTime currentdt = DateTime.Now;
                 comboBox1.SelectedItem=currentdt.ToString("MMMM");
                 if (!isCreated)
@@ -140,6 +144,9 @@ namespace SSI
                     else
                     {
                         MessageBox.Show(ex.Message);
+                        Settings.Default.defkey = "notlogged";
+                        Settings.Default.Save();
+                        LoadData();
                     }
                     
                 }
@@ -190,7 +197,7 @@ namespace SSI
            tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.28572F));
            tableLayoutPanel1.Location = new System.Drawing.Point(178, 44);
            tableLayoutPanel1.Name = "tableLayoutPanel1";
-           tableLayoutPanel1.RowCount = 7;
+           tableLayoutPanel1.RowCount = 6;
            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28572F));
            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28572F));
            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28572F));
@@ -201,8 +208,19 @@ namespace SSI
            tableLayoutPanel1.Size = new System.Drawing.Size(686, 461);
            tableLayoutPanel1.TabIndex = 5;
            tableLayoutPanel1.Visible = true;
+           tableLayoutPanel1.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
            int count = 1;
            dt = new DateTime(Decimal.ToInt32(numericUpDown1.Value), GetDateInt(comboBox1.Text), 1);
+           int daysInMonth = DateTime.DaysInMonth(Decimal.ToInt32(numericUpDown1.Value), GetDateInt(comboBox1.Text));
+           if(daysInMonth+GetDayInt(dt.DayOfWeek.ToString())>35)
+           {
+               tableLayoutPanel1.RowCount = 7;
+               tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28572F));
+           }
+           if (daysInMonth + GetDayInt(dt.DayOfWeek.ToString()) <29)
+           {
+               tableLayoutPanel1.RowCount = 5;
+           }
            for (int i = 0; i < 7; i++)
                dow[i] = new Label();
            dow[0].Text = "Sun";
@@ -235,8 +253,13 @@ namespace SSI
                     lb[count].Anchor = AnchorStyles.Top;
                     lb[count].Dock = DockStyle.Fill;
                     tableLayoutPanel1.Controls.Add(lb[count],j,i);
-                    count++; 
-                }
+                    count++;
+                    if (count > daysInMonth)
+                    {
+                        i = 100;
+                        j = 100;
+                    }      
+               }
             tableLayoutPanel1.BackColor = Color.ForestGreen;
             this.Controls.Add(tableLayoutPanel1);
             isCreated = true;
@@ -246,9 +269,21 @@ namespace SSI
        {
            TableLayoutCreator();
        }
+       object last;
+       bool first = true;
        private void LabelClickEvent(object sender , EventArgs e)
        {
-           MessageBox.Show(((Label)sender).Text);
+           richTextBox1.Text = "                          Date: " + GetDateInt(comboBox1.Text) + "/" + ((Label)sender).Text + "/" + numericUpDown1.Value.ToString();
+           ((Label)sender).BackColor = Color.GhostWhite;
+           if (first)
+           {
+               first = false;
+           }
+           else
+               ((Label)last).BackColor = Color.ForestGreen;
+
+          last  = ((Label)sender);
+
        }
        private int GetDateInt(string date)
        {
