@@ -7,9 +7,9 @@ Class Actiune {
   		$this->db = $DB;
   }
 
-
-
-
+  public function user_exists($user_id = NULL) {
+    return $DB->query("SELECT * FROM users WHERE user_id='{$user_id}'")->num_rows;
+  }
 
 
 }

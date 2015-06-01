@@ -42,7 +42,7 @@ try {
 
 					switch ($action) {
 						case 'get_info':
-							if ($DB->query("SELECT * FROM users WHERE user_id='{$user_id}'")->num_rows == 0)
+							if (!$operation->user_exists($user_id))
 									throw new \Exception("NOT_FOUND");
 							else {
 								$data = json_encode($DB->query("SELECT * FROM users WHERE user_id='{$user_id}'")->fetch_array(MYSQLI_ASSOC));
@@ -52,7 +52,7 @@ try {
 						break;
 
 						case 'get_events':
-							if ($DB->query("SELECT * FROM users WHERE user_id='{$user_id}'")->num_rows == 0)
+							if (!$operation->user_exists($user_id))
 									throw new \Exception("NOT_FOUND");
 							else {
 								$data = json_encode($DB->query("SELECT * FROM events WHERE user_id='{$user_id}'")->fetch_array(MYSQLI_ASSOC));
@@ -68,7 +68,7 @@ try {
 						break;
 
 						case 'insert':
-							if ($DB->query("SELECT * FROM users WHERE user_id='{$user_id}'")->num_rows == 0) {
+							if (!if (!$operation->user_exists($user_id))) {
 								$data = [
 									'fbid'  => isset($_GET['fbid']) ? $DB->real_escape_string($_GET['fb_id']) : NULL,
 									'email' => isset($_GET['email']) ? $DB->real_escape_string($_GET['email']) : NULL,
