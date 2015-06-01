@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using Facebook;
 using System.IO;
 using SSI.Properties;
-using System.Drawing.Drawing2D; 
+using Newtonsoft.Json.Linq;
 namespace SSI
 {
     public partial class MainForm : Form
@@ -22,10 +22,14 @@ namespace SSI
         }
         public static string TokenKey = " ";
         public static bool loginOk = false;
+        public static bool registOk = false;
         private bool isCreated = false;
+        bool firstPictureClick = true;
         TableLayoutPanel tableLayoutPanel1 = new TableLayoutPanel();
-        Label[] lb = new Label[45];   
-        private Label[] dow = new Label[8];
+        Label[] lb = new Label[45];
+        Panel[] pan = new Panel[45];
+        PictureBox[] pb = new PictureBox[45];
+        Label[] dow = new Label[8];
         DateTime dt;
         Random rand = new Random();
         Brush[] brushes = new Brush[] {
@@ -40,12 +44,13 @@ namespace SSI
             Brushes.LightSeaGreen,
             Brushes.Chocolate
         };
-        
+        DateConverter dtConv = new DateConverter();
+       
         public string GetProfileImageUrl(string facebookId)
         {
             return "http://graph.facebook.com/" + facebookId + "/picture?width=150&height=150";
         }
-        private void button1_Click(object sender, EventArgs e)
+        private void loginBtn_Click(object sender, EventArgs e)
         {
             if (LoginForm.status)
                 MessageBox.Show("Try again", "Sorry");
@@ -58,33 +63,50 @@ namespace SSI
             }
 
         }
-
-        private void button2_Click(object sender, EventArgs e)
-        {            
-            LoadData();
-        }
-
-        private void button3_Click(object sender, EventArgs e)
+              
+        private void logoutBtn_Click(object sender, EventArgs e)
         {
             LoginForm.login = false;
             LoginForm f1 = new LoginForm();
             f1.WindowState = FormWindowState.Minimized;
             f1.Show();
-            button1.Visible = true;
-            button3.Visible = false;
+            loginBtn.Visible = true;
+            logoutBtn.Visible = false;
             label1.Visible = false;
-            pictureBox1.Visible = false;
-            comboBox1.Visible = false;
-            numericUpDown1.Visible = false;
+            userPhoto.Visible = false;
+            monthBox.Visible = false;
+            yearBox.Visible = false;
             groupBox1.Visible = false;
             tableLayoutPanel1.Visible = false;
             timer1.Start();            
         }              
-
+        private void CheckDatabase(DateTime dateCheck)
+        {
+            /*string sCheck = dateCheck.GetDateTimeFormats()[5];
+            string command = "select * from ssipdb.events where date='" + sCheck + "';";
+            using (MySqlConnection conn = new MySqlConnection("Server=127.0.0.1;Database=ssipdb;Uid=root;Pwd= ;"))
+            {                
+                using(MySqlCommand comm = new MySqlCommand(command,conn))
+                {
+                    conn.Open();
+                    using(MySqlDataReader read = comm.ExecuteReader())
+                    {
+                        while(read.Read())
+                        {
+                            string image = read.GetString("image");
+                            string text = read.GetString("text");
+                            //entryImage.Image = (Base64ToImage(image));
+                            entryBox.Clear();
+                            entryBox.Text +=text;
+                        }
+                    }
+                }
+            }*/
+        }
         private void MainForm_Load(object sender, EventArgs e)
         {
-            button1.Visible = false;
-            button3.Visible = true;
+            loginBtn.Visible = false;
+            logoutBtn.Visible = true;
             label1.Visible = true;       
             LoadData();      
         }
@@ -93,23 +115,26 @@ namespace SSI
         {
             if (Settings.Default.defkey == "notlogged")
             {
-                button1.Visible = true;
-                button3.Visible = false;
+                loginBtn.Visible = true;
+                logoutBtn.Visible = false;
                 label1.Visible = false;
                 tableLayoutPanel1.Visible = false;
-                comboBox1.Visible = false;
+                monthBox.Visible = false;
+                groupBox1.Visible = false;
+                yearBox.Visible = false;
+                loginSSIBtn.Visible = true;
             }
             else
             {
-                button1.Visible = false;
-                button3.Visible = true;
+                loginBtn.Visible = false;
+                logoutBtn.Visible = true;
                 label1.Visible = true;
-                comboBox1.Visible = true;
-                numericUpDown1.Visible = true;
+                monthBox.Visible = true;
+                yearBox.Visible = true;
                 groupBox1.Visible = true;
-
+                loginSSIBtn.Visible = false;
                 DateTime currentdt = DateTime.Now;
-                comboBox1.SelectedItem=currentdt.ToString("MMMM");
+                monthBox.SelectedItem=currentdt.ToString("MMMM");
                 if (!isCreated)
                 TableLayoutCreator();
                 
@@ -123,14 +148,14 @@ namespace SSI
                     dynamic data = fb.Get("/me");
                     label1.Text = data.name;
                     string uid = data.id;
-                    
-                    pictureBox1.Load(GetProfileImageUrl(uid));
+                    Console.WriteLine(uid);
+                    userPhoto.Load(GetProfileImageUrl(uid));
                     System.Drawing.Drawing2D.GraphicsPath gp = new System.Drawing.Drawing2D.GraphicsPath();
-                    gp.AddEllipse(1, 1, pictureBox1.Width, pictureBox1.Height);
+                    gp.AddEllipse(1, 1, userPhoto.Width, userPhoto.Height);
                     Region rg = new Region(gp);
-                    pictureBox1.Region = rg;
-                    pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-                    pictureBox1.Visible = true;
+                    userPhoto.Region = rg;
+                    userPhoto.SizeMode = PictureBoxSizeMode.Zoom;
+                    userPhoto.Visible = true;
                 }
                 catch(FacebookOAuthException ex)
                 {
@@ -143,40 +168,54 @@ namespace SSI
                     }
                     else
                     {
-                        MessageBox.Show(ex.Message);
-                        Settings.Default.defkey = "notlogged";
-                        Settings.Default.Save();
-                        LoadData();
+                        MessageBox.Show(ex.Message);                        
                     }
+                    Settings.Default.defkey = "notlogged";
+                    Settings.Default.Save();
+                    LoadData();
                     
                 }
                 catch(FacebookApiException ex)
                 {
                     MessageBox.Show(ex.Message);
+                    Settings.Default.defkey = "notlogged";
+                    Settings.Default.Save();
+                    LoadData();
                 }
+                catch(WebExceptionWrapper)
+                {
+                    MessageBox.Show("Please check your internet connection !");
+                    this.Close();
+                }
+                
+                
+                
             }
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
             if(loginOk)
-            {
-                timer1.Stop();
+            {                
                 LoadData();
+                timer1.Stop();
                 loginOk = false;
-                
             }
         }
-
         private void pictureBox2_Click(object sender, EventArgs e)
         {
-            openFileDialog1.ShowDialog();
+            if (firstPictureClick)
+            {
+                openFileDialog1.ShowDialog();
+                firstPictureClick = false;
+            }
+            
         }
 
-        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
+       private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
-            pictureBox2.ImageLocation = openFileDialog1.FileName;
-            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
+            entryImage.ImageLocation = openFileDialog1.FileName;
+            entryImage.SizeMode = PictureBoxSizeMode.Zoom;
         }
         
        private void TableLayoutCreator()
@@ -210,14 +249,14 @@ namespace SSI
            tableLayoutPanel1.Visible = true;
            tableLayoutPanel1.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
            int count = 1;
-           dt = new DateTime(Decimal.ToInt32(numericUpDown1.Value), GetDateInt(comboBox1.Text), 1);
-           int daysInMonth = DateTime.DaysInMonth(Decimal.ToInt32(numericUpDown1.Value), GetDateInt(comboBox1.Text));
-           if(daysInMonth+GetDayInt(dt.DayOfWeek.ToString())>35)
+           dt = new DateTime(Decimal.ToInt32(yearBox.Value), dtConv.GetDateInt(monthBox.Text), 1);
+           int daysInMonth = DateTime.DaysInMonth(Decimal.ToInt32(yearBox.Value), dtConv.GetDateInt(monthBox.Text));
+           if(daysInMonth+dtConv.GetDayInt(dt.DayOfWeek.ToString())>35)
            {
                tableLayoutPanel1.RowCount = 7;
                tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28572F));
            }
-           if (daysInMonth + GetDayInt(dt.DayOfWeek.ToString()) <29)
+           if (daysInMonth + dtConv.GetDayInt(dt.DayOfWeek.ToString()) <29)
            {
                tableLayoutPanel1.RowCount = 5;
            }
@@ -229,30 +268,49 @@ namespace SSI
            dow[3].Text = "Wed";
            dow[4].Text = "Thu";
            dow[5].Text = "Fri";
-           dow[6].Text = "Sat";        
+           dow[6].Text = "Sat";
            for (int j = 0; j < 7; j++)
               tableLayoutPanel1.Controls.Add(dow[j], j, 0);
-               for (int j = GetDayInt(dt.DayOfWeek.ToString()); j < tableLayoutPanel1.ColumnCount; j++)
-               {
+           for (int j = dtConv.GetDayInt(dt.DayOfWeek.ToString()); j < tableLayoutPanel1.ColumnCount; j++)
+           {
+                   pan[count] = new Panel();
                    lb[count] = new Label();
+                   pb[count] = new PictureBox();
+                   
+                   pb[count].Click += new System.EventHandler(PanelClickEvent);
+                   pb[count].Name = count.ToString();
+                   pb[count].Image = Resources.plus;
+                   pb[count].SizeMode = PictureBoxSizeMode.Zoom;
+                   pb[count].Dock = DockStyle.Fill;
                    lb[count].Click += new System.EventHandler(LabelClickEvent);
                    lb[count].Text = (count).ToString();
                    lb[count].AutoSize = true;
                    lb[count].Anchor = AnchorStyles.Top;
-                   lb[count].Dock = DockStyle.Fill;
-                   tableLayoutPanel1.Controls.Add(lb[count], j, 1);
+                   lb[count].Dock = DockStyle.Top;
+                   tableLayoutPanel1.Controls.Add(pan[count], j, 1);
+                   pan[count].Controls.Add(lb[count]);
+                   pan[count].Controls.Add(pb[count]);
                    count++;
-               }                       
+           }                       
             for (int i = 2; i < tableLayoutPanel1.RowCount; i++)
                for (int j = 0; j < tableLayoutPanel1.ColumnCount; j++)                
                 {
+                    pan[count] = new Panel();
                     lb[count] = new Label();
+                    pb[count] = new PictureBox();
+                    pb[count].Click += new System.EventHandler(PanelClickEvent);
+                    pb[count].Name = count.ToString();
+                    pb[count].Image = Resources.plus;
+                    pb[count].SizeMode = PictureBoxSizeMode.Zoom;
+                    pb[count].Dock = DockStyle.Fill;
                     lb[count].Click += new System.EventHandler(LabelClickEvent);
                     lb[count].Text = (count).ToString();
                     lb[count].AutoSize = true;
                     lb[count].Anchor = AnchorStyles.Top;
-                    lb[count].Dock = DockStyle.Fill;
-                    tableLayoutPanel1.Controls.Add(lb[count],j,i);
+                    lb[count].Dock = DockStyle.Top;
+                    tableLayoutPanel1.Controls.Add(pan[count], j, i);
+                    pan[count].Controls.Add(lb[count]);
+                    pan[count].Controls.Add(pb[count]);
                     count++;
                     if (count > daysInMonth)
                     {
@@ -269,79 +327,104 @@ namespace SSI
        {
            TableLayoutCreator();
        }
-       object last;
+       object last, lastPic;
        bool first = true;
        private void LabelClickEvent(object sender , EventArgs e)
        {
-           richTextBox1.Text = "                          Date: " + GetDateInt(comboBox1.Text) + "/" + ((Label)sender).Text + "/" + numericUpDown1.Value.ToString();
+           dateLabel.Visible = true;
+           entryBox.Clear();
+           entryImage.Image = Resources.clickheretoselect;
+           dateLabel.Text = "Date: " + dtConv.GetDateInt(monthBox.Text) + "/" + ((Label)sender).Text + "/" + yearBox.Value.ToString();
+           entryBox.Enabled = true;
+           DateTime dateSend;
+           
+           dateSend = new DateTime(Decimal.ToInt32(yearBox.Value), dtConv.GetDateInt(monthBox.Text), Convert.ToInt32(((Label)sender).Text));
+           
            ((Label)sender).BackColor = Color.GhostWhite;
            if (first)
            {
                first = false;
            }
-           else
+           else 
+           {
+               ((PictureBox)lastPic).BackColor = Color.ForestGreen;
                ((Label)last).BackColor = Color.ForestGreen;
-
+               if(last==sender)
+               {
+                   ((Label)sender).BackColor = Color.ForestGreen;
+                   pb[Convert.ToInt32(((Label)sender).Text)].BackColor = Color.ForestGreen;
+               }
+           }
+           entryImage.Image= Resources.clickheretoselect;
           last  = ((Label)sender);
-
+          lastPic = pb[Convert.ToInt32(((Label)sender).Text)];
+          
+          CheckDatabase(dateSend);
        }
-       private int GetDateInt(string date)
-       {
-           switch(date)
-           {
-               case "January":
-                   return 1;                   
-               case "February":
-                   return 2;
-               case "March":
-                   return 3;
-               case "April":
-                   return 4;
-               case "May":
-                   return 5;
-               case "June":
-                   return 6;
-               case "July":
-                   return 7;
-               case "August":
-                   return 8;
-               case "September":
-                   return 9;
-               case "October":
-                   return 10;
-               case "November":
-                   return 11;
-               case "December":
-                   return 12;
-           }
-           return 1;
-       }
-       private int GetDayInt(string dayWeek)
-       {
-           switch (dayWeek)
-           {
-               case "Monday":
-                   return 1;
-               case "Tuesday":
-                   return 2;
-               case "Wednesday":
-                   return 3;
-               case "Thursday":
-                   return 4;
-               case "Friday":
-                   return 5;
-               case "Saturday":
-                   return 6;
-               case "Sunday":
-                   return 0;
-           }
-           return 1;
-       }
-
        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
        {
            TableLayoutCreator();
        }
-  
+
+       private void saveToDb_Click(object sender, EventArgs e)
+       {
+           /*DateTime dateDb = new DateTime(Decimal.ToInt32(yearBox.Value), dtConv.GetDateInt(monthBox.Text), Convert.ToInt32(((Label)last).Text));
+           string sCheck = dateDb.GetDateTimeFormats()[5];
+           string command = "replace into ssipdb.events(date,text,image) values('" + sCheck + "','" + entryBox.Text + "','" + ImageToBase64(entryImage.Image, System.Drawing.Imaging.ImageFormat.Jpeg) + "');";
+           using (MySqlConnection conn = new MySqlConnection("Server=127.0.0.1;Database=ssipdb;Uid=root;Pwd= ;"))
+           {
+               using (MySqlCommand comm = new MySqlCommand(command, conn))
+               {
+                   conn.Open();
+                   using(MySqlDataReader mread = comm.ExecuteReader())
+                   {
+                       MessageBox.Show("Saved");
+                       while(mread.Read())
+                       {
+
+                       }
+                   }
+
+               }
+           }
+           entryBox.Clear();
+           entryBox.Enabled = false;
+           entryImage.Image = Resources.clickheretoselect;
+           dateLabel.Visible = false;*/
+       }
+        
+        
+        EventArgs evAr = null;
+        private void PanelClickEvent(object sender, EventArgs e)
+        {
+            LabelClickEvent(lb[Convert.ToInt32(((PictureBox)sender).Name)],evAr);
+            ((PictureBox)sender).BackColor = Color.AliceBlue;
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            
+        }
+
+        private void registTimer_Tick(object sender, EventArgs e)
+        {
+            if(registOk)
+            {
+                registOk = false;
+                registTimer.Stop();
+                loginBtn.Visible = true;
+                loginSSIBtn.Visible = true;
+                registerBtn.Visible = true;
+            }
+        }
+
+        private void registerBtn_Click(object sender, EventArgs e)
+        {
+            registerWindow1.Visible = true;
+            loginBtn.Visible = false;
+            loginSSIBtn.Visible = false;
+            registerBtn.Visible = false;
+            registTimer.Start();
+        }
     }
 }
