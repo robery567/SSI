@@ -10,20 +10,11 @@
 namespace SSI\DB\Connection;
 
 include 'lib/main.php';
+include 'settings/config.php';
 
 use SSI\Lib\Main as Actiune;
 
-define ('development_mode', true);
-
 development_mode ? error_reporting(E_ALL) : error_reporting(0);
-
-$mysql = [
-		'connection_type' => 'mysqli',  // Available types: mysqli
-		'hostname' => 'localhost',
-		'username' => 'root',
-		'password' => 'parola',
-		'database' => 'ssipdb'
-];
 
 try {
 	switch ($mysql['connection_type']) {
