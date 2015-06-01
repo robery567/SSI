@@ -12,5 +12,18 @@ Class Actiune {
     return $DB->query("SELECT * FROM users WHERE user_id='{$user_id}'")->num_rows;
   }
 
+  public function check_database($database = NULL) {
+    $DB = $this->db;
+    return $DB->query("SELECT COUNT(DISTINCT `table_name`) FROM `information_schema`.`columns` WHERE `table_schema` = '{$database}'")->num_rows;
+ }
 
+  public function get_user_details($user_id = NULL) {
+    $DB = $this->db;
+    return $DB->query("SELECT * FROM users WHERE user_id='{$user_id}'")->fetch_array(MYSQLI_ASSOC);
+  }
+
+  public function get_user_events($user_id = NULL) {
+    $DB = $this->db;
+    return $DB->query("SELECT * FROM events WHERE user_id='{$user_id}'")->fetch_array(MYSQLI_ASSOC);
+  }
 }

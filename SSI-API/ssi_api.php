@@ -33,7 +33,7 @@ try {
 			if ($DB->connect_error) {
 				throw new \Exception("PROBLEMA_CONEXIUNE");
 			} else {
-				if($DB->query("SELECT COUNT(DISTINCT `table_name`) FROM `information_schema`.`columns` WHERE `table_schema` = '{$mysql['database']}'")->num_rows == 0) {
+				if(!$operation->check_database($mysql['database'])) {
 					throw new \Exception("DATABASE_CORUPT");
 				} else {
 					$action  = isset($_GET['action'])  ? $DB->real_escape_string($_GET['action']) : NULL;
@@ -45,7 +45,7 @@ try {
 							if (!$operation->user_exists($user_id))
 									throw new \Exception("NOT_FOUND");
 							else {
-								$data = json_encode($DB->query("SELECT * FROM users WHERE user_id='{$user_id}'")->fetch_array(MYSQLI_ASSOC));
+								$data = json_encode($operation->get_user_details($user_id));
 								die($data);
 								exit;
 							}
@@ -55,7 +55,7 @@ try {
 							if (!$operation->user_exists($user_id))
 									throw new \Exception("NOT_FOUND");
 							else {
-								$data = json_encode($DB->query("SELECT * FROM events WHERE user_id='{$user_id}'")->fetch_array(MYSQLI_ASSOC));
+								$data = json_encode($operation->get_user_events($user_id));
 								die($data);
 								exit;
 							}
