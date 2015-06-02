@@ -12,7 +12,7 @@ using System.IO;
 using SSI.Properties;
 using Newtonsoft.Json.Linq;
 namespace SSI
-{
+{//460-1100
     public partial class MainForm : Form
     {
         
@@ -24,6 +24,7 @@ namespace SSI
         public static bool loginOk = false;
         public static bool registOk = false;
         private bool isCreated = false;
+        private int timeCount = 0;
         bool firstPictureClick = true;
         TableLayoutPanel tableLayoutPanel1 = new TableLayoutPanel();
         Label[] lb = new Label[45];
@@ -31,20 +32,13 @@ namespace SSI
         PictureBox[] pb = new PictureBox[45];
         Label[] dow = new Label[8];
         DateTime dt;
-        Random rand = new Random();
-        Brush[] brushes = new Brush[] {
-            Brushes.CadetBlue,
-            Brushes.Brown,
-            Brushes.LimeGreen,
-            Brushes.Yellow,
-            Brushes.SkyBlue,
-            Brushes.Teal,
-            Brushes.MidnightBlue,
-            Brushes.Firebrick,
-            Brushes.LightSeaGreen,
-            Brushes.Chocolate
-        };
+        Random rand = new Random();        
         DateConverter dtConv = new DateConverter();
+        EventColor evColor = new EventColor();
+        EventArgs evAr = null;
+        object last, lastPic;
+        bool first = true;
+        
        
         public string GetProfileImageUrl(string facebookId)
         {
@@ -70,14 +64,19 @@ namespace SSI
             LoginForm f1 = new LoginForm();
             f1.WindowState = FormWindowState.Minimized;
             f1.Show();
-            loginBtn.Visible = true;
+            /*loginBtn.Visible = true;
+            loginSSIBtn.Visible = true;
             logoutBtn.Visible = false;
+            registerBtn.Visible = true;
             label1.Visible = false;
             userPhoto.Visible = false;
             monthBox.Visible = false;
             yearBox.Visible = false;
             groupBox1.Visible = false;
-            tableLayoutPanel1.Visible = false;
+            tableLayoutPanel1.Visible = false;*/
+            Settings.Default.defkey = "notlogged";
+            Settings.Default.Save();
+            LoadData();
             timer1.Start();            
         }              
         private void CheckDatabase(DateTime dateCheck)
@@ -107,8 +106,8 @@ namespace SSI
         {
             loginBtn.Visible = false;
             logoutBtn.Visible = true;
-            label1.Visible = true;       
-            LoadData();      
+            label1.Visible = true; 
+            LoadData();
         }
         
         public void LoadData()
@@ -121,18 +120,23 @@ namespace SSI
                 tableLayoutPanel1.Visible = false;
                 monthBox.Visible = false;
                 groupBox1.Visible = false;
+                userPhoto.Visible = false;
                 yearBox.Visible = false;
                 loginSSIBtn.Visible = true;
+                registerBtn.Visible = true;
+                objectiveControls.Visible = false;
             }
             else
             {
                 loginBtn.Visible = false;
                 logoutBtn.Visible = true;
+                registerBtn.Visible = false;
                 label1.Visible = true;
                 monthBox.Visible = true;
                 yearBox.Visible = true;
                 groupBox1.Visible = true;
                 loginSSIBtn.Visible = false;
+                objectiveControls.Visible = true;
                 DateTime currentdt = DateTime.Now;
                 monthBox.SelectedItem=currentdt.ToString("MMMM");
                 if (!isCreated)
@@ -148,7 +152,6 @@ namespace SSI
                     dynamic data = fb.Get("/me");
                     label1.Text = data.name;
                     string uid = data.id;
-                    Console.WriteLine(uid);
                     userPhoto.Load(GetProfileImageUrl(uid));
                     System.Drawing.Drawing2D.GraphicsPath gp = new System.Drawing.Drawing2D.GraphicsPath();
                     gp.AddEllipse(1, 1, userPhoto.Width, userPhoto.Height);
@@ -186,9 +189,7 @@ namespace SSI
                 {
                     MessageBox.Show("Please check your internet connection !");
                     this.Close();
-                }
-                
-                
+                }               
                 
             }
         }
@@ -196,7 +197,7 @@ namespace SSI
         private void timer1_Tick(object sender, EventArgs e)
         {
             if(loginOk)
-            {                
+            {
                 LoadData();
                 timer1.Stop();
                 loginOk = false;
@@ -323,12 +324,10 @@ namespace SSI
             isCreated = true;
         }
 
-       private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+       private void monthBox_SelectedIndexChanged(object sender, EventArgs e)
        {
            TableLayoutCreator();
        }
-       object last, lastPic;
-       bool first = true;
        private void LabelClickEvent(object sender , EventArgs e)
        {
            dateLabel.Visible = true;
@@ -362,9 +361,9 @@ namespace SSI
           CheckDatabase(dateSend);
        }
        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
-       {
+        {
            TableLayoutCreator();
-       }
+        }
 
        private void saveToDb_Click(object sender, EventArgs e)
        {
@@ -393,20 +392,13 @@ namespace SSI
            dateLabel.Visible = false;*/
        }
         
-        
-        EventArgs evAr = null;
-        private void PanelClickEvent(object sender, EventArgs e)
+       private void PanelClickEvent(object sender, EventArgs e)
         {
             LabelClickEvent(lb[Convert.ToInt32(((PictureBox)sender).Name)],evAr);
             ((PictureBox)sender).BackColor = Color.AliceBlue;
         }
 
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            
-        }
-
-        private void registTimer_Tick(object sender, EventArgs e)
+       private void registTimer_Tick(object sender, EventArgs e)
         {
             if(registOk)
             {
@@ -418,7 +410,7 @@ namespace SSI
             }
         }
 
-        private void registerBtn_Click(object sender, EventArgs e)
+       private void registerBtn_Click(object sender, EventArgs e)
         {
             registerWindow1.Visible = true;
             loginBtn.Visible = false;
@@ -426,5 +418,16 @@ namespace SSI
             registerBtn.Visible = false;
             registTimer.Start();
         }
+
+       private void button1_Click(object sender, EventArgs e)
+       {
+           MessageBox.Show(this.Size.Height.ToString() +" "+ this.Size.Width.ToString());
+       }
+
+       private void colorBtn_Click(object sender, EventArgs e)
+       {
+           
+       }
+
     }
 }

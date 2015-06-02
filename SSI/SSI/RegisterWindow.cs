@@ -61,15 +61,19 @@ namespace SSI
                 {
                     DatabaseLink db = new DatabaseLink();
                     PasswordHash ph = new PasswordHash();
+                    string hashedPw = ph.hashPassword(pwdBox.Text);
                     if (imageLoaded)
                     {
                         Image img = null;
                         img = Image.FromFile(imageBox.Text);
-                        db.Insert(emailBox.Text, nameBox.Text, db.ImageToBase64(img, img.RawFormat));
+                        if (db.InsertUser(" ", emailBox.Text, hashedPw, nameBox.Text, db.ImageToBase64(img, img.RawFormat)) != "Success")
+                            MessageBox.Show(db.error);
                     }
                     else
-                        if (db.Insert(emailBox.Text, nameBox.Text) != "Success")
+                        if (db.InsertUser(" ", emailBox.Text, hashedPw, nameBox.Text) != "Success")
                             MessageBox.Show(db.error);
+                        else
+                            MessageBox.Show("Success");
                         
                 }
             }

@@ -50,7 +50,7 @@
             this.registerBtn.Location = new System.Drawing.Point(157, 243);
             this.registerBtn.Name = "registerBtn";
             this.registerBtn.Size = new System.Drawing.Size(75, 23);
-            this.registerBtn.TabIndex = 0;
+            this.registerBtn.TabIndex = 6;
             this.registerBtn.Text = "Register";
             this.registerBtn.UseVisualStyleBackColor = true;
             this.registerBtn.Click += new System.EventHandler(this.registerBtn_Click);
@@ -69,7 +69,7 @@
             this.emailBox.Location = new System.Drawing.Point(132, 76);
             this.emailBox.Name = "emailBox";
             this.emailBox.Size = new System.Drawing.Size(100, 20);
-            this.emailBox.TabIndex = 3;
+            this.emailBox.TabIndex = 1;
             // 
             // imageBox
             // 
@@ -116,7 +116,7 @@
             this.browseBtn.Location = new System.Drawing.Point(239, 130);
             this.browseBtn.Name = "browseBtn";
             this.browseBtn.Size = new System.Drawing.Size(75, 23);
-            this.browseBtn.TabIndex = 9;
+            this.browseBtn.TabIndex = 3;
             this.browseBtn.Text = "Browse";
             this.browseBtn.UseVisualStyleBackColor = true;
             this.browseBtn.Click += new System.EventHandler(this.browseBtn_Click);
@@ -132,7 +132,7 @@
             this.pwdBox.Name = "pwdBox";
             this.pwdBox.PasswordChar = '•';
             this.pwdBox.Size = new System.Drawing.Size(100, 20);
-            this.pwdBox.TabIndex = 10;
+            this.pwdBox.TabIndex = 4;
             // 
             // label1
             // 
@@ -161,7 +161,7 @@
             this.pwdcheckBox.Name = "pwdcheckBox";
             this.pwdcheckBox.PasswordChar = '•';
             this.pwdcheckBox.Size = new System.Drawing.Size(100, 20);
-            this.pwdcheckBox.TabIndex = 13;
+            this.pwdcheckBox.TabIndex = 5;
             // 
             // backBtn
             // 

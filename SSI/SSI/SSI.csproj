@@ -60,8 +60,15 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ColorWindow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ColorWindow.Designer.cs">
+      <DependentUpon>ColorWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="DatabaseLink.cs" />
     <Compile Include="DateConverter.cs" />
+    <Compile Include="EventColor.cs" />
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -84,6 +91,9 @@
       <DependentUpon>RegisterWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
+    <EmbeddedResource Include="ColorWindow.resx">
+      <DependentUpon>ColorWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>

@@ -16,29 +16,38 @@ namespace SSI
         {
 
         }
-        public string Insert(string email, string name)
+        public string InsertUser(string email, string password, string name)
         {
             WebClient wb = new WebClient();
-            string text = wb.DownloadString("http://localhost/ssi/ssi_api.php?action=insert&"+"&email="+email+"&name="+name);
+            string text = wb.DownloadString("http://localhost/ssi/ssi_api.php?action=insert&fbid=' '" + "&email=" + email + "&password=" + password + "&name=" + name);
             return Error(text);
             
         }
-        public string Insert(string fbid ,string email , string name)
+        public string InsertUser(string fbid ,string email , string password,string name)
         {
             WebClient wb = new WebClient();
-            string text = wb.DownloadString("http://localhost/ssi/ssi_api.php?action=insert&"+"&fbid="+fbid+"&email="+email+"&name="+name);
+            string text = wb.DownloadString("http://localhost/ssi/ssi_api.php?action=insert&"+"&fbid="+fbid+"&email="+email+"&password="+password+"&name="+name);
             return Error(text);
         }
-        public string Insert(string fbid, string email, string name,string image)
+        public string InsertUser(string fbid, string email, string password, string name, string image)
         {
-            WebClient wb = new WebClient();
-            string text = wb.DownloadString("http://localhost/ssi/ssi_api.php?action=insert&"+ "&fbid=" + fbid + "&email=" + email + "&name=" + name + "&image="+image);
-            return Error(text);
+            string URI = "http://localhost/ssi/ssi_api.php";
+            string myParameters = "?action=insert&fbid=' '&email=" + email + "&password=" + password + "&name=" + name + "image=" + image;
+
+            using (WebClient wc = new WebClient())
+            {
+                wc.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
+                string result = wc.UploadString(URI, myParameters);
+                return result;
+            }
+           // WebClient wbd = new WebClient();
+            //string text = wbd.DownloadString("http://localhost/ssi/ssi_api.php?action=insert&" + "&fbid=" + fbid + "&email=" + email + "&password=" + password + "&name=" + name + "&image=" + image);
+            //return Error(text);
         }
-        public string Insert(string fbid, string email, string name, string image, string settings)
+        public string InsertUser(string fbid, string email, string password, string name,string image, string settings)
         {
             WebClient wb = new WebClient();
-            string text = wb.DownloadString("http://localhost/ssi/ssi_api.php?action=insert&" + "&fbid=" + fbid + "&email=" + email + "&name=" + name + "&image=" + image + "&settings="+settings);
+            string text = wb.DownloadString("http://localhost/ssi/ssi_api.php?action=insert&" + "&fbid=" + fbid + "&email=" + email + "&password=" + password + "&name=" + name + "&image=" + image + "&settings=" + settings);
             return Error(text);
         }
         public string Error(string result)
