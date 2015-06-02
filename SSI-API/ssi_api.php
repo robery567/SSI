@@ -31,11 +31,12 @@ try {
 				} else {
 					$action  = isset($_GET['action'])  ? $DB->real_escape_string($_GET['action']) : NULL;
 					$user_id = isset($_GET['user_id']) ? $DB->real_escape_string($_GET['user_id']) : NULL;
-
+					$email = isset($_POST['email']) ? $DB->real_escape_string($_POST['email']) : NULL;
+					$fbid = isset($_POST['fbid']) ? $DB->real_escape_string($_POST['fbid']) : NULL;
 
 					switch ($action) {
 						case 'get_info':
-							if (!$operation->user_exists($user_id))
+							if (!$operation->user_exists($email, $fbid))
 									throw new \Exception("NOT_FOUND");
 							else {
 								$data = json_encode($operation->get_user_details($user_id));
@@ -45,7 +46,8 @@ try {
 						break;
 
 						case 'get_events':
-							if (!$operation->user_exists($user_id))
+
+							if (!$operation->user_exists($email, $fbid))
 									throw new \Exception("NOT_FOUND");
 							else {
 								$data = json_encode($operation->get_user_events($user_id));
@@ -55,26 +57,28 @@ try {
 						break;
 
 						case 'insert_event':
-							$password = isset($_POST['password']) ? $DB->real_escape_string($_POST['password']) : NULL;
-							$user_id = isset($_POST['user_id']) ? $DB->real_escape_string($_POST['user_id']) : NULL;
-							$date = isset($_POST['user_id']) ? $DB->real_escape_string($_POST['user_id']) : NULL;
-							$text = isset($_POST['user_id']) ? $DB->real_escape_string($_POST['user_id']) : NULL;
-							$image = isset($_POST['user_id']) ? $DB->real_escape_string($_POST['user_id']) : NULL;
-							$settings = isset($_POST['user_id']) ? $DB->real_escape_string($_POST['user_id']) : NULL;
+						$data = [
+							'password' 	=> isset($_POST['password']) ? $DB->real_escape_string($_POST['password']) : NULL,
+							'user_id'	 	=> isset($_POST['user_id'])  ? $DB->real_escape_string($_POST['user_id'])  : NULL,
+							'date' 			=> isset($_POST['user_id'])  ? $DB->real_escape_string($_POST['user_id'])  : NULL,
+							'text' 			=> isset($_POST['user_id'])  ? $DB->real_escape_string($_POST['user_id'])  : NULL,
+							'image'			=> isset($_POST['user_id'])  ? $DB->real_escape_string($_POST['user_id'])  : NULL,
+							'settings'	=> isset($_POST['user_id'])  ? $DB->real_escape_string($_POST['user_id'])  : NULL
+						];
 
-							if ($operation->user_exists($email, $fbid) && $operation->check_password($user_id, $password))
-								insert_event($user_id, $date, $text, $image, $settings);
+							if ($operation->user_exists($data['email'], $data['fbid']) && $operation->check_password($data['user_id'], $data['password']))
+								insert_event($data['user_id'], $data['date'], $data['text'], $data['image'], $data['settings']);
 							else
 								throw new \Exception ("INCORRECT_CREDENTIALS");
 						break;
 
 						case 'insert':
 							$data = [
-								'fbid'  => isset($_POST['fbid']) ? $DB->real_escape_string($_POST['fbid']) : NULL,
-								'email' => isset($_POST['email']) ? $DB->real_escape_string($_POST['email']) : NULL,
-								'name'  => isset($_POST['name']) ? $DB->real_escape_string($_POST['name']) : NULL,
-								'image' => isset($_POST['image']) ? $DB->real_escape_string($_POST['image']) : NULL,
-								'password' => isset($_POST['password']) ? $DB->real_escape_string($_POST['password']) : NULL,
+								'fbid'  		=> isset($_POST['fbid'])     ? $DB->real_escape_string($_POST['fbid'])     : NULL,
+								'email' 		=> isset($_POST['email'])    ? $DB->real_escape_string($_POST['email'])    : NULL,
+								'name'  		=> isset($_POST['name'])     ? $DB->real_escape_string($_POST['name'])     : NULL,
+								'image' 		=> isset($_POST['image'])    ? $DB->real_escape_string($_POST['image'])    : NULL,
+								'password'  => isset($_POST['password']) ? $DB->real_escape_string($_POST['password']) : NULL
 							];
 
 							if (!$operation->user_exists($data['email'], $data['fbid'])) {
