@@ -55,12 +55,12 @@ try {
 						break;
 
 						case 'insert_event':
-							$password = isset($_GET['password']) ? $DB->real_escape_string($_GET['password']) : NULL;
-							$user_id = isset($_GET['user_id']) ? $DB->real_escape_string($_GET['user_id']) : NULL;
-							$date = isset($_GET['user_id']) ? $DB->real_escape_string($_GET['user_id']) : NULL;
-							$text = isset($_GET['user_id']) ? $DB->real_escape_string($_GET['user_id']) : NULL;
-							$image = isset($_GET['user_id']) ? $DB->real_escape_string($_GET['user_id']) : NULL;
-							$settings = isset($_GET['user_id']) ? $DB->real_escape_string($_GET['user_id']) : NULL;
+							$password = isset($_POST['password']) ? $DB->real_escape_string($_POST['password']) : NULL;
+							$user_id = isset($_POST['user_id']) ? $DB->real_escape_string($_POST['user_id']) : NULL;
+							$date = isset($_POST['user_id']) ? $DB->real_escape_string($_POST['user_id']) : NULL;
+							$text = isset($_POST['user_id']) ? $DB->real_escape_string($_POST['user_id']) : NULL;
+							$image = isset($_POST['user_id']) ? $DB->real_escape_string($_POST['user_id']) : NULL;
+							$settings = isset($_POST['user_id']) ? $DB->real_escape_string($_POST['user_id']) : NULL;
 
 							if ($operation->user_exists($email, $fbid) && $operation->check_password($user_id, $password))
 								insert_event($user_id, $date, $text, $image, $settings);
@@ -70,11 +70,11 @@ try {
 
 						case 'insert':
 							$data = [
-								'fbid'  => isset($_GET['fbid']) ? $DB->real_escape_string($_GET['fbid']) : NULL,
-								'email' => isset($_GET['email']) ? $DB->real_escape_string($_GET['email']) : NULL,
-								'name'  => isset($_GET['name']) ? $DB->real_escape_string($_GET['name']) : NULL,
-								'image' => isset($_GET['image']) ? $DB->real_escape_string($_GET['image']) : NULL,
-								'password' => isset($_GET['password']) ? $DB->real_escape_string($_GET['password']) : NULL,
+								'fbid'  => isset($_POST['fbid']) ? $DB->real_escape_string($_POST['fbid']) : NULL,
+								'email' => isset($_POST['email']) ? $DB->real_escape_string($_POST['email']) : NULL,
+								'name'  => isset($_POST['name']) ? $DB->real_escape_string($_POST['name']) : NULL,
+								'image' => isset($_POST['image']) ? $DB->real_escape_string($_POST['image']) : NULL,
+								'password' => isset($_POST['password']) ? $DB->real_escape_string($_POST['password']) : NULL,
 							];
 
 							if (!$operation->user_exists($email, $fbid)) {
