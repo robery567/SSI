@@ -39,7 +39,7 @@ try {
 							if (!$operation->user_exists($email, $fbid))
 									throw new \Exception("NOT_FOUND");
 							else {
-								$data = json_encode($operation->get_user_details($user_id));
+								$data = json_encode($operation->get_user_details($email));
 								die($data);
 								exit;
 							}
@@ -50,7 +50,7 @@ try {
 							if (!$operation->user_exists($email, $fbid))
 									throw new \Exception("NOT_FOUND");
 							else {
-								$data = json_encode($operation->get_user_events($user_id));
+								$data = json_encode($operation->get_user_events($email));
 								die($data);
 								exit;
 							}
@@ -82,7 +82,7 @@ try {
 							];
 
 							if (!$operation->user_exists($data['email'], $data['fbid'])) {
-								else if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL))
+							  if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL))
 									throw new \Exception("INVALID_EMAIL");
 								else if (is_null($data['name']) || strlen($data['name']) < 3)
 									throw new \Exception("INVALID_NAME");
