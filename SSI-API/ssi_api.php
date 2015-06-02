@@ -77,7 +77,7 @@ try {
 								'password' => isset($_POST['password']) ? $DB->real_escape_string($_POST['password']) : NULL,
 							];
 
-							if (!$operation->user_exists($email, $fbid)) {
+							if (!$operation->user_exists($data['email'], $data['fbid'])) {
 								if (is_null($data['fbid']))
 									throw new \Exception("INVALID_FBID");
 								else if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL))
@@ -87,7 +87,7 @@ try {
 
 								if (!is_null($data['fbid']) && !is_null($data['name']) && filter_var($data['email'], FILTER_VALIDATE_EMAIL))
 									$operation->insert_user($data['fbid'], $data['email'], $data['name'], $data['image'], $data['password']);
-							} else if ($operation->user_exists($email, $fbid) == 2) {
+							} else if ($operation->user_exists($data['email'], $data['fbid']) == 2) {
 									if (is_null($data['fbid']))
 										throw new \Exception("INVALID_FBID");
 									else if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL))
