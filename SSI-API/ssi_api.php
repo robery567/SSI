@@ -56,7 +56,16 @@ try {
 
 						case 'insert_event':
 							$password = isset($_GET['password']) ? $DB->real_escape_string($_GET['password']) : NULL;
+							$user_id = isset($_GET['user_id']) ? $DB->real_escape_string($_GET['user_id']) : NULL;
+							$date = isset($_GET['user_id']) ? $DB->real_escape_string($_GET['user_id']) : NULL;
+							$text = isset($_GET['user_id']) ? $DB->real_escape_string($_GET['user_id']) : NULL;
+							$image = isset($_GET['user_id']) ? $DB->real_escape_string($_GET['user_id']) : NULL;
+							$settings = isset($_GET['user_id']) ? $DB->real_escape_string($_GET['user_id']) : NULL;
 
+							if ($operation->user_exists($user_id) && $operation->check_password($user_id, $password))
+								insert_event($user_id, $date, $text, $image, $settings);
+							else
+								throw new \Exception ("INCORRECT_CREDENTIALS");
 
 						break;
 
@@ -92,6 +101,10 @@ try {
 	}
 } catch (\Exception $e) {
 	switch($e->getMessage()) {
+		case "INCORRECT_CREDENTIALS":
+			die("ERR_104"); // INCORRECT USER/PASSWORD
+		break;
+
 		case "INVALID_EMAIL":
 			die("ERR_103"); // Invalid Email
 			exit;
