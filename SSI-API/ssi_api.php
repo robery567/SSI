@@ -25,7 +25,7 @@ try {
 				throw new \Exception("PROBLEMA_CONEXIUNE");
 			} else {
 				$operation = new Actiune( $DB );
-				
+
 				if(!$operation->check_database($mysql['database'])) {
 					throw new \Exception("DATABASE_CORUPT");
 				} else {
@@ -77,7 +77,7 @@ try {
 									throw new \Exception("INVALID_NAME");
 
 								if (!is_null($data['fbid']) && !is_null($data['name']) && filter_var($data['email'], FILTER_VALIDATE_EMAIL))
-									$DB->query("INSERT INTO users (fbid, email, name, image) VALUES ('{$data['fbid']}', '{$data['email']}', '{$data['name']}', '{$data['image']}')");
+									$operation->insert_user($data['fbid'], $data['email'], $data['name'], $data['image'], $data['password']);
 							}	else {
 								throw new \Exception("USER_EXISTS");
 							}
