@@ -12,7 +12,7 @@ using System.IO;
 using SSI.Properties;
 using Newtonsoft.Json.Linq;
 namespace SSI
-{//460-1100
+{
     public partial class MainForm : Form
     {
         
@@ -419,14 +419,18 @@ namespace SSI
             registTimer.Start();
         }
 
-       private void button1_Click(object sender, EventArgs e)
-       {
-           MessageBox.Show(this.Size.Height.ToString() +" "+ this.Size.Width.ToString());
-       }
-
        private void colorBtn_Click(object sender, EventArgs e)
        {
            
+       }
+
+       private void loginSSIBtn_Click(object sender, EventArgs e)
+       {
+           loginWindow1.Visible = true;
+           loginWindow1.Dock = DockStyle.Fill;
+           loginBtn.Visible = false;
+           loginSSIBtn.Visible = false;
+           registerBtn.Visible = false;
        }
 
     }

@@ -91,6 +91,12 @@
       <DependentUpon>RegisterWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
+    <Compile Include="LoginWindow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LoginWindow.Designer.cs">
+      <DependentUpon>LoginWindow.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="ColorWindow.resx">
       <DependentUpon>ColorWindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -107,6 +113,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RegisterWindow.resx">
       <DependentUpon>RegisterWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginWindow.resx">
+      <DependentUpon>LoginWindow.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

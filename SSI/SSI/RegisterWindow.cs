@@ -66,8 +66,8 @@ namespace SSI
                     {
                         Image img = null;
                         img = Image.FromFile(imageBox.Text);
-                        if (db.InsertUser(" ", emailBox.Text, hashedPw, nameBox.Text, db.ImageToBase64(img, img.RawFormat)) != "Success")
-                            MessageBox.Show(db.error);
+                        MessageBox.Show(db.InsertUser(" ", emailBox.Text, hashedPw, nameBox.Text, db.ImageToBase64(img, img.RawFormat)));
+                            
                     }
                     else
                         if (db.InsertUser(" ", emailBox.Text, hashedPw, nameBox.Text) != "Success")

@@ -48,7 +48,6 @@
             this.logoutBtn = new System.Windows.Forms.Button();
             this.objectiveControls = new System.Windows.Forms.GroupBox();
             this.sendObjectiveBtn = new System.Windows.Forms.Button();
-            this.colorWindow1 = new SSI.ColorWindow();
             this.label5 = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -57,6 +56,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.loginWindow1 = new SSI.LoginWindow();
+            this.colorWindow1 = new SSI.ColorWindow();
             this.registerWindow1 = new SSI.RegisterWindow();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.entryImage)).BeginInit();
@@ -227,6 +228,7 @@
             this.loginSSIBtn.Size = new System.Drawing.Size(216, 61);
             this.loginSSIBtn.TabIndex = 12;
             this.loginSSIBtn.UseVisualStyleBackColor = false;
+            this.loginSSIBtn.Click += new System.EventHandler(this.loginSSIBtn_Click);
             // 
             // userPhoto
             // 
@@ -302,13 +304,6 @@
             this.sendObjectiveBtn.Text = "Save Objective";
             this.sendObjectiveBtn.UseVisualStyleBackColor = true;
             // 
-            // colorWindow1
-            // 
-            this.colorWindow1.Location = new System.Drawing.Point(296, 72);
-            this.colorWindow1.Name = "colorWindow1";
-            this.colorWindow1.Size = new System.Drawing.Size(180, 78);
-            this.colorWindow1.TabIndex = 9;
-            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -374,13 +369,28 @@
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker1.TabIndex = 0;
             // 
+            // loginWindow1
+            // 
+            this.loginWindow1.BackColor = System.Drawing.Color.ForestGreen;
+            this.loginWindow1.Location = new System.Drawing.Point(18, 16);
+            this.loginWindow1.Name = "loginWindow1";
+            this.loginWindow1.Size = new System.Drawing.Size(17, 22);
+            this.loginWindow1.TabIndex = 17;
+            this.loginWindow1.Visible = false;
+            // 
+            // colorWindow1
+            // 
+            this.colorWindow1.Location = new System.Drawing.Point(296, 72);
+            this.colorWindow1.Name = "colorWindow1";
+            this.colorWindow1.Size = new System.Drawing.Size(180, 78);
+            this.colorWindow1.TabIndex = 9;
+            // 
             // registerWindow1
             // 
             this.registerWindow1.BackColor = System.Drawing.Color.ForestGreen;
-            this.registerWindow1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.registerWindow1.Location = new System.Drawing.Point(0, 0);
+            this.registerWindow1.Location = new System.Drawing.Point(41, 12);
             this.registerWindow1.Name = "registerWindow1";
-            this.registerWindow1.Size = new System.Drawing.Size(1084, 421);
+            this.registerWindow1.Size = new System.Drawing.Size(20, 26);
             this.registerWindow1.TabIndex = 13;
             this.registerWindow1.Visible = false;
             // 
@@ -390,6 +400,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1084, 421);
+            this.Controls.Add(this.loginWindow1);
             this.Controls.Add(this.objectiveControls);
             this.Controls.Add(this.registerBtn);
             this.Controls.Add(this.loginSSIBtn);
@@ -450,5 +461,6 @@
         private System.Windows.Forms.TextBox textBox1;
         private ColorWindow colorWindow1;
         private System.Windows.Forms.Button sendObjectiveBtn;
+        private LoginWindow loginWindow1;
     }
 }

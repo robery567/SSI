@@ -16,6 +16,18 @@ namespace SSI
         {
 
         }
+        public string UserLogin(string email, string password)
+        {
+            string URI = "http://localhost/ssi/ssi_api.php?action=login";
+            string myParameters = "email=" + email + "&password=" + password;
+
+            using (WebClient wc = new WebClient())
+            {
+                wc.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
+                string result = wc.UploadString(URI, myParameters);
+                return result;
+            }
+        }
         public string InsertUser(string email, string password, string name)
         {
             WebClient wb = new WebClient();
@@ -31,8 +43,8 @@ namespace SSI
         }
         public string InsertUser(string fbid, string email, string password, string name, string image)
         {
-            string URI = "http://localhost/ssi/ssi_api.php";
-            string myParameters = "?action=insert&fbid=' '&email=" + email + "&password=" + password + "&name=" + name + "image=" + image;
+            string URI = "http://localhost/ssi/ssi_api.php?action=insert";
+            string myParameters = "fbid=2314123&email=" + email + "&password=" + password + "&name=" + name + "&image=" + image;
 
             using (WebClient wc = new WebClient())
             {
