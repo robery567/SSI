@@ -69,15 +69,15 @@ try {
 						break;
 
 						case 'insert':
+							$data = [
+								'fbid'  => isset($_GET['fbid']) ? $DB->real_escape_string($_GET['fbid']) : NULL,
+								'email' => isset($_GET['email']) ? $DB->real_escape_string($_GET['email']) : NULL,
+								'name'  => isset($_GET['name']) ? $DB->real_escape_string($_GET['name']) : NULL,
+								'image' => isset($_GET['image']) ? $DB->real_escape_string($_GET['image']) : NULL,
+								'password' => isset($_GET['password']) ? $DB->real_escape_string($_GET['password']) : NULL,
+							];
+							
 							if (!$operation->user_exists($email, $fbid)) {
-								$data = [
-									'fbid'  => isset($_GET['fbid']) ? $DB->real_escape_string($_GET['fbid']) : NULL,
-									'email' => isset($_GET['email']) ? $DB->real_escape_string($_GET['email']) : NULL,
-									'name'  => isset($_GET['name']) ? $DB->real_escape_string($_GET['name']) : NULL,
-									'image' => isset($_GET['image']) ? $DB->real_escape_string($_GET['image']) : NULL,
-									'password' => isset($_GET['password']) ? $DB->real_escape_string($_GET['password']) : NULL,
-								];
-
 								if (is_null($data['fbid']))
 									throw new \Exception("INVALID_FBID");
 								else if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL))
