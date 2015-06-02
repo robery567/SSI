@@ -28,6 +28,17 @@ Class Actiune {
   }
 
   public function insert_user($fbid = NULL, $email = NULL, $name = NULL, $image = NULL, $password = NULL) {
-    return $DB->query("INSERT INTO users (fbid, email, password, name, image) VALUES ('{$fbid}', '{$email}', '{$password}', '{$name}', '{$image}')")
+    $DB = $this->db;
+    return $DB->query("INSERT INTO users (fbid, email, password, name, image) VALUES ('{$fbid}', '{$email}', '{$password}', '{$name}', '{$image}')");
+  }
+
+  public function insert_event($user_id = NULL, $date = NULL, $text = NULL, $image = NULL, $settings = NULL) {
+    $DB = $this->db;
+    return $DB->query("INSERT INTO users (user_id, date, text, image, settings) VALUES ('{$user_id}', '{$date}', '{$text}', '{$image}', '{$settings}')");
+  }
+
+  public function check_password($user_id = NULL, $password = NULL) {
+    $DB = $this->db;
+    return $DB->query("SELECT * FROM users WHERE user_id='{$user_id}' AND password = '{$password}'")->num_rows;
   }
 }

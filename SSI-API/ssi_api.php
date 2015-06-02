@@ -66,7 +66,6 @@ try {
 								insert_event($user_id, $date, $text, $image, $settings);
 							else
 								throw new \Exception ("INCORRECT_CREDENTIALS");
-
 						break;
 
 						case 'insert':
