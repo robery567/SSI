@@ -24,12 +24,14 @@ try {
 			if ($DB->connect_error) {
 				throw new \Exception("PROBLEMA_CONEXIUNE");
 			} else {
+				$operation = new Actiune( $DB );
+				
 				if(!$operation->check_database($mysql['database'])) {
 					throw new \Exception("DATABASE_CORUPT");
 				} else {
 					$action  = isset($_GET['action'])  ? $DB->real_escape_string($_GET['action']) : NULL;
 					$user_id = isset($_GET['user_id']) ? $DB->real_escape_string($_GET['user_id']) : NULL;
-					$operation = new Actiune( $DB );
+
 
 					switch ($action) {
 						case 'get_info':
