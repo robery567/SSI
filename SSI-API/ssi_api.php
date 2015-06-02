@@ -12,7 +12,7 @@ namespace SSI\DB\Connection;
 include 'lib/main.php';
 include 'settings/config.php';
 
-use SSI\Lib\Main as Actiune;
+use SSI\Lib\Main\Actiune as Actiune;
 
 development_mode ? error_reporting(E_ALL) : error_reporting(0);
 
