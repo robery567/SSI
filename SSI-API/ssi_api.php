@@ -30,7 +30,6 @@ try {
 					throw new \Exception("DATABASE_CORUPT");
 				} else {
 					$action  = isset($_GET['action'])  ? $DB->real_escape_string($_GET['action']) : NULL;
-					$user_id = isset($_GET['user_id']) ? $DB->real_escape_string($_GET['user_id']) : NULL;
 					$email = isset($_POST['email']) ? $DB->real_escape_string($_POST['email']) : NULL;
 					$fbid = isset($_POST['fbid']) ? $DB->real_escape_string($_POST['fbid']) : NULL;
 
@@ -59,15 +58,15 @@ try {
 						case 'insert_event':
 						$data = [
 							'password' 	=> isset($_POST['password']) ? $DB->real_escape_string($_POST['password']) : NULL,
-							'user_id'	 	=> isset($_POST['user_id'])  ? $DB->real_escape_string($_POST['user_id'])  : NULL,
-							'date' 			=> isset($_POST['user_id'])  ? $DB->real_escape_string($_POST['user_id'])  : NULL,
-							'text' 			=> isset($_POST['user_id'])  ? $DB->real_escape_string($_POST['user_id'])  : NULL,
-							'image'			=> isset($_POST['user_id'])  ? $DB->real_escape_string($_POST['user_id'])  : NULL,
-							'settings'	=> isset($_POST['user_id'])  ? $DB->real_escape_string($_POST['user_id'])  : NULL
+							'email'	 	=> isset($_POST['email']])  ? $DB->real_escape_string($_POST['email'])  : NULL,
+							'date' 			=> isset($_POST['date'])  ? $DB->real_escape_string($_POST['date'])  : NULL,
+							'text' 			=> isset($_POST['text'])  ? $DB->real_escape_string($_POST['text'])  : NULL,
+							'image'			=> isset($_POST['image'])  ? $DB->real_escape_string($_POST['image'])  : NULL,
+							'settings'	=> isset($_POST['settings'])  ? $DB->real_escape_string($_POST['settings'])  : NULL
 						];
 
-							if ($operation->user_exists($data['email'], $data['fbid']) && $operation->check_password($data['user_id'], $data['password']))
-								insert_event($data['user_id'], $data['date'], $data['text'], $data['image'], $data['settings']);
+							if ($operation->user_exists($data['email'], $data['fbid']) && $operation->check_password($data['email'], $data['password']))
+								insert_event($data['email'], $data['date'], $data['text'], $data['image'], $data['settings']);
 							else
 								throw new \Exception ("INCORRECT_CREDENTIALS");
 						break;
