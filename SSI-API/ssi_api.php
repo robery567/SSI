@@ -78,14 +78,12 @@ try {
 							];
 
 							if (!$operation->user_exists($data['email'], $data['fbid'])) {
-								if (is_null($data['fbid']))
-									throw new \Exception("INVALID_FBID");
 								else if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL))
 									throw new \Exception("INVALID_EMAIL");
 								else if (is_null($data['name']) || strlen($data['name']) < 3)
 									throw new \Exception("INVALID_NAME");
 
-								if (!is_null($data['fbid']) && !is_null($data['name']) && filter_var($data['email'], FILTER_VALIDATE_EMAIL))
+								if (!is_null($data['name']) && filter_var($data['email'], FILTER_VALIDATE_EMAIL))
 									$operation->insert_user($data['fbid'], $data['email'], $data['name'], $data['image'], $data['password']);
 							} else if ($operation->user_exists($data['email'], $data['fbid']) == 2) {
 									if (is_null($data['fbid']))
@@ -111,6 +109,16 @@ try {
 	}
 } catch (\Exception $e) {
 	switch($e->getMessage()) {
+		case "INVALID_NAME":
+			die("ERR_106"); // Invalid Name
+			exit;
+		break;
+
+		case "INVALID_FBID":
+			die("ERR_105"); // Invalid Facebook ID
+			exit;
+		break;
+
 		case "INCORRECT_CREDENTIALS":
 			die("ERR_104"); // INCORRECT USER/PASSWORD
 		break;
