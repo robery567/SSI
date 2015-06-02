@@ -71,7 +71,7 @@ try {
 						case 'insert':
 							if (!$operation->user_exists($user_id)) {
 								$data = [
-									'fbid'  => isset($_GET['fbid']) ? $DB->real_escape_string($_GET['fb_id']) : NULL,
+									'fbid'  => isset($_GET['fbid']) ? $DB->real_escape_string($_GET['fbid']) : NULL,
 									'email' => isset($_GET['email']) ? $DB->real_escape_string($_GET['email']) : NULL,
 									'name'  => isset($_GET['name']) ? $DB->real_escape_string($_GET['name']) : NULL,
 									'image' => isset($_GET['image']) ? $DB->real_escape_string($_GET['image']) : NULL
