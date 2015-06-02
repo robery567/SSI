@@ -58,7 +58,7 @@ try {
 						case 'insert_event':
 						$data = [
 							'password' 	=> isset($_POST['password']) ? $DB->real_escape_string($_POST['password']) : NULL,
-							'email'	 	=> isset($_POST['email']])  ? $DB->real_escape_string($_POST['email'])  : NULL,
+							'email'	 	=> isset($_POST['email'])  ? $DB->real_escape_string($_POST['email'])  : NULL,
 							'date' 			=> isset($_POST['date'])  ? $DB->real_escape_string($_POST['date'])  : NULL,
 							'text' 			=> isset($_POST['text'])  ? $DB->real_escape_string($_POST['text'])  : NULL,
 							'image'			=> isset($_POST['image'])  ? $DB->real_escape_string($_POST['image'])  : NULL,
