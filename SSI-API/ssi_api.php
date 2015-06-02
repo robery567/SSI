@@ -59,7 +59,7 @@ try {
 						break;
 
 						case 'insert':
-							if (!if (!$operation->user_exists($user_id))) {
+							if (!$operation->user_exists($user_id)) {
 								$data = [
 									'fbid'  => isset($_GET['fbid']) ? $DB->real_escape_string($_GET['fb_id']) : NULL,
 									'email' => isset($_GET['email']) ? $DB->real_escape_string($_GET['email']) : NULL,
