@@ -62,19 +62,20 @@ try {
 							$image = isset($_GET['user_id']) ? $DB->real_escape_string($_GET['user_id']) : NULL;
 							$settings = isset($_GET['user_id']) ? $DB->real_escape_string($_GET['user_id']) : NULL;
 
-							if ($operation->user_exists($user_id) && $operation->check_password($user_id, $password))
+							if ($operation->user_exists($email, $fbid) && $operation->check_password($user_id, $password))
 								insert_event($user_id, $date, $text, $image, $settings);
 							else
 								throw new \Exception ("INCORRECT_CREDENTIALS");
 						break;
 
 						case 'insert':
-							if (!$operation->user_exists($user_id)) {
+							if (!$operation->user_exists($email, $fbid)) {
 								$data = [
 									'fbid'  => isset($_GET['fbid']) ? $DB->real_escape_string($_GET['fbid']) : NULL,
 									'email' => isset($_GET['email']) ? $DB->real_escape_string($_GET['email']) : NULL,
 									'name'  => isset($_GET['name']) ? $DB->real_escape_string($_GET['name']) : NULL,
-									'image' => isset($_GET['image']) ? $DB->real_escape_string($_GET['image']) : NULL
+									'image' => isset($_GET['image']) ? $DB->real_escape_string($_GET['image']) : NULL,
+									'password' => isset($_GET['password']) ? $DB->real_escape_string($_GET['password']) : NULL,
 								];
 
 								if (is_null($data['fbid']))
@@ -86,7 +87,25 @@ try {
 
 								if (!is_null($data['fbid']) && !is_null($data['name']) && filter_var($data['email'], FILTER_VALIDATE_EMAIL))
 									$operation->insert_user($data['fbid'], $data['email'], $data['name'], $data['image'], $data['password']);
-							}	else {
+							} else if ($operation->user_exists($email, $fbid) == 2) {
+									$data = [
+										'fbid'  => isset($_GET['fbid']) ? $DB->real_escape_string($_GET['fbid']) : NULL,
+										'email' => isset($_GET['email']) ? $DB->real_escape_string($_GET['email']) : NULL,
+										'name'  => isset($_GET['name']) ? $DB->real_escape_string($_GET['name']) : NULL,
+										'image' => isset($_GET['image']) ? $DB->real_escape_string($_GET['image']) : NULL,
+										'password' => isset($_GET['password']) ? $DB->real_escape_string($_GET['password']) : NULL,
+									];
+
+									if (is_null($data['fbid']))
+										throw new \Exception("INVALID_FBID");
+									else if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL))
+										throw new \Exception("INVALID_EMAIL");
+									else if (is_null($data['name']) || strlen($data['name']) < 3)
+										throw new \Exception("INVALID_NAME");
+
+									if (!is_null($data['fbid']) && !is_null($data['name']) && filter_var($data['email'], FILTER_VALIDATE_EMAIL))
+										$operation->update_user("password", $data['password'], $data['email']);
+							} else {
 								throw new \Exception("USER_EXISTS");
 							}
 						break;

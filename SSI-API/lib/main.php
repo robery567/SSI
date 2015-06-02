@@ -7,9 +7,9 @@ Class Actiune {
   		$this->db = $DB;
   }
 
-  public function user_exists($user_id = NULL) {
+  public function user_exists($email = NULL, $fbid = NULL) {
     $DB = $this->db;
-    return $DB->query("SELECT * FROM users WHERE user_id='{$user_id}'")->num_rows;
+    return ($DB->query("SELECT * FROM users WHERE email='{$email}'")->num_rows) ? (($DB->query("SELECT * FROM users WHERE fbid='{$fbid}'")->num_rows) ? 2 : 1) : 0;
   }
 
   public function check_database($database = NULL) {
@@ -40,5 +40,21 @@ Class Actiune {
   public function check_password($user_id = NULL, $password = NULL) {
     $DB = $this->db;
     return $DB->query("SELECT * FROM users WHERE user_id='{$user_id}' AND password = '{$password}'")->num_rows;
+  }
+
+  public function update_user($what = "password", $password, $email, $new_mail = NULL) {
+    $DB = $this->db;
+    switch ($what) {
+        case "password":
+          return $DB->query("UPDATE users SET password = '{$password}' WHERE email = '{$email}'");
+        break;
+
+        case "email":
+          return $DB->query("UPDATE users SET email = '{$new_mail}' WHERE email = '{$email}'");
+        break;
+
+        default:
+          return 0;
+    }
   }
 }
