@@ -87,7 +87,10 @@ try {
 									throw new \Exception("INVALID_NAME");
 
 								if (!is_null($data['name']) && filter_var($data['email'], FILTER_VALIDATE_EMAIL))
+								{
 									$operation->insert_user($data['fbid'], $data['email'], $data['name'], $data['image'], $data['password']);
+									die("SUCCESS");
+								}
 							} else if ($operation->user_exists($data['email'], $data['fbid']) == 2) {
 									if (is_null($data['fbid']))
 										throw new \Exception("INVALID_FBID");
@@ -97,10 +100,25 @@ try {
 										throw new \Exception("INVALID_NAME");
 
 									if (!is_null($data['fbid']) && !is_null($data['name']) && filter_var($data['email'], FILTER_VALIDATE_EMAIL))
+									{
 										$operation->update_user("password", $data['password'], $data['email']);
+										die("SUCCESS");
+									}
 							} else {
 								throw new \Exception("USER_EXISTS");
 							}
+						break;
+						
+						case 'login':
+						$email = isset($_POST['email']) ? $DB->real_escape_string($_POST['email']) : NULL;
+						$password = isset($_POST['password']) ? $DB->real_escape_string($_POST['password']) : NULL;
+						if($operation->check_password($email, $password))
+							die("SUCCESS");
+						else
+						{
+							die($password);
+							throw new \Exception("INCORRECT_CREDENTIALS");
+						}
 						break;
 
 						default:
