@@ -57,7 +57,7 @@ try {
 
 						case 'insert_event':
 						$data = [
-							'password' 	=> isset($_POST['password']) ? $DB->real_escape_string($_POST['password']) : NULL,
+							'fbid' 	=> isset($_POST['fbid']) ? $DB->real_escape_string($_POST['fbid']) : NULL,
 							'email'	 	=> isset($_POST['email'])  ? $DB->real_escape_string($_POST['email'])  : NULL,
 							'date' 			=> isset($_POST['date'])  ? $DB->real_escape_string($_POST['date'])  : NULL,
 							'text' 			=> isset($_POST['text'])  ? $DB->real_escape_string($_POST['text'])  : NULL,
@@ -65,8 +65,8 @@ try {
 							'settings'	=> isset($_POST['settings'])  ? $DB->real_escape_string($_POST['settings'])  : NULL
 						];
 
-							if ($operation->user_exists($data['email'], $data['fbid']) && $operation->check_password($data['email'], $data['password']))
-								insert_event($data['email'], $data['date'], $data['text'], $data['image'], $data['settings']);
+							if ($operation->user_exists($data['email'], $data['fbid']))
+								$operation->insert_event($data['email'], $data['date'], $data['text'], $data['image'], $data['settings']);
 							else
 								throw new \Exception ("INCORRECT_CREDENTIALS");
 						break;
@@ -118,6 +118,14 @@ try {
 							throw new \Exception("INCORRECT_CREDENTIALS");
 				
 						break;
+						case 'get_user_event':
+						 $email	 	= isset($_GET['email'])  ? $DB->real_escape_string($_GET['email'])  : NULL;
+					     $date 		= isset($_GET['date'])  ? $DB->real_escape_string($_GET['date'])  : NULL;
+						 
+						 $data = json_encode($operation->get_user_event($email,$date));
+								die($data);
+						 break;
+							
 
 						default:
 							throw new \Exception("INVALID_ACTION");

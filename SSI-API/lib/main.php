@@ -31,8 +31,13 @@ Class Actiune {
   public function get_user_events($email = NULL) {
     $DB = $this->db;
     return $DB->query("SELECT * FROM events WHERE email='{$email}'")->fetch_array(MYSQLI_ASSOC);
+	
   }
-
+  public function get_user_event($email = NULL , $date = NULL) {
+    $DB = $this->db;
+	$email = $this->get_id($email);
+    return $DB->query("SELECT * FROM events WHERE email='{$email}' AND date='{$date}'")->fetch_array(MYSQLI_ASSOC);
+  }
   public function insert_user($fbid = NULL, $email = NULL, $name = NULL, $image = NULL, $password = NULL) {
     $DB = $this->db;
     return $DB->query("INSERT INTO users (fbid, email, password, name, image) VALUES ('{$fbid}', '{$email}', '{$password}', '{$name}', '{$image}')");
@@ -41,12 +46,12 @@ Class Actiune {
   public function insert_event($email = NULL, $date = NULL, $text = NULL, $image = NULL, $settings = NULL) {
     $DB = $this->db;
     $email = $this->get_id($email);
-    return $DB->query("INSERT INTO users (user_id, date, text, image, settings) VALUES ('{$email}', '{$date}', '{$text}', '{$image}', '{$settings}')");
+    return $DB->query("INSERT INTO events (email, date, text, image, settings) VALUES ('{$email}', '{$date}', '{$text}', '{$image}', '{$settings}')");
   }
 
   public function check_password($email = NULL, $password = NULL) {
     $DB = $this->db;
-    return $DB->query("SELECT * FROM users WHERE email='{$email}' AND password = '{$password}'")->num_rows;
+    return $DB->query("SELECT * FROM users WHERE email='{$email}' AND password ='{$password}'")->num_rows;
   }
 
   public function update_user($what = "password", $password, $email, $new_mail = NULL) {

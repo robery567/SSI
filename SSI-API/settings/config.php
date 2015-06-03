@@ -6,7 +6,7 @@ $mysql = [
     'connection_type' => 'mysqli',  // Available types: mysqli
     'hostname' => 'localhost',
     'username' => 'root',
-    'password' => 'parola',
+    'password' => 'kuchiki26',
     'database' => 'ssipdb'
 ];
 
