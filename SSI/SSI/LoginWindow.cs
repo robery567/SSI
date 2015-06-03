@@ -21,11 +21,21 @@ namespace SSI
         {
             DatabaseLink dbLink = new DatabaseLink();
             PasswordHash pHash = new PasswordHash();
-            pHash.hashPassword(passwordBox.Text);
-            string result = dbLink.UserLogin(emailBox.Text, passwordBox.Text);
+            string hashed = pHash.hashPassword(passwordBox.Text);
+            string result = dbLink.UserLogin(emailBox.Text, hashed);
+
             MessageBox.Show(result);
             if (result.Contains("SUCCESS"))
-                this.Hide();             
+            {
+                this.Hide();
+                MainForm.registOk = true;
+            }
+        }
+
+        private void backToLogin_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            MainForm.registOk = true;
         }
     }
 }

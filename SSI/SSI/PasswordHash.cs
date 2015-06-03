@@ -20,7 +20,7 @@ namespace SSI
             tmpSource = ASCIIEncoding.ASCII.GetBytes(sPassword);
 
             tmpHash = new SHA512CryptoServiceProvider().ComputeHash(tmpSource);
-            tmpHash = new MD5CryptoServiceProvider().ComputeHash(tmpHash);
+            //tmpHash = new MD5CryptoServiceProvider().ComputeHash(tmpHash);
 
             return ByteArrayToString(tmpHash);
         }

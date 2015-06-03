@@ -23,6 +23,7 @@ namespace SSI
         public static string TokenKey = " ";
         public static bool loginOk = false;
         public static bool registOk = false;
+        string userMail, userFullName;
         private bool isCreated = false;
         private int timeCount = 0;
         bool firstPictureClick = true;
@@ -35,6 +36,7 @@ namespace SSI
         Random rand = new Random();        
         DateConverter dtConv = new DateConverter();
         EventColor evColor = new EventColor();
+        DatabaseLink dbLink = new DatabaseLink();
         EventArgs evAr = null;
         object last, lastPic;
         bool first = true;
@@ -81,6 +83,17 @@ namespace SSI
         }              
         private void CheckDatabase(DateTime dateCheck)
         {
+            string sCheck = dateCheck.GetDateTimeFormats()[5];
+            string jsonResult = dbLink.GetEvent(userMail, sCheck);
+            if (jsonResult != "null")
+            {
+                JObject jsonArray = JObject.Parse(jsonResult);
+                Console.WriteLine(jsonArray.GetValue("text"));
+                entryBox.Text = (string)jsonArray.GetValue("text");
+                string imageString = jsonArray.GetValue("image").ToString();                
+                string[] split = imageString.Split('"');
+                entryImage.Image = dbLink.Base64ToImage(split[0]);
+            }
             /*string sCheck = dateCheck.GetDateTimeFormats()[5];
             string command = "select * from ssipdb.events where date='" + sCheck + "';";
             using (MySqlConnection conn = new MySqlConnection("Server=127.0.0.1;Database=ssipdb;Uid=root;Pwd= ;"))
@@ -152,7 +165,10 @@ namespace SSI
                     dynamic data = fb.Get("/me");
                     label1.Text = data.name;
                     string uid = data.id;
+                    userMail = data.email;
                     userPhoto.Load(GetProfileImageUrl(uid));
+                    userFullName = data.name;
+                    dbLink.InsertUser(uid, userMail, " ", userFullName, dbLink.ImageToBase64(userPhoto.Image, userPhoto.Image.RawFormat));
                     System.Drawing.Drawing2D.GraphicsPath gp = new System.Drawing.Drawing2D.GraphicsPath();
                     gp.AddEllipse(1, 1, userPhoto.Width, userPhoto.Height);
                     Region rg = new Region(gp);
@@ -367,6 +383,9 @@ namespace SSI
 
        private void saveToDb_Click(object sender, EventArgs e)
        {
+           DateTime dateDb = new DateTime(Decimal.ToInt32(yearBox.Value), dtConv.GetDateInt(monthBox.Text), Convert.ToInt32(((Label)last).Text));
+           string sCheck = dateDb.GetDateTimeFormats()[5];
+           MessageBox.Show(dbLink.InsertEvent(userMail, sCheck,entryBox.Text, dbLink.ImageToBase64(entryImage.Image, entryImage.Image.RawFormat)));
            /*DateTime dateDb = new DateTime(Decimal.ToInt32(yearBox.Value), dtConv.GetDateInt(monthBox.Text), Convert.ToInt32(((Label)last).Text));
            string sCheck = dateDb.GetDateTimeFormats()[5];
            string command = "replace into ssipdb.events(date,text,image) values('" + sCheck + "','" + entryBox.Text + "','" + ImageToBase64(entryImage.Image, System.Drawing.Imaging.ImageFormat.Jpeg) + "');";
@@ -413,16 +432,12 @@ namespace SSI
        private void registerBtn_Click(object sender, EventArgs e)
         {
             registerWindow1.Visible = true;
+            registerWindow1.Dock = DockStyle.Fill;
             loginBtn.Visible = false;
             loginSSIBtn.Visible = false;
             registerBtn.Visible = false;
             registTimer.Start();
         }
-
-       private void colorBtn_Click(object sender, EventArgs e)
-       {
-           
-       }
 
        private void loginSSIBtn_Click(object sender, EventArgs e)
        {
@@ -431,6 +446,7 @@ namespace SSI
            loginBtn.Visible = false;
            loginSSIBtn.Visible = false;
            registerBtn.Visible = false;
+           registTimer.Start();
        }
 
     }

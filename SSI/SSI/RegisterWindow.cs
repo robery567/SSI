@@ -66,15 +66,10 @@ namespace SSI
                     {
                         Image img = null;
                         img = Image.FromFile(imageBox.Text);
-                        MessageBox.Show(db.InsertUser(" ", emailBox.Text, hashedPw, nameBox.Text, db.ImageToBase64(img, img.RawFormat)));
-                            
+                        MessageBox.Show(db.InsertUser("0", emailBox.Text, hashedPw, nameBox.Text, db.ImageToBase64(img, img.RawFormat)));
                     }
                     else
-                        if (db.InsertUser(" ", emailBox.Text, hashedPw, nameBox.Text) != "Success")
-                            MessageBox.Show(db.error);
-                        else
-                            MessageBox.Show("Success");
-                        
+                        MessageBox.Show("Please select an image");
                 }
             }
             else
