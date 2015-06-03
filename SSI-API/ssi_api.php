@@ -45,7 +45,6 @@ try {
 						break;
 
 						case 'get_events':
-
 							if (!$operation->user_exists($email, $fbid))
 									throw new \Exception("NOT_FOUND");
 							else {
