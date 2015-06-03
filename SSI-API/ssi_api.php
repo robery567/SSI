@@ -114,11 +114,9 @@ try {
 						$password = isset($_POST['password']) ? $DB->real_escape_string($_POST['password']) : NULL;
 						if($operation->check_password($email, $password))
 							die("SUCCESS");
-						else
-						{
-							die($password);
+						else						
 							throw new \Exception("INCORRECT_CREDENTIALS");
-						}
+				
 						break;
 
 						default:
