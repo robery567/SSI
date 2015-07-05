@@ -98,8 +98,7 @@ try {
 									else if (is_null($data['name']) || strlen($data['name']) < 3)
 										throw new \Exception("INVALID_NAME");
 
-									if (!is_null($data['fbid']) && !is_null($data['name']) && filter_var($data['email'], FILTER_VALIDATE_EMAIL))
-									{
+									if (!is_null($data['fbid']) && !is_null($data['name']) && filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
 										$operation->update_user("password", $data['password'], $data['email']);
 										die("SUCCESS");
 									}
@@ -109,20 +108,35 @@ try {
 						break;
 						
 						case 'login':
-						$email = isset($_POST['email']) ? $DB->real_escape_string($_POST['email']) : NULL;
-						$password = isset($_POST['password']) ? $DB->real_escape_string($_POST['password']) : NULL;
-						if($operation->check_password($email, $password))
-							die("SUCCESS");
-						else						
-							throw new \Exception("INCORRECT_CREDENTIALS");
-				
+							$email = isset($_POST['email']) ? $DB->real_escape_string($_POST['email']) : NULL;
+							$password = isset($_POST['password']) ? $DB->real_escape_string($_POST['password']) : NULL;
+							
+							if($operation->check_password($email, $password))
+								die("SUCCESS");
+							else						
+								throw new \Exception("INCORRECT_CREDENTIALS");
 						break;
+						
+						case 'insert_info'
+							$data = [
+								'fbid'  		=> isset($_POST['fbid'])     ? $DB->real_escape_string($_POST['fbid'])     : NULL,
+								'email' 		=> isset($_POST['email'])    ? $DB->real_escape_string($_POST['email'])    : NULL
+							];
+							
+							if (!$operation->user_exists($data['email'], $data['fbid'])) {
+								throw new \Exception("ERR_404");
+							} else {
+								
+							}
+							
+						break;
+						
 						case 'get_user_event':
-						 $email	 	= isset($_GET['email'])  ? $DB->real_escape_string($_GET['email'])  : NULL;
-					     $date 		= isset($_GET['date'])  ? $DB->real_escape_string($_GET['date'])  : NULL;
-						 
-						 $data = json_encode($operation->get_user_event($email,$date));
-								die($data);
+							$email	 	= isset($_GET['email'])  ? $DB->real_escape_string($_GET['email'])  : NULL;
+							$date 		= isset($_GET['date'])  ? $DB->real_escape_string($_GET['date'])  : NULL;
+							 
+							$data = json_encode($operation->get_user_event($email,$date));
+							die($data);
 						 break;
 							
 
