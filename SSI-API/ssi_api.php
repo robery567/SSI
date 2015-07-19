@@ -19,7 +19,7 @@ development_mode ? error_reporting(E_ALL) : error_reporting(0);
 try {
 	switch ($mysql['connection_type']) {
 		case 'mysqli':
-			$DB = new \MySQLi ( $mysql ['hostname'], $mysql ['username'], $mysql ['password'], $mysql ['database'] );
+			$DB = @new \MySQLi ( $mysql ['hostname'], $mysql ['username'], $mysql ['password'], $mysql ['database'] );
 
 			if ($DB->connect_error) {
 				throw new \Exception("PROBLEMA_CONEXIUNE");
@@ -117,7 +117,7 @@ try {
 								throw new \Exception("INCORRECT_CREDENTIALS");
 						break;
 						
-						case 'insert_info'
+						case 'insert_info':
 							$data = [
 								'fbid'  		=> isset($_POST['fbid'])     ? $DB->real_escape_string($_POST['fbid'])     : NULL,
 								'email' 		=> isset($_POST['email'])    ? $DB->real_escape_string($_POST['email'])    : NULL
