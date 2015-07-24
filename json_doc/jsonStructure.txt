@@ -1,0 +1,22 @@
+{
+   "entriesLength":"2",
+   "entries":
+    [
+       {
+          "number" : "1",
+          "text" : "I am an example text",
+          "image" : "I am a long base64 boring string",
+          "alarm" : "Nobody likes me",
+          "color" : "Everybody loves me",
+          "notification" : "I am never biased"
+       },
+       {
+          "number" : "2",
+          "text" : "I am the second example text",
+          "image" : "I am a longer base64 boring string",
+          "alarm" : "Nobody likes me",
+          "color" : "Everybody loves me",
+          "notification" : "I am never biased"
+        }
+    ]   
+}
