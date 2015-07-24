@@ -34,6 +34,19 @@ try {
 					$fbid = isset($_POST['fbid']) ? $DB->real_escape_string($_POST['fbid']) : NULL;
 
 					switch ($action) {
+						
+						/* 
+							@Action Name: get_info (action=get_info)
+							
+							@Params:
+								* email (STRING)
+							
+							@Params Type: POST	
+							
+							@Output : 
+								* User details for a provided email address
+								* NOT_FOUND if the provided email is not in the database
+						*/						
 						case 'get_info':
 							if (!$operation->user_exists($email, $fbid))
 									throw new \Exception("NOT_FOUND");
@@ -43,7 +56,19 @@ try {
 								exit;
 							}
 						break;
-
+						
+						/* 
+							@Action Name: get_events (action=get_events)
+							
+							@Params:
+								* email (STRING)
+							
+							@Params Type: POST	
+							
+							@Output : 
+								* User events for a provided email address
+								* NOT_FOUND if the provided email is not in the database
+						*/	
 						case 'get_events':
 							if (!$operation->user_exists($email, $fbid))
 									throw new \Exception("NOT_FOUND");
@@ -54,22 +79,60 @@ try {
 							}
 						break;
 
+						/* 
+							@Action Name: insert_event (action=insert_event)
+							
+							@Params:
+								* fbid (INT)
+								* email (STRING)
+								* date (DATE)
+								* text (STRING)
+								* image (STRING)
+								* settings (STRING)
+								
+							@Params Type: POST	
+							
+							@Output : 
+								* true  (1) on success
+								* false (0) on failure
+								* INCORRECT_CREDENTIALS if the provided (fbid AND email) are invalid
+						*/	
 						case 'insert_event':
-						$data = [
-							'fbid' 	=> isset($_POST['fbid']) ? $DB->real_escape_string($_POST['fbid']) : NULL,
-							'email'	 	=> isset($_POST['email'])  ? $DB->real_escape_string($_POST['email'])  : NULL,
-							'date' 			=> isset($_POST['date'])  ? $DB->real_escape_string($_POST['date'])  : NULL,
-							'text' 			=> isset($_POST['text'])  ? $DB->real_escape_string($_POST['text'])  : NULL,
-							'image'			=> isset($_POST['image'])  ? $DB->real_escape_string($_POST['image'])  : NULL,
-							'settings'	=> isset($_POST['settings'])  ? $DB->real_escape_string($_POST['settings'])  : NULL
-						];
+							$data = [
+								'fbid' 	=> isset($_POST['fbid']) ? $DB->real_escape_string($_POST['fbid']) : NULL,
+								'email'	 	=> isset($_POST['email'])  ? $DB->real_escape_string($_POST['email'])  : NULL,
+								'date' 			=> isset($_POST['date'])  ? $DB->real_escape_string($_POST['date'])  : NULL,
+								'text' 			=> isset($_POST['text'])  ? $DB->real_escape_string($_POST['text'])  : NULL,
+								'image'			=> isset($_POST['image'])  ? $DB->real_escape_string($_POST['image'])  : NULL,
+								'settings'	=> isset($_POST['settings'])  ? $DB->real_escape_string($_POST['settings'])  : NULL
+							];
 
 							if ($operation->user_exists($data['email'], $data['fbid']))
-								$operation->insert_event($data['email'], $data['date'], $data['text'], $data['image'], $data['settings']);
+								echo $operation->insert_event($data['email'], $data['date'], $data['text'], $data['image'], $data['settings']);
 							else
 								throw new \Exception ("INCORRECT_CREDENTIALS");
 						break;
 
+						/* 
+							@Action Name: insert (action=insert)
+							
+							@Params:
+								* fbid (INT)
+								* email (STRING)
+								* name (STRING)
+								* image (STRING)
+								* password (STRING)
+								
+							@Params Type: POST	
+								
+							@Output : 
+								* true  (1) on success
+								* false (0) on failure
+								* INVALID_EMAIL if the provided email is invalid
+								* INVALID_NAME if the provided name is invalid
+								* INVALID_FBID if the provided fbid is invalid
+								* USER_EXISTS if the user already exists
+						*/	
 						case 'insert':
 							$data = [
 								'fbid'  		=> isset($_POST['fbid'])     ? $DB->real_escape_string($_POST['fbid'])     : NULL,
@@ -87,8 +150,7 @@ try {
 
 								if (!is_null($data['name']) && filter_var($data['email'], FILTER_VALIDATE_EMAIL))
 								{
-									$operation->insert_user($data['fbid'], $data['email'], $data['name'], $data['image'], $data['password']);
-									die("SUCCESS");
+									echo $operation->insert_user($data['fbid'], $data['email'], $data['name'], $data['image'], $data['password']);
 								}
 							} else if ($operation->user_exists($data['email'], $data['fbid']) == 2) {
 									if (is_null($data['fbid']))
@@ -99,14 +161,26 @@ try {
 										throw new \Exception("INVALID_NAME");
 
 									if (!is_null($data['fbid']) && !is_null($data['name']) && filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-										$operation->update_user("password", $data['password'], $data['email']);
-										die("SUCCESS");
+										echo $operation->update_user("password", $data['password'], $data['email']);
 									}
 							} else {
 								throw new \Exception("USER_EXISTS");
 							}
 						break;
 						
+						/* 
+							@Action Name: login (action=login)
+							
+							@Params:
+								* password (STRING)
+								* email (STRING)
+							
+							@Params Type: POST							
+							
+							@Output : 
+								* SUCCESS if the provided are credentials are correct
+								* INCORRECT_CREDENTIALS if the provided credentials are not correct
+						*/							
 						case 'login':
 							$email = isset($_POST['email']) ? $DB->real_escape_string($_POST['email']) : NULL;
 							$password = isset($_POST['password']) ? $DB->real_escape_string($_POST['password']) : NULL;
@@ -117,6 +191,9 @@ try {
 								throw new \Exception("INCORRECT_CREDENTIALS");
 						break;
 						
+						/*
+						 TODO:
+						*/
 						case 'insert_info':
 							$data = [
 								'fbid'  		=> isset($_POST['fbid'])     ? $DB->real_escape_string($_POST['fbid'])     : NULL,
@@ -131,12 +208,29 @@ try {
 							
 						break;
 						
+						/* 
+							@Action Name: get_user_event (action=get_user_event)
+							
+							@Params:
+								* date (DATE)
+								* email (STRING)
+							
+							@Params Type: GET
+							
+							@Output : 
+								* NOT_FOUND if the provided email doesn't exist in the database
+								* all the user_events from the specific date
+						*/	
 						case 'get_user_event':
 							$email	 	= isset($_GET['email'])  ? $DB->real_escape_string($_GET['email'])  : NULL;
-							$date 		= isset($_GET['date'])  ? $DB->real_escape_string($_GET['date'])  : NULL;
-							 
-							$data = json_encode($operation->get_user_event($email,$date));
-							die($data);
+							$date 		= isset($_GET['date'])  ? $DB->real_escape_string($_GET['date'])  : "1.1.2015";
+							
+							if (!$operation->user_exists($email))
+									throw new \Exception("NOT_FOUND");
+							else { 
+								$data = json_encode($operation->get_user_event($email,$date));
+								die($data);
+							}
 						 break;
 							
 
