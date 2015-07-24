@@ -1,6 +1,4 @@
-{
-   "entriesLength":"2",
-   "entries":
+
     [
        {
           "number" : "1",
@@ -19,4 +17,3 @@
           "notification" : "I am never biased"
         }
     ]   
-}

@@ -27,8 +27,7 @@ namespace SSI
 
         private void browseBtn_Click(object sender, EventArgs e)
         {
-            selectImage.ShowDialog();
-            
+            selectImage.ShowDialog();            
         }
 
         private void registerBtn_Click(object sender, EventArgs e)
