@@ -33,6 +33,15 @@ try {
 					$email = isset($_POST['email']) ? $DB->real_escape_string($_POST['email']) : NULL;
 					$fbid = isset($_POST['fbid']) ? $DB->real_escape_string($_POST['fbid']) : NULL;
 
+					/*
+						@Param: action
+						
+						@Param Type : GET
+						
+						@Catchable exceptions:
+							* INVALID_ACTION if the provided action is invalid
+						
+					*/
 					switch ($action) {
 						
 						/* 
@@ -45,6 +54,8 @@ try {
 							
 							@Output : 
 								* User details for a provided email address
+								
+							@Catchable exceptions:	
 								* NOT_FOUND if the provided email is not in the database
 						*/						
 						case 'get_info':
@@ -67,6 +78,8 @@ try {
 							
 							@Output : 
 								* User events for a provided email address
+								
+							@Catchable exceptions:
 								* NOT_FOUND if the provided email is not in the database
 						*/	
 						case 'get_events':
@@ -95,6 +108,8 @@ try {
 							@Output : 
 								* true  (1) on success
 								* false (0) on failure
+								
+							@Catchable exceptions:
 								* INCORRECT_CREDENTIALS if the provided (fbid AND email) are invalid
 						*/	
 						case 'insert_event':
@@ -128,6 +143,8 @@ try {
 							@Output : 
 								* true  (1) on success
 								* false (0) on failure
+								
+							@Catchable exceptions:
 								* INVALID_EMAIL if the provided email is invalid
 								* INVALID_NAME if the provided name is invalid
 								* INVALID_FBID if the provided fbid is invalid
@@ -179,6 +196,8 @@ try {
 							
 							@Output : 
 								* SUCCESS if the provided are credentials are correct
+								
+							@Catchable exceptions:
 								* INCORRECT_CREDENTIALS if the provided credentials are not correct
 						*/							
 						case 'login':
@@ -218,8 +237,10 @@ try {
 							@Params Type: GET
 							
 							@Output : 
-								* NOT_FOUND if the provided email doesn't exist in the database
 								* all the user_events from the specific date
+								
+							@Catchable exceptions:
+								* NOT_FOUND if the provided email doesn't exist in the database
 						*/	
 						case 'get_user_event':
 							$email	 	= isset($_GET['email'])  ? $DB->real_escape_string($_GET['email'])  : NULL;
