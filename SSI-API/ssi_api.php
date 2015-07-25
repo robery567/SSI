@@ -163,7 +163,7 @@ try {
 
 								if (!is_null($data['name']) && filter_var($data['email'], FILTER_VALIDATE_EMAIL))
 								{
-									echo $operation->insert_user($data['fbid'], $data['email'], $data['email'], $data['name'], $data['image'], $data['password']) ? 1 : 0;
+									echo $operation->insert_user($data['fbid'], $data['email'], $data['name'], $data['image'], $data['password']) ? 1 : 0;
 								}
 							} else if ($operation->user_exists($data['email'], $data['fbid']) == 2) {
 									if (is_null($data['fbid']))
