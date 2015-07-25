@@ -96,12 +96,10 @@ try {
 							@Action Name: insert_event (action=insert_event)
 							
 							@Params:
-								* fbid (INT)
+								* fbid (INT) - CAN BE NULL
 								* email (STRING)
 								* date (DATE)
-								* text (STRING)
-								* image (STRING)
-								* settings (STRING)
+								* data (JSON)
 								
 							@Params Type: POST	
 							
@@ -117,13 +115,11 @@ try {
 								'fbid' 	=> isset($_POST['fbid']) ? $DB->real_escape_string($_POST['fbid']) : NULL,
 								'email'	 	=> isset($_POST['email'])  ? $DB->real_escape_string($_POST['email'])  : NULL,
 								'date' 			=> isset($_POST['date'])  ? $DB->real_escape_string($_POST['date'])  : NULL,
-								'text' 			=> isset($_POST['text'])  ? $DB->real_escape_string($_POST['text'])  : NULL,
-								'image'			=> isset($_POST['image'])  ? $DB->real_escape_string($_POST['image'])  : NULL,
-								'settings'	=> isset($_POST['settings'])  ? $DB->real_escape_string($_POST['settings'])  : NULL
+								'data' 			=> isset($_POST['data'])  ? $DB->real_escape_string($_POST['data'])  : NULL,
 							];
 
 							if ($operation->user_exists($data['email'], $data['fbid']))
-								echo $operation->insert_event($data['email'], $data['date'], $data['text'], $data['image'], $data['settings']);
+								echo $operation->insert_event($data['email'], $data['date'], $data['data']);
 							else
 								throw new \Exception ("INCORRECT_CREDENTIALS");
 						break;

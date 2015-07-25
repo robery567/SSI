@@ -43,12 +43,9 @@ Class Actiune {
     return $DB->query("INSERT INTO users (fbid, email, password, name, image) VALUES ('{$fbid}', '{$email}', '{$password}', '{$name}', '{$image}')");
   }
 
-  public function insert_event($email = NULL, $date = NULL, $text = NULL, $image = NULL, $settings = NULL) {
+  public function insert_event($email = NULL, $date = NULL, $data = NULL) {
     $DB = $this->db;
     $user_id = $this->get_id($email);
-	
-	$data = [$text, $settings, $image];
-	$data = json_encode($data);
 	
     return $DB->query("INSERT INTO events (user_id, date, data) VALUES ('{$user_id}', '{$date}', '{$data}')");
   }
