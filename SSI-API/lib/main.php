@@ -28,11 +28,14 @@ Class Actiune {
     return $DB->query("SELECT * FROM users WHERE email='{$email}'")->fetch_array(MYSQLI_ASSOC);
   }
 
-  public function get_user_events($email = NULL) {
+  public function get_user_events($email = NULL, $date = NULL) {
     $DB = $this->db;
-    return $DB->query("SELECT * FROM events WHERE email='{$email}'")->fetch_array(MYSQLI_ASSOC);
 	
+	$user_id = (is_null($email)) ? 0 : $this->get_id($email);
+	
+    return (is_null($date)) ? $DB->query("SELECT * FROM events WHERE user_id='{$user_id}'")->fetch_array(MYSQLI_ASSOC) : $DB->query("SELECT * FROM events WHERE user_id='{$user_id}' AND date='{$date}'")->fetch_array(MYSQLI_ASSOC);
   }
+  
   public function get_user_event($email = NULL , $date = NULL) {
     $DB = $this->db;
 	$user_id = $this->get_id($email);
