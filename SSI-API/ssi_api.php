@@ -30,8 +30,8 @@ try {
 					throw new \Exception("DATABASE_CORUPT");
 				} else {
 					$action  = isset($_GET['action'])  ? $DB->real_escape_string($_GET['action']) : NULL;
-					$email = isset($_POST['email']) ? $DB->real_escape_string($_POST['email']) : NULL;
-					$fbid = isset($_POST['fbid']) ? $DB->real_escape_string($_POST['fbid']) : NULL;
+					$email = isset($_GET['email']) ? $DB->real_escape_string($_GET['email']) : NULL;
+					$fbid = isset($_GET['fbid']) ? $DB->real_escape_string($_GET['fbid']) : NULL;
 
 					/*
 						@Param: action
