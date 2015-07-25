@@ -119,7 +119,7 @@ try {
 							];
 
 							if ($operation->user_exists($data['email'], $data['fbid']))
-								echo $operation->insert_event($data['email'], $data['date'], $data['data']);
+								echo $operation->insert_event($data['email'], $data['date'], $data['data']) ? 1 : 0;
 							else
 								throw new \Exception ("INCORRECT_CREDENTIALS");
 						break;
@@ -163,7 +163,7 @@ try {
 
 								if (!is_null($data['name']) && filter_var($data['email'], FILTER_VALIDATE_EMAIL))
 								{
-									echo $operation->insert_user($data['fbid'], $data['email'], $data['name'], $data['image'], $data['password']);
+									echo $operation->insert_user(NULL, $data['email'], $data['email'], $data['name'], $data['image'], $data['password']) ? 1 : 0;
 								}
 							} else if ($operation->user_exists($data['email'], $data['fbid']) == 2) {
 									if (is_null($data['fbid']))
@@ -174,7 +174,7 @@ try {
 										throw new \Exception("INVALID_NAME");
 
 									if (!is_null($data['fbid']) && !is_null($data['name']) && filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-										echo $operation->update_user("password", $data['password'], $data['email']);
+										echo $operation->update_user("password", $data['password'], $data['email']) ? 1 : 0;
 									}
 							} else {
 								throw new \Exception("USER_EXISTS");
