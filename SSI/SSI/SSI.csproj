@@ -66,8 +66,6 @@
       <DependentUpon>ColorWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="DatabaseLink.cs" />
-    <Compile Include="DateConverter.cs" />
-    <Compile Include="EventColor.cs" />
     <Compile Include="EventList.cs" />
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
