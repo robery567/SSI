@@ -11,7 +11,7 @@ namespace SSI
 {
     class DatabaseLink
     {
-        public string error;
+        public string error=null;
         string defaultUri = "http://localhost/ssi/ssi_api.php?action=";
         string emailArg = "&email=";
         string dateArg = "&date=";
@@ -31,7 +31,7 @@ namespace SSI
             string result = wb.DownloadString(defaultUri + "get_info" + emailArg + email);
             return ResultParser(result);
         }
-        public string GetEvens(string email)
+        public string GetEvents(string email)
         {
             WebClient wb = new WebClient();
             string result = wb.DownloadString(defaultUri + emailArg + email);
@@ -99,6 +99,8 @@ namespace SSI
         
         public string ResultParser(string result)
         {
+            error = null;
+            if(result.Length>4)
             error=result.Substring(0, 4);
             if (error=="ERR_")
             {
@@ -132,21 +134,21 @@ namespace SSI
             switch (error)
             {                
                 case "ERR_101":
-                    return "INVALID ACTION";
+                    return "ERROR: INVALID ACTION";
                 case "ERR_102":
-                    return "USER EXISTS";
+                    return "ERROR: USER EXISTS";
                 case "ERR_103":
-                    return "INVALID EMAIL";
+                    return "ERROR: INVALID EMAIL";
                 case "ERR_104":
-                    return "INCORRECT_CREDENTIALS";
+                    return "ERROR: INCORRECT_CREDENTIALS";
                 case "ERR_105":
-                    return "INVALID FACEBOOK ID";
+                    return "ERROR: INVALID FACEBOOK ID";
                 case "ERR_106":
-                    return "INVALID NAME";
+                    return "ERROR: INVALID NAME";
                 case "ERR_404":
-                    return "NOT FOUND";
+                    return "ERROR: NOT FOUND";
                 default:
-                    return "INTERNAL SERVER ERROR";
+                    return "ERROR: INTERNAL SERVER ERROR";
             }
         }
     }

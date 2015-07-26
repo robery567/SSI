@@ -16,6 +16,7 @@ namespace SSI
         public int number { set; get; }
         public string text { set; get; }
         public bool notif { set; get; }
+        public string image64 { set; get; }
     }
     class EventColor
     {

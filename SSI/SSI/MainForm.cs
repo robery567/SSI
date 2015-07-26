@@ -7,9 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Web;
 using Facebook;
 using System.IO;
 using SSI.Properties;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 namespace SSI
 {
@@ -84,36 +86,23 @@ namespace SSI
         private void CheckDatabase(DateTime dateCheck)
         {
             string sCheck = dateCheck.GetDateTimeFormats()[5];
-            string jsonResult = dbLink.GetEvent(userMail, sCheck);
+            string jsonResult = dbLink.GetUserEvent(userMail, sCheck);
             if (jsonResult != "null")
             {
-                JObject jsonArray = JObject.Parse(jsonResult);
-                Console.WriteLine(jsonArray.GetValue("text"));
-                entryBox.Text = (string)jsonArray.GetValue("text");
-                string imageString = jsonArray.GetValue("image").ToString();                
-                string[] split = imageString.Split('"');
-                entryImage.Image = dbLink.Base64ToImage(split[0]);
-            }
-            /*string sCheck = dateCheck.GetDateTimeFormats()[5];
-            string command = "select * from ssipdb.events where date='" + sCheck + "';";
-            using (MySqlConnection conn = new MySqlConnection("Server=127.0.0.1;Database=ssipdb;Uid=root;Pwd= ;"))
-            {                
-                using(MySqlCommand comm = new MySqlCommand(command,conn))
+                string jsonCheck = jsonResult.Substring(0, 6);
+                if (jsonCheck == "ERROR:")
+                    MessageBox.Show(jsonResult);
+                else
                 {
-                    conn.Open();
-                    using(MySqlDataReader read = comm.ExecuteReader())
-                    {
-                        while(read.Read())
-                        {
-                            string image = read.GetString("image");
-                            string text = read.GetString("text");
-                            //entryImage.Image = (Base64ToImage(image));
-                            entryBox.Clear();
-                            entryBox.Text +=text;
-                        }
-                    }
+                    JObject jsonArray = JObject.Parse(jsonResult);
+                    string jsonData = jsonArray.GetValue("data").ToString();
+                    EventList ev = new EventList();
+                    ev.values = JsonConvert.DeserializeObject<List<EventValues>>(jsonData);
+                    entryBox.Text = ev.values[0].text;                    
+                    entryImage.Image = dbLink.Base64ToImage(ev.values[0].image64);   
                 }
-            }*/
+            }
+           
         }
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -385,30 +374,10 @@ namespace SSI
        {
            DateTime dateDb = new DateTime(Decimal.ToInt32(yearBox.Value), dtConv.GetDateInt(monthBox.Text), Convert.ToInt32(((Label)last).Text));
            string sCheck = dateDb.GetDateTimeFormats()[5];
-           MessageBox.Show(dbLink.InsertEvent(userMail, sCheck,entryBox.Text, dbLink.ImageToBase64(entryImage.Image, entryImage.Image.RawFormat)));
-           /*DateTime dateDb = new DateTime(Decimal.ToInt32(yearBox.Value), dtConv.GetDateInt(monthBox.Text), Convert.ToInt32(((Label)last).Text));
-           string sCheck = dateDb.GetDateTimeFormats()[5];
-           string command = "replace into ssipdb.events(date,text,image) values('" + sCheck + "','" + entryBox.Text + "','" + ImageToBase64(entryImage.Image, System.Drawing.Imaging.ImageFormat.Jpeg) + "');";
-           using (MySqlConnection conn = new MySqlConnection("Server=127.0.0.1;Database=ssipdb;Uid=root;Pwd= ;"))
-           {
-               using (MySqlCommand comm = new MySqlCommand(command, conn))
-               {
-                   conn.Open();
-                   using(MySqlDataReader mread = comm.ExecuteReader())
-                   {
-                       MessageBox.Show("Saved");
-                       while(mread.Read())
-                       {
-
-                       }
-                   }
-
-               }
-           }
-           entryBox.Clear();
-           entryBox.Enabled = false;
-           entryImage.Image = Resources.clickheretoselect;
-           dateLabel.Visible = false;*/
+           EventList el = new EventList();
+           el.values.Add(new EventValues { text = entryBox.Text, image64=dbLink.ImageToBase64(entryImage.Image, entryImage.Image.RawFormat)});
+           string jsonArray = JsonConvert.SerializeObject(el.values);
+          Console.WriteLine(dbLink.InsertEvent(userMail, sCheck, HttpUtility.UrlEncode(jsonArray)));
        }
         
        private void PanelClickEvent(object sender, EventArgs e)
