@@ -25,7 +25,8 @@ namespace SSI
         public static string TokenKey = " ";
         public static bool loginOk = false;
         public static bool registOk = false;
-        string userMail, userFullName;
+        public static string userMail;
+        string userFullName;
         private bool isCreated = false;
         private int timeCount = 0;
         bool firstPictureClick = true;
@@ -114,31 +115,25 @@ namespace SSI
         
         public void LoadData()
         {
-            if (Settings.Default.defkey == "notlogged")
+            switch(Settings.Default.defkey)
             {
-                loginBtn.Visible = true;
-                logoutBtn.Visible = false;
-                label1.Visible = false;
-                tableLayoutPanel1.Visible = false;
-                monthBox.Visible = false;
-                groupBox1.Visible = false;
-                userPhoto.Visible = false;
-                yearBox.Visible = false;
-                loginSSIBtn.Visible = true;
-                registerBtn.Visible = true;
-                objectiveControls.Visible = false;
-            }
-            else
-            {
-                loginBtn.Visible = false;
-                logoutBtn.Visible = true;
-                registerBtn.Visible = false;
-                label1.Visible = true;
-                monthBox.Visible = true;
-                yearBox.Visible = true;
-                groupBox1.Visible = true;
-                loginSSIBtn.Visible = false;
-                objectiveControls.Visible = true;
+                case "notlogged":
+                {
+                hideElements();
+                }
+                break;
+                case "ssiuser":
+                {
+                    showElements();
+                    string jsonResult = dbLink.GetInfo(userMail);
+                    JObject jsonArray = JObject.Parse(jsonResult);
+                    userFullName = jsonArray.GetValue("name").ToString();
+                    userPhoto.Image = dbLink.Base64ToImage(jsonArray.GetValue("image").ToString());
+                }
+                break;
+                default:
+                {
+                showElements();
                 DateTime currentdt = DateTime.Now;
                 monthBox.SelectedItem=currentdt.ToString("MMMM");
                 if (!isCreated)
@@ -169,7 +164,7 @@ namespace SSI
                 {
                     if (ex.ErrorCode == 190)
                     {
-                        MessageBox.Show("Boss, it looks like your access time expired. Would you be so kind as to log in again ?");
+                        MessageBox.Show("It looks like your access time expired. Would you be so kind as to log in again ?");
                         Settings.Default.defkey = "notlogged";
                         Settings.Default.Save();
                         LoadData();
@@ -190,13 +185,16 @@ namespace SSI
                     Settings.Default.Save();
                     LoadData();
                 }
-                catch(WebExceptionWrapper)
+                catch(WebExceptionWrapper ex)
                 {
                     MessageBox.Show("Please check your internet connection !");
                     this.Close();
-                }               
+                }             
                 
+            }break;
+
             }
+               
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -377,7 +375,7 @@ namespace SSI
            EventList el = new EventList();
            el.values.Add(new EventValues { text = entryBox.Text, image64=dbLink.ImageToBase64(entryImage.Image, entryImage.Image.RawFormat)});
            string jsonArray = JsonConvert.SerializeObject(el.values);
-          Console.WriteLine(dbLink.InsertEvent(userMail, sCheck, HttpUtility.UrlEncode(jsonArray)));
+           Console.WriteLine(dbLink.InsertEvent(userMail, sCheck, HttpUtility.UrlEncode(jsonArray)));
        }
         
        private void PanelClickEvent(object sender, EventArgs e)
@@ -417,7 +415,32 @@ namespace SSI
            registerBtn.Visible = false;
            registTimer.Start();
        }
-
+       private void showElements()
+       {
+           loginBtn.Visible = false;
+           logoutBtn.Visible = true;
+           registerBtn.Visible = false;
+           label1.Visible = true;
+           monthBox.Visible = true;
+           yearBox.Visible = true;
+           groupBox1.Visible = true;
+           loginSSIBtn.Visible = false;
+           objectiveControls.Visible = true;
+       }
+       private void hideElements()
+       {
+           loginBtn.Visible = true;
+           logoutBtn.Visible = false;
+           label1.Visible = false;
+           tableLayoutPanel1.Visible = false;
+           monthBox.Visible = false;
+           groupBox1.Visible = false;
+           userPhoto.Visible = false;
+           yearBox.Visible = false;
+           loginSSIBtn.Visible = true;
+           registerBtn.Visible = true;
+           objectiveControls.Visible = false;
+       }
     }
     class DateConverter
     {

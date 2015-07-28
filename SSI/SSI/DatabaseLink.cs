@@ -54,8 +54,7 @@ namespace SSI
             string address = defaultUri+"login";
             string parameters = "email=" + email + "&password=" + password;
             return PostRequest(address, parameters);
-        }
-        
+        }        
         public string InsertUser(string email , string password,string name)
         {
             string address = defaultUri + "insert";
@@ -67,15 +66,13 @@ namespace SSI
             string address = defaultUri + "insert";
             string parameters = "email=" + email + "&password=" + password + "&name=" + name + "&image=" + image;
             return PostRequest(address, parameters);
-        }
-        
+        }        
         public string InsertUser(string fbid, string email, string password, string name, string image)
         {
             string address = defaultUri + "insert";
             string parameters = "fbid=" + fbid + "&email=" + email + "&password=" + password + "&name=" + name + "&image=" + image;
             return PostRequest(address, parameters);
         }
-        
         public string ResultParser(string result)
         {
             error = null;

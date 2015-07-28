@@ -27,6 +27,7 @@ namespace SSI
             MessageBox.Show(result);
             if (result.Contains("SUCCESS"))
             {
+                MainForm.userMail = emailBox.Text;
                 this.Hide();
                 MainForm.registOk = true;
             }
