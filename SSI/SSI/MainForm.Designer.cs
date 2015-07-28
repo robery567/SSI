@@ -29,23 +29,17 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.entryBox = new System.Windows.Forms.RichTextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dateLabel = new System.Windows.Forms.Label();
-            this.saveToDb = new System.Windows.Forms.Button();
-            this.entryImage = new System.Windows.Forms.PictureBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.monthBox = new System.Windows.Forms.ComboBox();
             this.yearBox = new System.Windows.Forms.NumericUpDown();
             this.notifIcn = new System.Windows.Forms.NotifyIcon(this.components);
             this.registTimer = new System.Windows.Forms.Timer(this.components);
-            this.registerBtn = new System.Windows.Forms.Button();
-            this.loginSSIBtn = new System.Windows.Forms.Button();
-            this.userPhoto = new System.Windows.Forms.PictureBox();
-            this.loginBtn = new System.Windows.Forms.Button();
-            this.logoutBtn = new System.Windows.Forms.Button();
             this.objectiveControls = new System.Windows.Forms.GroupBox();
             this.sendObjectiveBtn = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
@@ -56,14 +50,21 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.registerBtn = new System.Windows.Forms.Button();
+            this.loginSSIBtn = new System.Windows.Forms.Button();
+            this.userPhoto = new System.Windows.Forms.PictureBox();
+            this.loginBtn = new System.Windows.Forms.Button();
+            this.logoutBtn = new System.Windows.Forms.Button();
+            this.saveToDb = new System.Windows.Forms.Button();
+            this.entryImage = new System.Windows.Forms.PictureBox();
             this.loginWindow1 = new SSI.LoginWindow();
             this.colorWindow1 = new SSI.ColorWindow();
             this.registerWindow1 = new SSI.RegisterWindow();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.entryImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.yearBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.userPhoto)).BeginInit();
             this.objectiveControls.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.userPhoto)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.entryImage)).BeginInit();
             this.SuspendLayout();
             // 
             // timer1
@@ -116,30 +117,6 @@
             this.dateLabel.TabIndex = 12;
             this.dateLabel.Text = "label2";
             this.dateLabel.Visible = false;
-            // 
-            // saveToDb
-            // 
-            this.saveToDb.BackgroundImage = global::SSI.Properties.Resources.Forward_arrow_button_next_right_media_mail;
-            this.saveToDb.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.saveToDb.Location = new System.Drawing.Point(369, 195);
-            this.saveToDb.Name = "saveToDb";
-            this.saveToDb.Size = new System.Drawing.Size(39, 40);
-            this.saveToDb.TabIndex = 11;
-            this.saveToDb.UseVisualStyleBackColor = true;
-            this.saveToDb.Click += new System.EventHandler(this.saveToDb_Click);
-            // 
-            // entryImage
-            // 
-            this.entryImage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.entryImage.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.entryImage.Image = global::SSI.Properties.Resources.clickheretoselect;
-            this.entryImage.Location = new System.Drawing.Point(3, 170);
-            this.entryImage.Name = "entryImage";
-            this.entryImage.Size = new System.Drawing.Size(408, 172);
-            this.entryImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.entryImage.TabIndex = 7;
-            this.entryImage.TabStop = false;
-            this.entryImage.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
             // openFileDialog1
             // 
@@ -195,83 +172,6 @@
             // registTimer
             // 
             this.registTimer.Tick += new System.EventHandler(this.registTimer_Tick);
-            // 
-            // registerBtn
-            // 
-            this.registerBtn.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.registerBtn.BackColor = System.Drawing.Color.Transparent;
-            this.registerBtn.BackgroundImage = global::SSI.Properties.Resources.register;
-            this.registerBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.registerBtn.FlatAppearance.BorderSize = 0;
-            this.registerBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.registerBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.registerBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.registerBtn.Location = new System.Drawing.Point(427, 249);
-            this.registerBtn.Name = "registerBtn";
-            this.registerBtn.Size = new System.Drawing.Size(216, 68);
-            this.registerBtn.TabIndex = 14;
-            this.registerBtn.UseVisualStyleBackColor = false;
-            this.registerBtn.Click += new System.EventHandler(this.registerBtn_Click);
-            // 
-            // loginSSIBtn
-            // 
-            this.loginSSIBtn.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.loginSSIBtn.BackColor = System.Drawing.Color.Transparent;
-            this.loginSSIBtn.BackgroundImage = global::SSI.Properties.Resources.LoginSSI;
-            this.loginSSIBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.loginSSIBtn.FlatAppearance.BorderSize = 0;
-            this.loginSSIBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.loginSSIBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.loginSSIBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.loginSSIBtn.Location = new System.Drawing.Point(418, 182);
-            this.loginSSIBtn.Name = "loginSSIBtn";
-            this.loginSSIBtn.Size = new System.Drawing.Size(216, 61);
-            this.loginSSIBtn.TabIndex = 12;
-            this.loginSSIBtn.UseVisualStyleBackColor = false;
-            this.loginSSIBtn.Click += new System.EventHandler(this.loginSSIBtn_Click);
-            // 
-            // userPhoto
-            // 
-            this.userPhoto.Location = new System.Drawing.Point(12, 44);
-            this.userPhoto.Name = "userPhoto";
-            this.userPhoto.Size = new System.Drawing.Size(156, 156);
-            this.userPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.userPhoto.TabIndex = 0;
-            this.userPhoto.TabStop = false;
-            this.userPhoto.Visible = false;
-            // 
-            // loginBtn
-            // 
-            this.loginBtn.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.loginBtn.BackColor = System.Drawing.Color.Transparent;
-            this.loginBtn.BackgroundImage = global::SSI.Properties.Resources.login;
-            this.loginBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.loginBtn.FlatAppearance.BorderSize = 0;
-            this.loginBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.loginBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.loginBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.loginBtn.Location = new System.Drawing.Point(393, 115);
-            this.loginBtn.Name = "loginBtn";
-            this.loginBtn.Size = new System.Drawing.Size(269, 61);
-            this.loginBtn.TabIndex = 2;
-            this.loginBtn.UseVisualStyleBackColor = false;
-            this.loginBtn.Click += new System.EventHandler(this.loginBtn_Click);
-            // 
-            // logoutBtn
-            // 
-            this.logoutBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.logoutBtn.BackgroundImage = global::SSI.Properties.Resources.logout21;
-            this.logoutBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.logoutBtn.FlatAppearance.BorderSize = 0;
-            this.logoutBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.logoutBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.logoutBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.logoutBtn.Location = new System.Drawing.Point(972, 363);
-            this.logoutBtn.Name = "logoutBtn";
-            this.logoutBtn.Size = new System.Drawing.Size(100, 46);
-            this.logoutBtn.TabIndex = 4;
-            this.logoutBtn.UseVisualStyleBackColor = true;
-            this.logoutBtn.Click += new System.EventHandler(this.logoutBtn_Click);
             // 
             // objectiveControls
             // 
@@ -369,6 +269,108 @@
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker1.TabIndex = 0;
             // 
+            // registerBtn
+            // 
+            this.registerBtn.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.registerBtn.BackColor = System.Drawing.Color.Transparent;
+            this.registerBtn.BackgroundImage = global::SSI.Properties.Resources.SSI_Register;
+            this.registerBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.registerBtn.FlatAppearance.BorderSize = 0;
+            this.registerBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.registerBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.registerBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.registerBtn.Location = new System.Drawing.Point(380, 250);
+            this.registerBtn.Name = "registerBtn";
+            this.registerBtn.Size = new System.Drawing.Size(350, 50);
+            this.registerBtn.TabIndex = 14;
+            this.registerBtn.UseVisualStyleBackColor = false;
+            this.registerBtn.Click += new System.EventHandler(this.registerBtn_Click);
+            // 
+            // loginSSIBtn
+            // 
+            this.loginSSIBtn.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.loginSSIBtn.BackColor = System.Drawing.Color.Transparent;
+            this.loginSSIBtn.BackgroundImage = global::SSI.Properties.Resources.loginSSI1;
+            this.loginSSIBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.loginSSIBtn.FlatAppearance.BorderColor = System.Drawing.Color.ForestGreen;
+            this.loginSSIBtn.FlatAppearance.BorderSize = 0;
+            this.loginSSIBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.loginSSIBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.loginSSIBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.loginSSIBtn.Location = new System.Drawing.Point(393, 183);
+            this.loginSSIBtn.Name = "loginSSIBtn";
+            this.loginSSIBtn.Size = new System.Drawing.Size(259, 50);
+            this.loginSSIBtn.TabIndex = 12;
+            this.loginSSIBtn.UseVisualStyleBackColor = false;
+            this.loginSSIBtn.Click += new System.EventHandler(this.loginSSIBtn_Click);
+            // 
+            // userPhoto
+            // 
+            this.userPhoto.Location = new System.Drawing.Point(12, 44);
+            this.userPhoto.Name = "userPhoto";
+            this.userPhoto.Size = new System.Drawing.Size(156, 156);
+            this.userPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.userPhoto.TabIndex = 0;
+            this.userPhoto.TabStop = false;
+            this.userPhoto.Visible = false;
+            // 
+            // loginBtn
+            // 
+            this.loginBtn.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.loginBtn.BackColor = System.Drawing.Color.Transparent;
+            this.loginBtn.BackgroundImage = global::SSI.Properties.Resources.login_with_facebook1;
+            this.loginBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.loginBtn.FlatAppearance.BorderSize = 0;
+            this.loginBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.loginBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.loginBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.loginBtn.Location = new System.Drawing.Point(315, 111);
+            this.loginBtn.Name = "loginBtn";
+            this.loginBtn.Size = new System.Drawing.Size(442, 66);
+            this.loginBtn.TabIndex = 2;
+            this.loginBtn.UseVisualStyleBackColor = false;
+            this.loginBtn.Click += new System.EventHandler(this.loginBtn_Click);
+            // 
+            // logoutBtn
+            // 
+            this.logoutBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.logoutBtn.BackgroundImage = global::SSI.Properties.Resources.logout21;
+            this.logoutBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.logoutBtn.FlatAppearance.BorderSize = 0;
+            this.logoutBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.logoutBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.logoutBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.logoutBtn.Location = new System.Drawing.Point(972, 363);
+            this.logoutBtn.Name = "logoutBtn";
+            this.logoutBtn.Size = new System.Drawing.Size(100, 46);
+            this.logoutBtn.TabIndex = 4;
+            this.logoutBtn.UseVisualStyleBackColor = true;
+            this.logoutBtn.Click += new System.EventHandler(this.logoutBtn_Click);
+            // 
+            // saveToDb
+            // 
+            this.saveToDb.BackgroundImage = global::SSI.Properties.Resources.Forward_arrow_button_next_right_media_mail;
+            this.saveToDb.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.saveToDb.Location = new System.Drawing.Point(369, 195);
+            this.saveToDb.Name = "saveToDb";
+            this.saveToDb.Size = new System.Drawing.Size(39, 40);
+            this.saveToDb.TabIndex = 11;
+            this.saveToDb.UseVisualStyleBackColor = true;
+            this.saveToDb.Click += new System.EventHandler(this.saveToDb_Click);
+            // 
+            // entryImage
+            // 
+            this.entryImage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.entryImage.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.entryImage.Image = global::SSI.Properties.Resources.clickheretoselect;
+            this.entryImage.Location = new System.Drawing.Point(3, 170);
+            this.entryImage.Name = "entryImage";
+            this.entryImage.Size = new System.Drawing.Size(408, 172);
+            this.entryImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.entryImage.TabIndex = 7;
+            this.entryImage.TabStop = false;
+            this.entryImage.Click += new System.EventHandler(this.pictureBox2_Click);
+            // 
             // loginWindow1
             // 
             this.loginWindow1.BackColor = System.Drawing.Color.ForestGreen;
@@ -398,7 +400,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Control;
+            this.BackColor = System.Drawing.Color.Azure;
             this.ClientSize = new System.Drawing.Size(1084, 421);
             this.Controls.Add(this.loginWindow1);
             this.Controls.Add(this.objectiveControls);
@@ -413,18 +415,19 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.registerWindow1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(441, 278);
             this.Name = "MainForm";
-            this.Text = "MainForm";
+            this.Text = "SSI";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.entryImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.yearBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.userPhoto)).EndInit();
             this.objectiveControls.ResumeLayout(false);
             this.objectiveControls.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.userPhoto)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.entryImage)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

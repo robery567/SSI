@@ -17,84 +17,63 @@ namespace SSI
         string dateArg = "&date=";
         string imageArg = "&image=";
         public DatabaseLink()
-        {            
+        {
+            
+            WebClient wb = new WebClient();
+            try
+            {
+                string result = wb.DownloadString(defaultUri + "status_check");
+            }
+            catch(System.Net.WebException ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message);
+                Environment.Exit(0);
+            }
+
         }
         public string GetUserEvent(string email, string date)
         {
-            WebClient wb = new WebClient();
-            string result = wb.DownloadString(defaultUri+"get_user_event"+emailArg+email+dateArg+date);
-            return ResultParser(result);            
+            return GetRequest(defaultUri+"get_user_event"+emailArg+email+dateArg+date);                       
         }
         public string GetInfo(string email)
         {
-            WebClient wb = new WebClient();
-            string result = wb.DownloadString(defaultUri + "get_info" + emailArg + email);
-            return ResultParser(result);
+            return GetRequest(defaultUri + "get_info" + emailArg + email);            
         }
         public string GetEvents(string email)
         {
-            WebClient wb = new WebClient();
-            string result = wb.DownloadString(defaultUri + emailArg + email);
-            return ResultParser(result);
+          return GetRequest(defaultUri + emailArg + email);            
         }
         public string InsertEvent(string email,string date,string data)
         {
-            string URI = defaultUri+"insert_event";
+            string address = defaultUri+"insert_event";
             string parameters = "email=" + email + "&date=" + date + "&data=" + data;
-
-            using (WebClient wc = new WebClient())
-            {
-                wc.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
-                string result = wc.UploadString(URI, parameters);
-                return ResultParser(result);
-            }
+            return PostRequest(address, parameters);
         }
         public string UserLogin(string email, string password)
         {
-            string URI = defaultUri+"login";
+            string address = defaultUri+"login";
             string parameters = "email=" + email + "&password=" + password;
-
-            using (WebClient wc = new WebClient())
-            {
-                wc.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
-                string result = wc.UploadString(URI, parameters);
-                return ResultParser(result);
-            }
+            return PostRequest(address, parameters);
         }
         
         public string InsertUser(string email , string password,string name)
         {
-            string URI = defaultUri + "insert";
+            string address = defaultUri + "insert";
             string parameters = "email=" + email + "&password=" + password + "&name=" + name;
-            using (WebClient wb = new WebClient())
-            {
-                wb.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
-                string result = wb.UploadString(URI, parameters);
-                return ResultParser(result);
-            }
+            return PostRequest(address, parameters);
         }
         public string InsertUser(string email, string password, string name, string image)
         {
-            string URI = defaultUri + "insert";
+            string address = defaultUri + "insert";
             string parameters = "email=" + email + "&password=" + password + "&name=" + name + "&image=" + image;
-            using (WebClient wb = new WebClient())
-            {
-                wb.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
-                string result = wb.UploadString(URI, parameters);
-                return ResultParser(result);
-            }
+            return PostRequest(address, parameters);
         }
         
         public string InsertUser(string fbid, string email, string password, string name, string image)
         {
-            string URI = defaultUri + "insert";
+            string address = defaultUri + "insert";
             string parameters = "fbid=" + fbid + "&email=" + email + "&password=" + password + "&name=" + name + "&image=" + image;
-            using (WebClient wb = new WebClient())
-            {
-                wb.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
-                string result = wb.UploadString(URI, parameters);
-                return ResultParser(result);
-            }
+            return PostRequest(address, parameters);
         }
         
         public string ResultParser(string result)
@@ -150,6 +129,35 @@ namespace SSI
                 default:
                     return "ERROR: INTERNAL SERVER ERROR";
             }
+        }
+        public string GetRequest(string address)
+        {
+            WebClient wb = new WebClient();
+            try
+            {
+                string result = wb.DownloadString(address);
+                return ResultParser(result);
+            }
+            catch(System.Net.WebException ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message);
+            }
+            return "ERROR: CAN'T CONNECT TO THE REMOTE SERVER";
+        }
+        public string PostRequest(string address,string parameters)
+        {
+            WebClient wb = new WebClient();
+            wb.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
+            try
+            {
+                string result = wb.UploadString(address, parameters);
+                return ResultParser(result);
+            }
+            catch(System.Net.WebException ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message);
+            }
+            return "ERROR: CAN'T CONNECT TO THE REMOTE SERVER";
         }
     }
 }
