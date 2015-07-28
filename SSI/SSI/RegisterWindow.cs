@@ -65,10 +65,14 @@ namespace SSI
                     {
                         Image img = null;
                         img = Image.FromFile(imageBox.Text);
-                        MessageBox.Show(db.InsertUser(emailBox.Text, hashedPw, nameBox.Text, System.Web.HttpUtility.UrlEncode(db.ImageToBase64(img, img.RawFormat))));
+                        db.InsertUser(emailBox.Text, hashedPw, nameBox.Text, System.Web.HttpUtility.UrlEncode(db.ImageToBase64(img, img.RawFormat)));
+                        BackToMain();
                     }
                     else
-                        MessageBox.Show("Please select an image");
+                    {
+                        db.InsertUser(emailBox.Text, hashedPw, nameBox.Text);
+                        BackToMain();
+                    }
                 }
             }
             else
@@ -77,8 +81,12 @@ namespace SSI
 
         private void backBtn_Click(object sender, EventArgs e)
         {
+            BackToMain();
+        }
+        void BackToMain()
+        {
             this.Hide();
-            MainForm.registOk = true;
+            MainForm.registOk = 'm';
         }
     }
 }

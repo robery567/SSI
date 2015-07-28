@@ -61,6 +61,12 @@ namespace SSI
             string parameters = "email=" + email + "&password=" + password + "&name=" + name;
             return PostRequest(address, parameters);
         }
+        public string InsertFacebookUser(string fbid, string email,string name,string image)
+        {
+            string address = defaultUri + "insert";
+            string parameters = "fbid=" + fbid + "&email=" + email+ "&name=" + name + "&image=" + image;
+            return PostRequest(address, parameters);
+        }
         public string InsertUser(string email, string password, string name, string image)
         {
             string address = defaultUri + "insert";
@@ -147,7 +153,7 @@ namespace SSI
             wb.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
             try
             {
-                string result = wb.UploadString(address, parameters);
+                string result = wb.UploadString(address,parameters);
                 return ResultParser(result);
             }
             catch(System.Net.WebException ex)

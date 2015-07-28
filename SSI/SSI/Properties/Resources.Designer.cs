@@ -223,6 +223,26 @@ namespace SSI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap SSI_Logout {
+            get {
+                object obj = ResourceManager.GetObject("SSI_Logout", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SSI_Logout_1 {
+            get {
+                object obj = ResourceManager.GetObject("SSI_Logout_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap SSI_Register {
             get {
                 object obj = ResourceManager.GetObject("SSI_Register", resourceCulture);

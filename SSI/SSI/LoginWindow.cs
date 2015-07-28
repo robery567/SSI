@@ -28,15 +28,16 @@ namespace SSI
             if (result.Contains("SUCCESS"))
             {
                 MainForm.userMail = emailBox.Text;
+                Properties.Settings.Default.defkey = "ssiuser";
                 this.Hide();
-                MainForm.registOk = true;
+                MainForm.registOk = 't';
             }
         }
 
         private void backToLogin_Click(object sender, EventArgs e)
         {
+            MainForm.registOk = 'm';
             this.Hide();
-            MainForm.registOk = true;
         }
     }
 }

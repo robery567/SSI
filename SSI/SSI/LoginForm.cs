@@ -72,7 +72,7 @@ namespace SSI
                         Properties.Settings.Default.Save();
                     }
                     //timer1.Start();
-                    MainForm.loginOk = true;
+                    MainForm.loginOk = 't';
                     timer1.Start();
                     this.Hide();               
                 }
@@ -89,7 +89,7 @@ namespace SSI
             if(ticker==5)
             {
                 ticker = 0;
-                MainForm.loginOk = true;
+                MainForm.loginOk = 't';
                 this.Close();
             }
         }
@@ -98,6 +98,7 @@ namespace SSI
         private void LoginForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             status = false;
+            MainForm.loginOk = 'm';
         }
     }
 }

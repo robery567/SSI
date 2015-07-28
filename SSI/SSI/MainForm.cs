@@ -23,10 +23,10 @@ namespace SSI
             InitializeComponent();
         }
         public static string TokenKey = " ";
-        public static bool loginOk = false;
-        public static bool registOk = false;
+        public static char loginOk = 'f';
+        public static char registOk = 'f';
         public static string userMail;
-        string userFullName;
+        string userFullName,caller;
         private bool isCreated = false;
         private int timeCount = 0;
         bool firstPictureClick = true;
@@ -55,7 +55,7 @@ namespace SSI
                 MessageBox.Show("Try again", "Sorry");
             else
             {
-                timer1.Start();
+                facebookLoginTimer.Start();
                 LoginForm.login = true;
                 LoginForm f1 = new LoginForm();
                 f1.Show();
@@ -65,25 +65,26 @@ namespace SSI
               
         private void logoutBtn_Click(object sender, EventArgs e)
         {
-            LoginForm.login = false;
-            LoginForm f1 = new LoginForm();
-            f1.WindowState = FormWindowState.Minimized;
-            f1.Show();
-            /*loginBtn.Visible = true;
-            loginSSIBtn.Visible = true;
-            logoutBtn.Visible = false;
-            registerBtn.Visible = true;
-            label1.Visible = false;
-            userPhoto.Visible = false;
-            monthBox.Visible = false;
-            yearBox.Visible = false;
-            groupBox1.Visible = false;
-            tableLayoutPanel1.Visible = false;*/
-            Settings.Default.defkey = "notlogged";
-            Settings.Default.Save();
-            LoadData();
-            timer1.Start();            
+            switch(caller)
+            {
+                case "facebookuser":
+                    {
+                        LoginForm.login = false;
+                        LoginForm f1 = new LoginForm();
+                        f1.WindowState = FormWindowState.Minimized;
+                        f1.Show();
+                        Settings.Default.defkey = "notlogged";
+                        Settings.Default.Save();
+                        LoadData();
+                        facebookLoginTimer.Start();
+                    }break;
+                case "ssiuser":
+                    {
+                        hideElements();
+                    }break;
+           }
         }              
+        
         private void CheckDatabase(DateTime dateCheck)
         {
             string sCheck = dateCheck.GetDateTimeFormats()[5];
@@ -123,42 +124,33 @@ namespace SSI
                 }
                 break;
                 case "ssiuser":
-                {
-                    showElements();
+                {                                        
                     string jsonResult = dbLink.GetInfo(userMail);
                     JObject jsonArray = JObject.Parse(jsonResult);
                     userFullName = jsonArray.GetValue("name").ToString();
+                    showElements();
+                    if(jsonArray.GetValue("image").ToString()!="")                    
                     userPhoto.Image = dbLink.Base64ToImage(jsonArray.GetValue("image").ToString());
+                    logoutBtn.BackgroundImage = Resources.SSI_Logout_1;
+                    caller = "ssiuser";
                 }
                 break;
                 default:
-                {
-                showElements();
-                DateTime currentdt = DateTime.Now;
-                monthBox.SelectedItem=currentdt.ToString("MMMM");
-                if (!isCreated)
-                TableLayoutCreator();
-                
-                tableLayoutPanel1.Visible = true;
-                //monthCalendar1.Visible = true;
-                //groupBox1.Visible = true;
+                {                
                 TokenKey = Properties.Settings.Default.defkey;
                 try
                 {
                     FacebookClient fb = new FacebookClient(TokenKey);
-                    dynamic data = fb.Get("/me");
-                    label1.Text = data.name;
+                    dynamic data = fb.Get("/me");                    
                     string uid = data.id;
                     userMail = data.email;
                     userPhoto.Load(GetProfileImageUrl(uid));
                     userFullName = data.name;
-                    dbLink.InsertUser(uid, userMail, " ", userFullName, dbLink.ImageToBase64(userPhoto.Image, userPhoto.Image.RawFormat));
-                    System.Drawing.Drawing2D.GraphicsPath gp = new System.Drawing.Drawing2D.GraphicsPath();
-                    gp.AddEllipse(1, 1, userPhoto.Width, userPhoto.Height);
-                    Region rg = new Region(gp);
-                    userPhoto.Region = rg;
-                    userPhoto.SizeMode = PictureBoxSizeMode.Zoom;
-                    userPhoto.Visible = true;
+                    showElements();
+                    if (dbLink.GetInfo(userMail) == "ERROR: NOT FOUND")
+                    dbLink.InsertFacebookUser(uid, userMail, userFullName, HttpUtility.UrlEncode(dbLink.ImageToBase64(userPhoto.Image, userPhoto.Image.RawFormat)));
+                    logoutBtn.BackgroundImage = Resources.logout21;
+                    caller = "facebookuser";
                 }
                 catch(FacebookOAuthException ex)
                 {
@@ -199,12 +191,14 @@ namespace SSI
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if(loginOk)
+            if(loginOk=='t')
             {
                 LoadData();
-                timer1.Stop();
-                loginOk = false;
+                facebookLoginTimer.Stop();
+                loginOk = 'f';
             }
+            if (loginOk == 'm')
+                facebookLoginTimer.Stop();
         }
         private void pictureBox2_Click(object sender, EventArgs e)
         {
@@ -386,14 +380,22 @@ namespace SSI
 
        private void registTimer_Tick(object sender, EventArgs e)
         {
-            if(registOk)
+            if(registOk=='t')
             {
-                registOk = false;
+                LoadData();
+                registOk = 'f';
                 registTimer.Stop();
-                loginBtn.Visible = true;
-                loginSSIBtn.Visible = true;
-                registerBtn.Visible = true;
+                this.AcceptButton = null;
             }
+           if(registOk == 'm')
+           {
+               registOk = 'f';
+               registTimer.Stop();
+               loginBtn.Visible = true;
+               loginSSIBtn.Visible = true;
+               registerBtn.Visible = true;
+           }
+
         }
 
        private void registerBtn_Click(object sender, EventArgs e)
@@ -404,6 +406,7 @@ namespace SSI
             loginSSIBtn.Visible = false;
             registerBtn.Visible = false;
             registTimer.Start();
+            this.AcceptButton = registerWindow1.registerBtn;
         }
 
        private void loginSSIBtn_Click(object sender, EventArgs e)
@@ -414,6 +417,7 @@ namespace SSI
            loginSSIBtn.Visible = false;
            registerBtn.Visible = false;
            registTimer.Start();
+           this.AcceptButton = loginWindow1.button1;
        }
        private void showElements()
        {
@@ -426,6 +430,18 @@ namespace SSI
            groupBox1.Visible = true;
            loginSSIBtn.Visible = false;
            objectiveControls.Visible = true;
+           DateTime currentdt = DateTime.Now;
+           monthBox.SelectedItem = currentdt.ToString("MMMM");
+           if (!isCreated)
+               TableLayoutCreator();
+           tableLayoutPanel1.Visible = true;
+           System.Drawing.Drawing2D.GraphicsPath gp = new System.Drawing.Drawing2D.GraphicsPath();
+           gp.AddEllipse(1, 1, userPhoto.Width, userPhoto.Height);
+           Region rg = new Region(gp);
+           userPhoto.Region = rg;
+           userPhoto.SizeMode = PictureBoxSizeMode.Zoom;
+           userPhoto.Visible = true;
+           label1.Text = userFullName;
        }
        private void hideElements()
        {

@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.facebookLoginTimer = new System.Windows.Forms.Timer(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.entryBox = new System.Windows.Forms.RichTextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -42,6 +42,7 @@
             this.registTimer = new System.Windows.Forms.Timer(this.components);
             this.objectiveControls = new System.Windows.Forms.GroupBox();
             this.sendObjectiveBtn = new System.Windows.Forms.Button();
+            this.colorWindow1 = new SSI.ColorWindow();
             this.label5 = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -50,6 +51,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.loginWindow1 = new SSI.LoginWindow();
+            this.registerWindow1 = new SSI.RegisterWindow();
             this.registerBtn = new System.Windows.Forms.Button();
             this.loginSSIBtn = new System.Windows.Forms.Button();
             this.userPhoto = new System.Windows.Forms.PictureBox();
@@ -57,9 +60,6 @@
             this.logoutBtn = new System.Windows.Forms.Button();
             this.saveToDb = new System.Windows.Forms.Button();
             this.entryImage = new System.Windows.Forms.PictureBox();
-            this.loginWindow1 = new SSI.LoginWindow();
-            this.colorWindow1 = new SSI.ColorWindow();
-            this.registerWindow1 = new SSI.RegisterWindow();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.yearBox)).BeginInit();
             this.objectiveControls.SuspendLayout();
@@ -67,9 +67,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.entryImage)).BeginInit();
             this.SuspendLayout();
             // 
-            // timer1
+            // facebookLoginTimer
             // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.facebookLoginTimer.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // label1
             // 
@@ -204,6 +204,13 @@
             this.sendObjectiveBtn.Text = "Save Objective";
             this.sendObjectiveBtn.UseVisualStyleBackColor = true;
             // 
+            // colorWindow1
+            // 
+            this.colorWindow1.Location = new System.Drawing.Point(296, 72);
+            this.colorWindow1.Name = "colorWindow1";
+            this.colorWindow1.Size = new System.Drawing.Size(180, 78);
+            this.colorWindow1.TabIndex = 9;
+            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -268,6 +275,24 @@
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker1.TabIndex = 0;
+            // 
+            // loginWindow1
+            // 
+            this.loginWindow1.BackColor = System.Drawing.Color.ForestGreen;
+            this.loginWindow1.Location = new System.Drawing.Point(18, 16);
+            this.loginWindow1.Name = "loginWindow1";
+            this.loginWindow1.Size = new System.Drawing.Size(17, 22);
+            this.loginWindow1.TabIndex = 17;
+            this.loginWindow1.Visible = false;
+            // 
+            // registerWindow1
+            // 
+            this.registerWindow1.BackColor = System.Drawing.Color.ForestGreen;
+            this.registerWindow1.Location = new System.Drawing.Point(41, 12);
+            this.registerWindow1.Name = "registerWindow1";
+            this.registerWindow1.Size = new System.Drawing.Size(20, 26);
+            this.registerWindow1.TabIndex = 13;
+            this.registerWindow1.Visible = false;
             // 
             // registerBtn
             // 
@@ -371,31 +396,6 @@
             this.entryImage.TabStop = false;
             this.entryImage.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
-            // loginWindow1
-            // 
-            this.loginWindow1.BackColor = System.Drawing.Color.ForestGreen;
-            this.loginWindow1.Location = new System.Drawing.Point(18, 16);
-            this.loginWindow1.Name = "loginWindow1";
-            this.loginWindow1.Size = new System.Drawing.Size(17, 22);
-            this.loginWindow1.TabIndex = 17;
-            this.loginWindow1.Visible = false;
-            // 
-            // colorWindow1
-            // 
-            this.colorWindow1.Location = new System.Drawing.Point(296, 72);
-            this.colorWindow1.Name = "colorWindow1";
-            this.colorWindow1.Size = new System.Drawing.Size(180, 78);
-            this.colorWindow1.TabIndex = 9;
-            // 
-            // registerWindow1
-            // 
-            this.registerWindow1.BackColor = System.Drawing.Color.ForestGreen;
-            this.registerWindow1.Location = new System.Drawing.Point(41, 12);
-            this.registerWindow1.Name = "registerWindow1";
-            this.registerWindow1.Size = new System.Drawing.Size(20, 26);
-            this.registerWindow1.TabIndex = 13;
-            this.registerWindow1.Visible = false;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -435,7 +435,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer facebookLoginTimer;
         private System.Windows.Forms.Button loginBtn;
         private System.Windows.Forms.Button logoutBtn;
         private System.Windows.Forms.Label label1;
