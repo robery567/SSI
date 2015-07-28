@@ -76,7 +76,7 @@ namespace SSI
                         Settings.Default.defkey = "notlogged";
                         Settings.Default.Save();
                         LoadData();
-                        facebookLoginTimer.Start();
+                        //facebookLoginTimer.Start();
                     }break;
                 case "ssiuser":
                     {

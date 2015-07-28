@@ -89,7 +89,7 @@ namespace SSI
             if(ticker==5)
             {
                 ticker = 0;
-                MainForm.loginOk = 't';
+                MainForm.loginOk = 'f';
                 this.Close();
             }
         }
@@ -98,7 +98,7 @@ namespace SSI
         private void LoginForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             status = false;
-            MainForm.loginOk = 'm';
+            //MainForm.loginOk = 'm';
         }
     }
 }
