@@ -118,10 +118,11 @@ try {
 								'email'	 	=> isset($_POST['email'])  ? $DB->real_escape_string($_POST['email'])  : NULL,
 								'date' 			=> isset($_POST['date'])  ? $DB->real_escape_string($_POST['date'])  : NULL,
 								'data' 			=> isset($_POST['data'])  ? $DB->real_escape_string($_POST['data'])  : NULL,
+								'num'           => isset($_POST['num']) ? $DB->real_escape_string($_POST['num'])   : NULL,
 							];
 
 							if ($operation->user_exists($data['email'], $data['fbid']))
-								echo $operation->insert_event($data['email'], $data['date'], $data['data']) ? 1 : 0;
+								echo $operation->insert_event($data['email'], $data['date'], $data['data'], $data['num']) ? 1 : 0;
 							else
 								throw new \Exception ("INCORRECT_CREDENTIALS");
 						break;

@@ -19,7 +19,7 @@ USE `ssipdb`;
 -- Dumping structure for table ssipdb.events
 DROP TABLE IF EXISTS `events`;
 CREATE TABLE IF NOT EXISTS `events` (
-  `id` int(11) DEFAULT NULL,
+  `num` int(11) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   `date` date NOT NULL,
   `data` longtext NOT NULL

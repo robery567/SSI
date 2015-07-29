@@ -46,11 +46,11 @@ Class Actiune {
     return $DB->query("INSERT INTO users (fbid, email, password, name, image) VALUES ('{$fbid}', '{$email}', '{$password}', '{$name}', '{$image}')");
   }
 
-  public function insert_event($email = NULL, $date = NULL, $data = NULL) {
+  public function insert_event($email = NULL, $date = NULL, $data = NULL , $num = NULL) {
     $DB = $this->db;
     $user_id = $this->get_id($email);
 	
-    return $DB->query("INSERT INTO events (user_id, date, data) VALUES ('{$user_id}', '{$date}', '{$data}')");
+    return $DB->query("INSERT INTO events (num,user_id, date, data) VALUES ('{$num}','{$user_id}', '{$date}', '{$data}')");
   }
 
   public function check_password($email = NULL, $password = NULL) {
