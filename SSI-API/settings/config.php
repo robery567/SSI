@@ -3,7 +3,7 @@
 define ('development_mode', true);
 
 $mysql = [
-    'connection_type' => 'mysqli',  // Available types: mysqli
+    'driver' => 'mysqli',  // Available types: mysqli
     'hostname' => 'localhost',
     'username' => 'root',
     'password' => '',

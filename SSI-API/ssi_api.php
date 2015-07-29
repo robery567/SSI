@@ -17,7 +17,7 @@ use SSI\Lib\Main\Actiune as Actiune;
 development_mode ? error_reporting(E_ALL) : error_reporting(0);
 
 try {
-	switch ($mysql['connection_type']) {
+	switch ($mysql['driver']) {
 		case 'mysqli':
 			$DB = @new \MySQLi ( $mysql ['hostname'], $mysql ['username'], $mysql ['password'], $mysql ['database'] );
 
@@ -63,13 +63,12 @@ try {
 									throw new \Exception("NOT_FOUND");
 							else {
 								$data = json_encode($operation->get_user_details($email));
-								die($data);
-								exit;
+								exit($data);
 							}
 						break;
 						
 						case 'status_check':
-						    die("SUCCESS");
+						    exit("SUCCESS");
 						/* 
 							@Action Name: get_events (action=get_events)
 							
@@ -89,8 +88,7 @@ try {
 									throw new \Exception("NOT_FOUND");
 							else {
 								$data = json_encode($operation->get_user_events($email));
-								die($data);
-								exit;
+								exit($data);
 							}
 						break;
 
@@ -114,15 +112,18 @@ try {
 						*/	
 						case 'insert_event':
 							$data = [
-								'fbid' 	=> isset($_POST['fbid']) ? $DB->real_escape_string($_POST['fbid']) : NULL,
-								'email'	 	=> isset($_POST['email'])  ? $DB->real_escape_string($_POST['email'])  : NULL,
+								'fbid' 			=> isset($_POST['fbid']) ? $DB->real_escape_string($_POST['fbid']) : NULL,
+								'email'	 		=> isset($_POST['email'])  ? $DB->real_escape_string($_POST['email'])  : NULL,
 								'date' 			=> isset($_POST['date'])  ? $DB->real_escape_string($_POST['date'])  : NULL,
 								'data' 			=> isset($_POST['data'])  ? $DB->real_escape_string($_POST['data'])  : NULL,
 								'num'           => isset($_POST['num']) ? $DB->real_escape_string($_POST['num'])   : NULL,
 							];
 
-							if ($operation->user_exists($data['email'], $data['fbid']))
+							if ($operation->user_exists($data['email'], $data['fbid']) && !$operation->event_exists($data['email']), $data['date'])
 								echo $operation->insert_event($data['email'], $data['date'], $data['data'], $data['num']) ? 1 : 0;
+							else if ($operation->user_exists($data['email'], $data['fbid']) && $operation->event_exists($data['email']), $data['date'])
+								echo $operation->alter_event($data['email'], $data['date'], $data['data'], $data['num']) ? 1 : 0;
+			
 							else
 								throw new \Exception ("INCORRECT_CREDENTIALS");
 						break;
@@ -155,7 +156,7 @@ try {
 								'email' 		=> isset($_POST['email'])    ? $DB->real_escape_string($_POST['email'])    : NULL,
 								'name'  		=> isset($_POST['name'])     ? $DB->real_escape_string($_POST['name'])     : NULL,
 								'image' 		=> isset($_POST['image'])    ? $DB->real_escape_string($_POST['image'])    : NULL,
-								'password'  => isset($_POST['password']) ? $DB->real_escape_string($_POST['password']) : NULL
+								'password'  => isset($_POST['password'])     ? $DB->real_escape_string($_POST['password']) : NULL
 							];
 
 							if (!$operation->user_exists($data['email'], $data['fbid'])) {
@@ -204,7 +205,7 @@ try {
 							$password = isset($_POST['password']) ? $DB->real_escape_string($_POST['password']) : NULL;
 							
 							if($operation->check_password($email, $password))
-								die("SUCCESS");
+								exit("SUCCESS");
 							else						
 								throw new \Exception("INCORRECT_CREDENTIALS");
 						break;
@@ -249,7 +250,7 @@ try {
 									throw new \Exception("NOT_FOUND");
 							else { 
 								$data = json_encode($operation->get_user_event($email,$date));
-								die($data);
+								exit($data);
 							}
 						 break;
 							
@@ -264,42 +265,35 @@ try {
 } catch (\Exception $e) {
 	switch($e->getMessage()) {
 		case "INVALID_NAME":
-			die("ERR_106"); // Invalid Name
-			exit;
+			exit("ERR_106"); // Invalid Name
 		break;
 
 		case "INVALID_FBID":
-			die("ERR_105"); // Invalid Facebook ID
-			exit;
+			exit("ERR_105"); // Invalid Facebook ID
 		break;
 
 		case "INCORRECT_CREDENTIALS":
-			die("ERR_104"); // INCORRECT USER/PASSWORD
+			exit("ERR_104"); // INCORRECT USER/PASSWORD
 		break;
 
 		case "INVALID_EMAIL":
-			die("ERR_103"); // Invalid Email
-			exit;
+			exit("ERR_103"); // Invalid Email
 		break;
 
 		case "USER_EXISTS":
-			die("ERR_102"); // User already exists
-			exit;
+			exit("ERR_102"); // User already exists
 		break;
 
 		case "NOT_FOUND":
-			die("ERR_404"); // User not found
-			exit;
+			exit("ERR_404"); // User not found
 		break;
 
 		case "INVALID_ACTION":
-			die("ERR_101"); // Invalid Action
-			exit;
+			exit("ERR_101"); // Invalid Action
 		break;
 
 		default:
-			die("ERR_500"); // Internal Server Error
-			exit;
+			exit("ERR_500"); // Internal Server Error
 	}
 }
 
