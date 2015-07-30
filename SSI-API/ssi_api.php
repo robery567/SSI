@@ -176,7 +176,7 @@ try {
 										echo $operation->insert_user($data['fbid'], $data['email'], $data['name'], $data['image'], $data['password']) ? 1 : 0;
 									} else
 											echo $operation->insert_user($data['fbid'], $data['email'], $data['name'], NULL, $data['password']) ? 1 : 0;
-											$collection = $db->$data['email'].$data['fbid']."_image";
+											$collection = $mongo_db->$data['email'].$data['fbid']."_image";
 											$document = array( "email" => $data['email'], "image" => $data['image'] );
 											$collection->insert($document);
 								}
