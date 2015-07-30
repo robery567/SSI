@@ -26,10 +26,12 @@ namespace SSI
         public static char loginOk = 'f';
         public static char registOk = 'f';
         public static string userMail;
+        public int eventCount;
+        public List<EventValues> eValues = new List<EventValues>();
         string userFullName,caller;
         private bool isCreated = false;
         private int timeCount = 0;
-        bool firstPictureClick = true;
+        bool jsonNull = false;
         TableLayoutPanel tableLayoutPanel1 = new TableLayoutPanel();
         Label[] lb = new Label[45];
         Panel[] pan = new Panel[45];
@@ -87,22 +89,38 @@ namespace SSI
         
         private void CheckDatabase(DateTime dateCheck)
         {
+            eventComboBox.Items.Clear();
+            eventComboBox.Text = null;
             string sCheck = dateCheck.GetDateTimeFormats()[5];
             string jsonResult = dbLink.GetUserEvent(userMail, sCheck);
             if (jsonResult != "null")
             {
+                jsonNull = false;
                 string jsonCheck = jsonResult.Substring(0, 6);
                 if (jsonCheck == "ERROR:")
                     MessageBox.Show(jsonResult);
                 else
                 {
+
                     JObject jsonArray = JObject.Parse(jsonResult);
                     string jsonData = jsonArray.GetValue("data").ToString();
-                    EventList ev = new EventList();
-                    ev.values = JsonConvert.DeserializeObject<List<EventValues>>(jsonData);
-                    entryBox.Text = ev.values[0].text;                    
-                    entryImage.Image = dbLink.Base64ToImage(ev.values[0].image64);   
+                    eValues = JsonConvert.DeserializeObject<List<EventValues>>(jsonData);
+                    eventCount = Convert.ToInt32(jsonArray.GetValue("num").ToString());                    
+                    for (int i = 0; i <eventCount;i++)
+                    {
+                        eventComboBox.Items.Add("Event " + (i+1) +" : " +eValues[i].title);
+                    }                    
+                    eventComboBox.SelectedIndex = 0;
+                    eventComboBox.Items.Add("New event");
+                    entryBox.Text = eValues[0].text;                    
+                    entryImage.Image = dbLink.Base64ToImage(eValues[0].image64);   
                 }
+            }
+            else
+            {
+                jsonNull = true;
+                eventComboBox.Items.Add("Event : 01 :");
+                eventComboBox.SelectedIndex = 0;
             }
            
         }
@@ -112,8 +130,7 @@ namespace SSI
             logoutBtn.Visible = true;
             label1.Visible = true; 
             LoadData();
-        }
-        
+        }        
         public void LoadData()
         {
             switch(Settings.Default.defkey)
@@ -188,7 +205,6 @@ namespace SSI
             }
                
         }
-
         private void timer1_Tick(object sender, EventArgs e)
         {
             if(loginOk=='t')
@@ -201,21 +217,15 @@ namespace SSI
                 facebookLoginTimer.Stop();
         }
         private void pictureBox2_Click(object sender, EventArgs e)
-        {
-            if (firstPictureClick)
-            {
-                openFileDialog1.ShowDialog();
-                firstPictureClick = false;
-            }
-            
+        {            
+               openFileDialog1.ShowDialog();     
         }
 
        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
             entryImage.ImageLocation = openFileDialog1.FileName;
             entryImage.SizeMode = PictureBoxSizeMode.Zoom;
-        }
-        
+        }        
        private void TableLayoutCreator()
         {
             tableLayoutPanel1.Dispose();
@@ -320,7 +330,6 @@ namespace SSI
             this.Controls.Add(tableLayoutPanel1);
             isCreated = true;
         }
-
        private void monthBox_SelectedIndexChanged(object sender, EventArgs e)
        {
            TableLayoutCreator();
@@ -361,15 +370,38 @@ namespace SSI
         {
            TableLayoutCreator();
         }
-
        private void saveToDb_Click(object sender, EventArgs e)
        {
-           DateTime dateDb = new DateTime(Decimal.ToInt32(yearBox.Value), dtConv.GetDateInt(monthBox.Text), Convert.ToInt32(((Label)last).Text));
-           string sCheck = dateDb.GetDateTimeFormats()[5];
-           EventList el = new EventList();
-           el.values.Add(new EventValues { text = entryBox.Text, image64=dbLink.ImageToBase64(entryImage.Image, entryImage.Image.RawFormat)});
-           string jsonArray = JsonConvert.SerializeObject(el.values);
-           Console.WriteLine(dbLink.InsertEvent(userMail, sCheck, HttpUtility.UrlEncode(jsonArray)));
+           try
+           {
+               DateTime dateDb = new DateTime(Decimal.ToInt32(yearBox.Value), dtConv.GetDateInt(monthBox.Text), Convert.ToInt32(((Label)last).Text));
+               string sCheck = dateDb.GetDateTimeFormats()[5];
+               int evNum = eventComboBox.SelectedIndex;
+               if(eValues.Count>=evNum && evNum==0 && !jsonNull)
+               {
+                   eValues[0].text = entryBox.Text;
+                   eValues[0].image64 = dbLink.ImageToBase64(entryImage.Image, entryImage.Image.RawFormat);
+               }
+               if (eValues.Count > evNum && evNum > 0)
+               {
+                   Console.WriteLine(eValues.Count + " " + evNum);
+                   eValues[evNum].text = entryBox.Text;
+                   eValues[evNum].image64 = dbLink.ImageToBase64(entryImage.Image, entryImage.Image.RawFormat);
+               }
+               else
+               {
+                   eValues.Add(new EventValues { text = entryBox.Text, image64 = dbLink.ImageToBase64(entryImage.Image, entryImage.Image.RawFormat), title = "title" });
+                   eventCount++;
+               }
+               string jsonArray = JsonConvert.SerializeObject(eValues);
+               if (dbLink.InsertEvent(eventCount, userMail, sCheck, HttpUtility.UrlEncode(jsonArray)).Contains("MySQL server has gone away in"))
+                   MessageBox.Show("Image is too big. Maximum size allowed: 500KB");
+           }
+           catch(Exception ex)
+           {
+               MessageBox.Show("Please select a date");
+               MessageBox.Show(ex.Message);
+           }
        }
         
        private void PanelClickEvent(object sender, EventArgs e)
@@ -430,6 +462,7 @@ namespace SSI
            groupBox1.Visible = true;
            loginSSIBtn.Visible = false;
            objectiveControls.Visible = true;
+           eventComboBox.Visible = true;
            DateTime currentdt = DateTime.Now;
            monthBox.SelectedItem = currentdt.ToString("MMMM");
            if (!isCreated)
@@ -456,7 +489,26 @@ namespace SSI
            loginSSIBtn.Visible = true;
            registerBtn.Visible = true;
            objectiveControls.Visible = false;
+           eventComboBox.Visible = true;
        }
+
+       private void fullSizeImageButton_Click(object sender, EventArgs e)
+       {
+           imageFullSize1.BackgroundImage = entryImage.Image;
+           imageFullSize1.Dock = DockStyle.Fill;
+           imageFullSize1.Visible = true;
+       }
+
+       private void eventComboBox_SelectedIndexChanged(object sender, EventArgs e)
+       {           
+           int evNumber = eventComboBox.SelectedIndex;
+           if (!jsonNull && eventComboBox.Text!="New event")
+           {
+               entryBox.Text = eValues[evNumber].text;
+               entryImage.Image = dbLink.Base64ToImage(eValues[evNumber].image64);
+           }
+       }
+       
     }
     class DateConverter
     {

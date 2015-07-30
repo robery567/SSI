@@ -11,12 +11,13 @@ namespace SSI
     {
         public List<EventValues> values = new List<EventValues>();
     }
-    class EventValues
+    public class EventValues
     {
         public int number { set; get; }
         public string text { set; get; }
         public bool notif { set; get; }
         public string image64 { set; get; }
+        public string title { set; get; }
     }
     class EventColor
     {

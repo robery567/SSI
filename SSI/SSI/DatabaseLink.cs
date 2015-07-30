@@ -43,10 +43,10 @@ namespace SSI
         {
           return GetRequest(defaultUri + emailArg + email);            
         }
-        public string InsertEvent(string email,string date,string data)
+        public string InsertEvent(int evnum,string email,string date,string data)
         {
             string address = defaultUri+"insert_event";
-            string parameters = "email=" + email + "&date=" + date + "&data=" + data;
+            string parameters = "email=" + email + "&date=" + date + "&data=" + data+"&num="+evnum;
             return PostRequest(address, parameters);
         }
         public string UserLogin(string email, string password)

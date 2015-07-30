@@ -34,7 +34,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.entryBox = new System.Windows.Forms.RichTextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.eventComboBox = new System.Windows.Forms.ComboBox();
+            this.fullSizeImageButton = new System.Windows.Forms.Button();
             this.dateLabel = new System.Windows.Forms.Label();
+            this.saveToDb = new System.Windows.Forms.Button();
+            this.entryImage = new System.Windows.Forms.PictureBox();
+            this.loginBtn = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.monthBox = new System.Windows.Forms.ComboBox();
             this.yearBox = new System.Windows.Forms.NumericUpDown();
@@ -42,7 +47,6 @@
             this.registTimer = new System.Windows.Forms.Timer(this.components);
             this.objectiveControls = new System.Windows.Forms.GroupBox();
             this.sendObjectiveBtn = new System.Windows.Forms.Button();
-            this.colorWindow1 = new SSI.ColorWindow();
             this.label5 = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -51,20 +55,20 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.loginWindow1 = new SSI.LoginWindow();
-            this.registerWindow1 = new SSI.RegisterWindow();
             this.registerBtn = new System.Windows.Forms.Button();
             this.loginSSIBtn = new System.Windows.Forms.Button();
             this.userPhoto = new System.Windows.Forms.PictureBox();
-            this.loginBtn = new System.Windows.Forms.Button();
             this.logoutBtn = new System.Windows.Forms.Button();
-            this.saveToDb = new System.Windows.Forms.Button();
-            this.entryImage = new System.Windows.Forms.PictureBox();
+            this.savedLabel = new System.Windows.Forms.Label();
+            this.imageFullSize1 = new SSI.ImageFullSize();
+            this.loginWindow1 = new SSI.LoginWindow();
+            this.registerWindow1 = new SSI.RegisterWindow();
+            this.colorWindow1 = new SSI.ColorWindow();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.entryImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.yearBox)).BeginInit();
             this.objectiveControls.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.userPhoto)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.entryImage)).BeginInit();
             this.SuspendLayout();
             // 
             // facebookLoginTimer
@@ -95,6 +99,9 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.savedLabel);
+            this.groupBox1.Controls.Add(this.eventComboBox);
+            this.groupBox1.Controls.Add(this.fullSizeImageButton);
             this.groupBox1.Controls.Add(this.dateLabel);
             this.groupBox1.Controls.Add(this.saveToDb);
             this.groupBox1.Controls.Add(this.entryImage);
@@ -108,6 +115,30 @@
             this.groupBox1.Text = "Day Review";
             this.groupBox1.Visible = false;
             // 
+            // eventComboBox
+            // 
+            this.eventComboBox.FormattingEnabled = true;
+            this.eventComboBox.Location = new System.Drawing.Point(40, 123);
+            this.eventComboBox.Name = "eventComboBox";
+            this.eventComboBox.Size = new System.Drawing.Size(121, 21);
+            this.eventComboBox.TabIndex = 14;
+            this.eventComboBox.Visible = false;
+            this.eventComboBox.SelectedIndexChanged += new System.EventHandler(this.eventComboBox_SelectedIndexChanged);
+            // 
+            // fullSizeImageButton
+            // 
+            this.fullSizeImageButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.fullSizeImageButton.BackgroundImage = global::SSI.Properties.Resources.Full_Screen_2_icon;
+            this.fullSizeImageButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.fullSizeImageButton.FlatAppearance.BorderSize = 0;
+            this.fullSizeImageButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.fullSizeImageButton.Location = new System.Drawing.Point(369, 170);
+            this.fullSizeImageButton.Name = "fullSizeImageButton";
+            this.fullSizeImageButton.Size = new System.Drawing.Size(42, 40);
+            this.fullSizeImageButton.TabIndex = 13;
+            this.fullSizeImageButton.UseVisualStyleBackColor = true;
+            this.fullSizeImageButton.Click += new System.EventHandler(this.fullSizeImageButton_Click);
+            // 
             // dateLabel
             // 
             this.dateLabel.AutoSize = true;
@@ -117,6 +148,47 @@
             this.dateLabel.TabIndex = 12;
             this.dateLabel.Text = "label2";
             this.dateLabel.Visible = false;
+            // 
+            // saveToDb
+            // 
+            this.saveToDb.BackgroundImage = global::SSI.Properties.Resources.Forward_arrow_button_next_right_media_mail;
+            this.saveToDb.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.saveToDb.Location = new System.Drawing.Point(369, 195);
+            this.saveToDb.Name = "saveToDb";
+            this.saveToDb.Size = new System.Drawing.Size(39, 40);
+            this.saveToDb.TabIndex = 11;
+            this.saveToDb.UseVisualStyleBackColor = true;
+            this.saveToDb.Click += new System.EventHandler(this.saveToDb_Click);
+            // 
+            // entryImage
+            // 
+            this.entryImage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.entryImage.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.entryImage.Image = global::SSI.Properties.Resources.clickheretoselect;
+            this.entryImage.Location = new System.Drawing.Point(3, 170);
+            this.entryImage.Name = "entryImage";
+            this.entryImage.Size = new System.Drawing.Size(408, 172);
+            this.entryImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.entryImage.TabIndex = 7;
+            this.entryImage.TabStop = false;
+            this.entryImage.Click += new System.EventHandler(this.pictureBox2_Click);
+            // 
+            // loginBtn
+            // 
+            this.loginBtn.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.loginBtn.BackColor = System.Drawing.Color.Transparent;
+            this.loginBtn.BackgroundImage = global::SSI.Properties.Resources.login_with_facebook1;
+            this.loginBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.loginBtn.FlatAppearance.BorderSize = 0;
+            this.loginBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.loginBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.loginBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.loginBtn.Location = new System.Drawing.Point(315, 111);
+            this.loginBtn.Name = "loginBtn";
+            this.loginBtn.Size = new System.Drawing.Size(442, 66);
+            this.loginBtn.TabIndex = 2;
+            this.loginBtn.UseVisualStyleBackColor = false;
+            this.loginBtn.Click += new System.EventHandler(this.loginBtn_Click);
             // 
             // openFileDialog1
             // 
@@ -204,13 +276,6 @@
             this.sendObjectiveBtn.Text = "Save Objective";
             this.sendObjectiveBtn.UseVisualStyleBackColor = true;
             // 
-            // colorWindow1
-            // 
-            this.colorWindow1.Location = new System.Drawing.Point(296, 72);
-            this.colorWindow1.Name = "colorWindow1";
-            this.colorWindow1.Size = new System.Drawing.Size(180, 78);
-            this.colorWindow1.TabIndex = 9;
-            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -276,24 +341,6 @@
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker1.TabIndex = 0;
             // 
-            // loginWindow1
-            // 
-            this.loginWindow1.BackColor = System.Drawing.Color.ForestGreen;
-            this.loginWindow1.Location = new System.Drawing.Point(18, 16);
-            this.loginWindow1.Name = "loginWindow1";
-            this.loginWindow1.Size = new System.Drawing.Size(17, 22);
-            this.loginWindow1.TabIndex = 17;
-            this.loginWindow1.Visible = false;
-            // 
-            // registerWindow1
-            // 
-            this.registerWindow1.BackColor = System.Drawing.Color.ForestGreen;
-            this.registerWindow1.Location = new System.Drawing.Point(41, 12);
-            this.registerWindow1.Name = "registerWindow1";
-            this.registerWindow1.Size = new System.Drawing.Size(20, 26);
-            this.registerWindow1.TabIndex = 13;
-            this.registerWindow1.Visible = false;
-            // 
             // registerBtn
             // 
             this.registerBtn.Anchor = System.Windows.Forms.AnchorStyles.Top;
@@ -339,23 +386,6 @@
             this.userPhoto.TabStop = false;
             this.userPhoto.Visible = false;
             // 
-            // loginBtn
-            // 
-            this.loginBtn.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.loginBtn.BackColor = System.Drawing.Color.Transparent;
-            this.loginBtn.BackgroundImage = global::SSI.Properties.Resources.login_with_facebook1;
-            this.loginBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.loginBtn.FlatAppearance.BorderSize = 0;
-            this.loginBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.loginBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.loginBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.loginBtn.Location = new System.Drawing.Point(315, 111);
-            this.loginBtn.Name = "loginBtn";
-            this.loginBtn.Size = new System.Drawing.Size(442, 66);
-            this.loginBtn.TabIndex = 2;
-            this.loginBtn.UseVisualStyleBackColor = false;
-            this.loginBtn.Click += new System.EventHandler(this.loginBtn_Click);
-            // 
             // logoutBtn
             // 
             this.logoutBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -372,29 +402,49 @@
             this.logoutBtn.UseVisualStyleBackColor = true;
             this.logoutBtn.Click += new System.EventHandler(this.logoutBtn_Click);
             // 
-            // saveToDb
+            // savedLabel
             // 
-            this.saveToDb.BackgroundImage = global::SSI.Properties.Resources.Forward_arrow_button_next_right_media_mail;
-            this.saveToDb.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.saveToDb.Location = new System.Drawing.Point(369, 195);
-            this.saveToDb.Name = "saveToDb";
-            this.saveToDb.Size = new System.Drawing.Size(39, 40);
-            this.saveToDb.TabIndex = 11;
-            this.saveToDb.UseVisualStyleBackColor = true;
-            this.saveToDb.Click += new System.EventHandler(this.saveToDb_Click);
+            this.savedLabel.AutoSize = true;
+            this.savedLabel.Location = new System.Drawing.Point(170, 152);
+            this.savedLabel.Name = "savedLabel";
+            this.savedLabel.Size = new System.Drawing.Size(38, 13);
+            this.savedLabel.TabIndex = 15;
+            this.savedLabel.Text = "Saved";
+            this.savedLabel.Visible = false;
             // 
-            // entryImage
+            // imageFullSize1
             // 
-            this.entryImage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.entryImage.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.entryImage.Image = global::SSI.Properties.Resources.clickheretoselect;
-            this.entryImage.Location = new System.Drawing.Point(3, 170);
-            this.entryImage.Name = "entryImage";
-            this.entryImage.Size = new System.Drawing.Size(408, 172);
-            this.entryImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.entryImage.TabIndex = 7;
-            this.entryImage.TabStop = false;
-            this.entryImage.Click += new System.EventHandler(this.pictureBox2_Click);
+            this.imageFullSize1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.imageFullSize1.Location = new System.Drawing.Point(67, 12);
+            this.imageFullSize1.Name = "imageFullSize1";
+            this.imageFullSize1.Size = new System.Drawing.Size(26, 27);
+            this.imageFullSize1.TabIndex = 18;
+            this.imageFullSize1.Visible = false;
+            // 
+            // loginWindow1
+            // 
+            this.loginWindow1.BackColor = System.Drawing.Color.ForestGreen;
+            this.loginWindow1.Location = new System.Drawing.Point(18, 16);
+            this.loginWindow1.Name = "loginWindow1";
+            this.loginWindow1.Size = new System.Drawing.Size(17, 22);
+            this.loginWindow1.TabIndex = 17;
+            this.loginWindow1.Visible = false;
+            // 
+            // registerWindow1
+            // 
+            this.registerWindow1.BackColor = System.Drawing.Color.ForestGreen;
+            this.registerWindow1.Location = new System.Drawing.Point(41, 12);
+            this.registerWindow1.Name = "registerWindow1";
+            this.registerWindow1.Size = new System.Drawing.Size(20, 26);
+            this.registerWindow1.TabIndex = 13;
+            this.registerWindow1.Visible = false;
+            // 
+            // colorWindow1
+            // 
+            this.colorWindow1.Location = new System.Drawing.Point(296, 72);
+            this.colorWindow1.Name = "colorWindow1";
+            this.colorWindow1.Size = new System.Drawing.Size(180, 78);
+            this.colorWindow1.TabIndex = 9;
             // 
             // MainForm
             // 
@@ -402,18 +452,19 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Azure;
             this.ClientSize = new System.Drawing.Size(1084, 421);
+            this.Controls.Add(this.loginBtn);
+            this.Controls.Add(this.imageFullSize1);
             this.Controls.Add(this.loginWindow1);
-            this.Controls.Add(this.objectiveControls);
             this.Controls.Add(this.registerBtn);
             this.Controls.Add(this.loginSSIBtn);
             this.Controls.Add(this.yearBox);
             this.Controls.Add(this.monthBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.userPhoto);
-            this.Controls.Add(this.loginBtn);
             this.Controls.Add(this.logoutBtn);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.registerWindow1);
+            this.Controls.Add(this.objectiveControls);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(441, 278);
@@ -423,11 +474,11 @@
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.entryImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.yearBox)).EndInit();
             this.objectiveControls.ResumeLayout(false);
             this.objectiveControls.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.userPhoto)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.entryImage)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -465,5 +516,9 @@
         private ColorWindow colorWindow1;
         private System.Windows.Forms.Button sendObjectiveBtn;
         private LoginWindow loginWindow1;
+        private System.Windows.Forms.Button fullSizeImageButton;
+        private ImageFullSize imageFullSize1;
+        private System.Windows.Forms.ComboBox eventComboBox;
+        private System.Windows.Forms.Label savedLabel;
     }
 }

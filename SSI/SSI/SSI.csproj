@@ -67,6 +67,12 @@
     </Compile>
     <Compile Include="DatabaseLink.cs" />
     <Compile Include="EventList.cs" />
+    <Compile Include="ImageFullSize.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ImageFullSize.Designer.cs">
+      <DependentUpon>ImageFullSize.cs</DependentUpon>
+    </Compile>
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -97,6 +103,9 @@
     </Compile>
     <EmbeddedResource Include="ColorWindow.resx">
       <DependentUpon>ColorWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImageFullSize.resx">
+      <DependentUpon>ImageFullSize.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
@@ -173,6 +182,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SSI_Logout_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\image-up-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Full-Screen-2-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Minimize-icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
