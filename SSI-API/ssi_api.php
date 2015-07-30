@@ -125,9 +125,9 @@ try {
 								'num'           => isset($_POST['num'])   ? $DB->real_escape_string($_POST['num'])   : NULL,
 							];
 
-							if ($operation->user_exists($data['email'], $data['fbid']) && !$operation->event_exists($data['email']), $data['date'])
+							if ($operation->user_exists($data['email'], $data['fbid']) && !$operation->event_exists($data['email'], $data['date']))
 								echo $operation->insert_event($data['email'], $data['date'], $data['data'], $data['num']) ? 1 : 0;
-							else if ($operation->user_exists($data['email'], $data['fbid']) && $operation->event_exists($data['email']), $data['date'])
+							else if ($operation->user_exists($data['email'], $data['fbid']) && $operation->event_exists($data['email'], $data['date']))
 								echo $operation->alter_event($data['email'], $data['date'], $data['data'], $data['num']) ? 1 : 0;
 
 							else
