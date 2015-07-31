@@ -10,3 +10,7 @@ aici intervine SSI, prin oferirea unei interfete interactive , posibilitatea cre
 impartasirea propriilor ganduri,sfaturi pentru viitor , chiar si imagini
 
 # Componente: #
+- [API](https://github.com/robery567/SSI/tree/master/SSI-API)
+- [Aplicatie Desktop](https://github.com/robery567/SSI/tree/master/SSI)
+- [Site Prezentare](https://github.com/robery567/SSI/tree/master/SSI-WEB)
+- Android (soon)
