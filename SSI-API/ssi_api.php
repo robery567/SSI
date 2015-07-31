@@ -138,7 +138,7 @@ try {
 																		 );
 
 										$collection->insert($document);
-										$collection->save($document);
+										#$collection->save($document);
 									}
 
 									echo $operation->insert_event($data['email'], $data['date'], NULL, $operation->get_last_user_event_id($data['email'])+1) ? 1 : 0;

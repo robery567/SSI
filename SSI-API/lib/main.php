@@ -36,7 +36,7 @@ Class Actiune {
 
   public function get_user_event($email = NULL , $date = NULL, $mongo = false) {
     if ($mongo && class_exists('MongoClient') && !is_null($date)) {
-      $collection_name  = $this>get_id($email);
+      $collection_name  = $this->get_id($email);
       $collection_name .= "_event";
       $collection_name .= $date;
 
