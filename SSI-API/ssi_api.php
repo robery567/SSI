@@ -7,7 +7,7 @@
 * @license http://opensource.org/licenses/Apache-2.0 Apache License, Version 2.0
 *
 */
-//namespace SSI\DB\Connection;
+namespace SSI\DB\Connection;
 
 require_once __DIR__.'/lib/main.php';
 require_once __DIR__.'/settings/config.php';;
@@ -127,7 +127,11 @@ try {
 
 							if ($operation->user_exists($data['email'], $data['fbid']) && !$operation->event_exists($data['email'], $data['date'])) {
 									if (mongodb_store && class_exists('MongoClient')) {
-										$collection = $mongo_db->$operation->get_user_id($data['email']).$data['fbid']."_image_event".$operation->get_last_user_event_id($data_['email'])+1;
+										$collection_name  = $operation->get_user_id($data['email']);
+										$collection_name .= "_image_event";
+										$collection_name .= $operation->get_last_user_event_id($data_['email'])+1;
+
+										$collection = $mongo_db->$collection_name;
 
 										$document = array(
 																			"image"		 => $data['image']
@@ -136,7 +140,7 @@ try {
 										$collection->insert($document);
 										$collection->save($document);
 									}
-									
+
 									echo $operation->insert_event($data['email'], $data['date'], $data['data'], $operation->get_last_user_event_id($data['email'])+1) ? 1 : 0;
 							} else if ($operation->user_exists($data['email'], $data['fbid']) && $operation->event_exists($data['email'], $data['date']))
 								echo $operation->alter_event($data['email'], $data['date'], $data['data'], $data['num']) ? 1 : 0;
@@ -185,7 +189,9 @@ try {
 								if (!is_null($data['name']) && filter_var($data['email'], FILTER_VALIDATE_EMAIL))	{
 									if (mongodb_store && class_exists('MongoClient')) {
 										echo $operation->insert_user($data['fbid'], $data['email'], $data['name'], NULL, $data['password']) ? 1 : 0;
-										$collection = $mongo_db->$operation->get_user_id($data['email'])."_image";
+										$collection_name = $operation->get_user_id($data['email']);
+										$collection_name .= "_image";
+										$collection = $mongo_db->$collection_name;
 
 										$document = array(
 																			"image"		 => $data['image']
