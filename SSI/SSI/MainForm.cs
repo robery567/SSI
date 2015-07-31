@@ -112,7 +112,7 @@ namespace SSI
                     }                    
                     eventComboBox.SelectedIndex = 0;
                     eventComboBox.Items.Add("New event");
-                    entryBox.Text = eValues[0].text;                    
+                    entryBox.Text = eValues[0].text;
                     entryImage.Image = dbLink.Base64ToImage(eValues[0].image64);
                     titleTextBox.Text = eValues[0].title;
                 }
@@ -120,6 +120,8 @@ namespace SSI
             else
             {
                 jsonNull = true;
+                eValues.Clear();
+                eventCount = 0;
                 eventComboBox.Items.Add("Event : 1 :");
                 eventComboBox.SelectedIndex = 0;
             }
@@ -198,6 +200,7 @@ namespace SSI
                 catch(WebExceptionWrapper ex)
                 {
                     MessageBox.Show("Please check your internet connection !");
+                    MessageBox.Show(ex.Message);
                     this.Close();
                 }             
                 
@@ -386,7 +389,6 @@ namespace SSI
                    eValues[0].title = titleTextBox.Text;
                }else if (eValues.Count > evNum && evNum > 0)
                {
-                   Console.WriteLine(eValues.Count + " " + evNum);
                    eValues[evNum].text = entryBox.Text;
                    eValues[evNum].image64 = dbLink.ImageToBase64(entryImage.Image, entryImage.Image.RawFormat);
                    eValues[evNum].title = titleTextBox.Text;
@@ -400,7 +402,7 @@ namespace SSI
                if (dbLink.InsertEvent(eventCount, userMail, sCheck, HttpUtility.UrlEncode(jsonArray)).Contains("MySQL server has gone away in"))
                    MessageBox.Show("Image is too big. Maximum size allowed: 500KB");
            }
-           catch(Exception ex)
+           catch(Exception)
            {
                MessageBox.Show("Please select a date");
            }
