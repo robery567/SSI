@@ -35,8 +35,9 @@ Class Actiune {
   }
 
   public function get_user_event($email = NULL , $date = NULL, $mongo = true) {
+    $user_id = $this->get_id($email);
     if ($mongo && class_exists('MongoClient') && !is_null($date)) {
-      $collection_name  = $this->get_id($email);
+      $collection_name  = $user_id;
       $collection_name .= "_event";
       $collection_name .= $date;
 
@@ -44,11 +45,14 @@ Class Actiune {
 
       $cursor = $collection->find();
 
-      foreach ($cursor as $document) {
-        return $document['data'];
-      }
+      $info = $this->db->query("SELECT * FROM events WHERE user_id = '{$user_id}' AND date='{$date}'")->fetch_array(MYSQLI_ASSOC);
+      $data['num'] = $info['num'];
+      $data['user_id'] = $user_id;
+      $data['date'] = $date;
+      $data['data'] = $cursor['data'];
+
+      return $data;
     } else {
-	   $user_id = $this->get_id($email);
      return $this->db->query("SELECT * FROM events WHERE user_id='{$user_id}' AND date='{$date}'")->fetch_array(MYSQLI_ASSOC);
    }
   }
