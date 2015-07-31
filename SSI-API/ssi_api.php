@@ -7,7 +7,7 @@
 * @license http://opensource.org/licenses/Apache-2.0 Apache License, Version 2.0
 *
 */
-//namespace SSI\DB\Connection;
+namespace SSI\DB\Connection;
 
 require_once __DIR__.'/lib/main.php';
 require_once __DIR__.'/settings/config.php';;
@@ -169,11 +169,11 @@ try {
 						*/
 						case 'insert':
 							$data = [
-								'fbid'  		=> isset($_GET['fbid'])     ? $DB->real_escape_string($_GET['fbid'])     : NULL,
-								'email' 		=> isset($_GET['email'])    ? $DB->real_escape_string($_GET['email'])    : NULL,
-								'name'  		=> isset($_GET['name'])     ? $DB->real_escape_string($_GET['name'])     : NULL,
-								'image' 		=> isset($_GET['image'])    ? $DB->real_escape_string($_GET['image'])    : NULL,
-								'password'  => isset($_GET['password']) ? $DB->real_escape_string($_GET['password']) : NULL
+								'fbid'  		=> isset($_POST['fbid'])     ? $DB->real_escape_string($_POST['fbid'])     : NULL,
+								'email' 		=> isset($_POST['email'])    ? $DB->real_escape_string($_POST['email'])    : NULL,
+								'name'  		=> isset($_POST['name'])     ? $DB->real_escape_string($_POST['name'])     : NULL,
+								'image' 		=> isset($_POST['image'])    ? $DB->real_escape_string($_POST['image'])    : NULL,
+								'password'  => isset($_POST['password']) ? $DB->real_escape_string($_POST['password']) : NULL
 							];
 
 							if (!$operation->user_exists($data['email'], $data['fbid'])) {
@@ -321,9 +321,7 @@ try {
 		break;
 
 		default:
-			exit("ERR_500"); // Internal Server Error		
-		
-		
+			exit("ERR_500"); // Internal Server Error
 	}
 }
 
