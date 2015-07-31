@@ -16,6 +16,13 @@ impartasirea propriilor ganduri,sfaturi pentru viitor , chiar si imagini
 - Android (soon)
 
 # Cerinte Sistem #
+# Aplicatie Windows:
+- .NET Framework 4.5
+- Dependinte:
+ ```
+ Facebook.dll
+ Newtonsoft.Json.dll
+ ```
 # API: 
 - Apache/Nginx
 - PHP >= 5.4
@@ -46,4 +53,11 @@ SSH:
 # mysql - u nume_user -p 
 mysql> use nume_database;
 mysql> source cale/ssipdbFINAL.sql;
+```
+# Configurare aplicatie Windows:
+-se creeaza un fisier "apilocation" (fara extensie) in folderul aplicatiei
+-in apilocation se scrie locatia api-ului (cale/director/) , de ex:
+apilocation:
+```
+localhost/ssi/
 ```
