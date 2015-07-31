@@ -122,12 +122,23 @@ try {
 								'email'	 		=> isset($_POST['email']) ? $DB->real_escape_string($_POST['email']) : NULL,
 								'date' 			=> isset($_POST['date'])  ? $DB->real_escape_string($_POST['date'])  : NULL,
 								'data' 			=> isset($_POST['data'])  ? $DB->real_escape_string($_POST['data'])  : NULL,
-								'num'           => isset($_POST['num'])   ? $DB->real_escape_string($_POST['num'])   : NULL,
+								'num'       => isset($_POST['num'])   ? $DB->real_escape_string($_POST['num'])   : NULL,
 							];
 
-							if ($operation->user_exists($data['email'], $data['fbid']) && !$operation->event_exists($data['email'], $data['date']))
-								echo $operation->insert_event($data['email'], $data['date'], $data['data'], $data['num']) ? 1 : 0;
-							else if ($operation->user_exists($data['email'], $data['fbid']) && $operation->event_exists($data['email'], $data['date']))
+							if ($operation->user_exists($data['email'], $data['fbid']) && !$operation->event_exists($data['email'], $data['date'])) {
+									if (mongodb_store && class_exists('MongoClient')) {
+										$collection = $mongo_db->$operation->get_user_id($data['email']).$data['fbid']."_image_event".$operation->get_last_user_event_id($data_['email'])+1;
+
+										$document = array(
+																			"image"		 => $data['image']
+																		 );
+
+										$collection->insert($document);
+										$collection->save($document);
+									}
+									
+									echo $operation->insert_event($data['email'], $data['date'], $data['data'], $operation->get_last_user_event_id($data['email'])+1) ? 1 : 0;
+							} else if ($operation->user_exists($data['email'], $data['fbid']) && $operation->event_exists($data['email'], $data['date']))
 								echo $operation->alter_event($data['email'], $data['date'], $data['data'], $data['num']) ? 1 : 0;
 
 							else
@@ -173,12 +184,18 @@ try {
 
 								if (!is_null($data['name']) && filter_var($data['email'], FILTER_VALIDATE_EMAIL))	{
 									if (mongodb_store && class_exists('MongoClient')) {
-										echo $operation->insert_user($data['fbid'], $data['email'], $data['name'], $data['image'], $data['password']) ? 1 : 0;
-									} else
-											echo $operation->insert_user($data['fbid'], $data['email'], $data['name'], NULL, $data['password']) ? 1 : 0;
-											$collection = $mongo_db->$data['email'].$data['fbid']."_image";
-											$document = array( "email" => $data['email'], "image" => $data['image'] );
-											$collection->insert($document);
+										echo $operation->insert_user($data['fbid'], $data['email'], $data['name'], NULL, $data['password']) ? 1 : 0;
+										$collection = $mongo_db->$operation->get_user_id($data['email'])."_image";
+
+										$document = array(
+																			"image"		 => $data['image']
+																		 );
+
+										$collection->insert($document);
+										$collection->save($document);
+									} else {
+											echo $operation->insert_user($data['fbid'], $data['email'], $data['name'], $data['image'], $data['password']) ? 1 : 0;
+										}
 								}
 							} else if ($operation->user_exists($data['email'], $data['fbid']) == 2) {
 									if (is_null($data['fbid']))
