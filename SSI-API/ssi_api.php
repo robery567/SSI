@@ -19,7 +19,7 @@ development_mode ? error_reporting(E_ALL) : error_reporting(0);
 try {
 	// Initializing the MongoDB Connection if enabled
 	if (mongodb_store && class_exists('MongoClient')) {
-		$mongo = new MongoClient();
+		$mongo = new \MongoClient();
 		$mongo_db = $mongo->users;
 	}
 
