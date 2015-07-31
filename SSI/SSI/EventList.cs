@@ -7,10 +7,12 @@ using System.Drawing;
 
 namespace SSI
 {
+    //clasa in a carei instanta este incarcat json-ul
     class EventList
     {
         public List<EventValues> values = new List<EventValues>();
     }
+    //clasa ce contine elemente ale jsonului cu datele event-ului
     public class EventValues
     {
         public int number { set; get; }
@@ -18,6 +20,10 @@ namespace SSI
         public bool notif { set; get; }
         public string image64 { set; get; }
         public string title { set; get; }
+        public string alarm { set; get; }
+        public string notification { set; get; }
+        public string objective { get; set; }
+        public string color { get; set; }
     }
     class EventColor
     {

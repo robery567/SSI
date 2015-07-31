@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 
 namespace SSI
 {
+    //clasa ce hashuieste parola de la inregistrare precum si la login , algoritm-ul de hash folosit:SHA512
     class PasswordHash
     {
         public PasswordHash()

@@ -44,7 +44,8 @@ namespace SSI
         }
         private void button_Click(object sender, EventArgs e)
         { 
-
+            var form = Form.ActiveForm as MainForm;
+            form.objectiveControls.BackColor = ((Button)sender).BackColor;
         }
     }
 }

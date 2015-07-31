@@ -34,7 +34,7 @@ namespace SSI
         {
             bool ok=true;
             
-            if (nameBox.Text != null & emailBox.Text != null & pwdBox.Text!=null)
+            if (nameBox.Text != null && emailBox.Text != null && pwdBox.Text!=null && pwdcheckBox!=null)
             {
                 if (pwdBox.Text.Length<6)
                 {

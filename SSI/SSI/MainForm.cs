@@ -46,7 +46,7 @@ namespace SSI
         EventArgs evAr = null;
         object last, lastPic;
         bool first = true;        
-        
+        //functie ce returneaza link-ul la imaginea de profil a utilizatorului
         public string GetProfileImageUrl(string facebookId)
         {
             return "http://graph.facebook.com/" + facebookId + "/picture?width=150&height=150";
@@ -86,7 +86,7 @@ namespace SSI
                     }break;
            }
         }              
-        
+        //functie ce verifica existenta eventurilor in baza de date si se ocupa de afisarea lor
         private void CheckDatabase(DateTime dateCheck)
         {
             eventComboBox.Items.Clear();
@@ -134,6 +134,7 @@ namespace SSI
             label1.Visible = true; 
             LoadData();
         }        
+        //metoda ce se ocupa de preluarea datelor utilizatorului , apeleaza la randul ei functii ce modifica obiectele afisate
         public void LoadData()
         {
             switch(Settings.Default.defkey)
@@ -209,6 +210,8 @@ namespace SSI
             }
                
         }
+        //timer ce porneste in momentul apasarii butonului de login al fb , verifica statutul loginului
+        //se face legatura cu formul de Login ,acesta schimband valoarea lui loginOk
         private void timer1_Tick(object sender, EventArgs e)
         {
             if(loginOk=='t')
@@ -230,6 +233,7 @@ namespace SSI
             entryImage.ImageLocation = openFileDialog1.FileName;
             entryImage.SizeMode = PictureBoxSizeMode.Zoom;
         }        
+       //functia ce initializeaza "calendarul" format dintr-un tablelayoutpanel , initializand in fiecare celula un label,picturebox
        private void TableLayoutCreator()
         {
             tableLayoutPanel1.Dispose();
@@ -338,6 +342,8 @@ namespace SSI
        {
            TableLayoutCreator();
        }
+        //evenimentul de click al labelului ( apelat totodata atunci cand este apasat si un picturebox(practic,o celula din tablelayoutpanel
+        //acel picturebox avand umpland toata celula) din "calendar")
        private void LabelClickEvent(object sender , EventArgs e)
        {
            dateLabel.Visible = true;
@@ -375,6 +381,7 @@ namespace SSI
         {
            TableLayoutCreator();
         }
+        //evenimentul de click al butonului de save , salveaza "event-ul" in baza de date
        private void saveToDb_Click(object sender, EventArgs e)
        {
            try
@@ -399,8 +406,10 @@ namespace SSI
                    eventCount++;
                }
                string jsonArray = JsonConvert.SerializeObject(eValues);
-               if (dbLink.InsertEvent(eventCount, userMail, sCheck, HttpUtility.UrlEncode(jsonArray)).Contains("MySQL server has gone away in"))
-                   MessageBox.Show("Image is too big. Maximum size allowed: 500KB");
+               Console.WriteLine(dbLink.InsertEvent(eventCount, userMail, sCheck, HttpUtility.UrlEncode(jsonArray)));
+                   
+
+                 CheckDatabase(dateDb);             
            }
            catch(Exception)
            {
@@ -455,6 +464,7 @@ namespace SSI
            registTimer.Start();
            this.AcceptButton = loginWindow1.button1;
        }
+        //functie de schimbare a interfetei prin schimbarea elementelor vizibile
        private void showElements()
        {
            loginBtn.Visible = false;
@@ -480,6 +490,7 @@ namespace SSI
            userPhoto.Visible = true;
            label1.Text = userFullName;
        }
+        //opusul lui showElements() 
        private void hideElements()
        {
            loginBtn.Visible = true;
@@ -519,8 +530,17 @@ namespace SSI
                entryImage.Image = Resources.clickheretoselect;
            }
        }
+
+       private void sendObjectiveBtn_Click(object sender, EventArgs e)
+       {
+           EventList objectiveList = new EventList();
+           objectiveList.values.Add(new EventValues{text=richTextBox1.Text , title=textBox1.Text , color = objectiveControls.BackColor.ToString()});
+           //dbLink.InsertEvent(1,ssidefault@gmail.com)
+       }
        
     }
+    
+   //clasa ce converteste diferite date (luna in nr lunii , ziua saptamanii in nr zilei )
     class DateConverter
     {
         public DateConverter()

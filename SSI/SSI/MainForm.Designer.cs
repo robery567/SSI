@@ -34,6 +34,11 @@
             this.label1 = new System.Windows.Forms.Label();
             this.entryBox = new System.Windows.Forms.RichTextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
+            this.objTextBox = new System.Windows.Forms.Label();
+            this.titleTextBox = new System.Windows.Forms.TextBox();
+            this.titleLabel = new System.Windows.Forms.Label();
             this.savedLabel = new System.Windows.Forms.Label();
             this.eventComboBox = new System.Windows.Forms.ComboBox();
             this.fullSizeImageButton = new System.Windows.Forms.Button();
@@ -64,9 +69,8 @@
             this.imageFullSize1 = new SSI.ImageFullSize();
             this.loginWindow1 = new SSI.LoginWindow();
             this.registerWindow1 = new SSI.RegisterWindow();
-            this.titleLabel = new System.Windows.Forms.Label();
-            this.titleTextBox = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.entryImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.yearBox)).BeginInit();
             this.objectiveControls.SuspendLayout();
@@ -101,6 +105,7 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.groupBox2);
             this.groupBox1.Controls.Add(this.titleTextBox);
             this.groupBox1.Controls.Add(this.titleLabel);
             this.groupBox1.Controls.Add(this.savedLabel);
@@ -113,11 +118,56 @@
             this.groupBox1.Location = new System.Drawing.Point(658, 12);
             this.groupBox1.MinimumSize = new System.Drawing.Size(288, 296);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(414, 345);
+            this.groupBox1.Size = new System.Drawing.Size(414, 485);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Day Review";
             this.groupBox1.Visible = false;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.richTextBox2);
+            this.groupBox2.Controls.Add(this.objTextBox);
+            this.groupBox2.Location = new System.Drawing.Point(99, 171);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(200, 100);
+            this.groupBox2.TabIndex = 18;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Objective";
+            this.groupBox2.Visible = false;
+            // 
+            // richTextBox2
+            // 
+            this.richTextBox2.Location = new System.Drawing.Point(6, 35);
+            this.richTextBox2.Name = "richTextBox2";
+            this.richTextBox2.Size = new System.Drawing.Size(188, 59);
+            this.richTextBox2.TabIndex = 1;
+            this.richTextBox2.Text = "";
+            // 
+            // objTextBox
+            // 
+            this.objTextBox.AutoSize = true;
+            this.objTextBox.Location = new System.Drawing.Point(69, 16);
+            this.objTextBox.Name = "objTextBox";
+            this.objTextBox.Size = new System.Drawing.Size(19, 13);
+            this.objTextBox.TabIndex = 0;
+            this.objTextBox.Text = "tttt";
+            // 
+            // titleTextBox
+            // 
+            this.titleTextBox.Location = new System.Drawing.Point(208, 123);
+            this.titleTextBox.Name = "titleTextBox";
+            this.titleTextBox.Size = new System.Drawing.Size(100, 20);
+            this.titleTextBox.TabIndex = 17;
+            // 
+            // titleLabel
+            // 
+            this.titleLabel.AutoSize = true;
+            this.titleLabel.Location = new System.Drawing.Point(168, 123);
+            this.titleLabel.Name = "titleLabel";
+            this.titleLabel.Size = new System.Drawing.Size(33, 13);
+            this.titleLabel.TabIndex = 16;
+            this.titleLabel.Text = "Title: ";
             // 
             // savedLabel
             // 
@@ -146,7 +196,7 @@
             this.fullSizeImageButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.fullSizeImageButton.FlatAppearance.BorderSize = 0;
             this.fullSizeImageButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.fullSizeImageButton.Location = new System.Drawing.Point(369, 170);
+            this.fullSizeImageButton.Location = new System.Drawing.Point(369, 310);
             this.fullSizeImageButton.Name = "fullSizeImageButton";
             this.fullSizeImageButton.Size = new System.Drawing.Size(42, 40);
             this.fullSizeImageButton.TabIndex = 13;
@@ -179,7 +229,7 @@
             this.entryImage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.entryImage.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.entryImage.Image = global::SSI.Properties.Resources.clickheretoselect;
-            this.entryImage.Location = new System.Drawing.Point(3, 170);
+            this.entryImage.Location = new System.Drawing.Point(3, 310);
             this.entryImage.Name = "entryImage";
             this.entryImage.Size = new System.Drawing.Size(408, 172);
             this.entryImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -273,7 +323,7 @@
             this.objectiveControls.Controls.Add(this.label3);
             this.objectiveControls.Controls.Add(this.label2);
             this.objectiveControls.Controls.Add(this.dateTimePicker1);
-            this.objectiveControls.Location = new System.Drawing.Point(62, 239);
+            this.objectiveControls.Location = new System.Drawing.Point(62, 379);
             this.objectiveControls.Name = "objectiveControls";
             this.objectiveControls.Size = new System.Drawing.Size(492, 170);
             this.objectiveControls.TabIndex = 16;
@@ -289,6 +339,7 @@
             this.sendObjectiveBtn.TabIndex = 10;
             this.sendObjectiveBtn.Text = "Save Objective";
             this.sendObjectiveBtn.UseVisualStyleBackColor = true;
+            this.sendObjectiveBtn.Click += new System.EventHandler(this.sendObjectiveBtn_Click);
             // 
             // colorWindow1
             // 
@@ -416,7 +467,7 @@
             this.logoutBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.logoutBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.logoutBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.logoutBtn.Location = new System.Drawing.Point(972, 363);
+            this.logoutBtn.Location = new System.Drawing.Point(972, 503);
             this.logoutBtn.Name = "logoutBtn";
             this.logoutBtn.Size = new System.Drawing.Size(100, 46);
             this.logoutBtn.TabIndex = 4;
@@ -450,28 +501,12 @@
             this.registerWindow1.TabIndex = 13;
             this.registerWindow1.Visible = false;
             // 
-            // titleLabel
-            // 
-            this.titleLabel.AutoSize = true;
-            this.titleLabel.Location = new System.Drawing.Point(168, 123);
-            this.titleLabel.Name = "titleLabel";
-            this.titleLabel.Size = new System.Drawing.Size(33, 13);
-            this.titleLabel.TabIndex = 16;
-            this.titleLabel.Text = "Title: ";
-            // 
-            // titleTextBox
-            // 
-            this.titleTextBox.Location = new System.Drawing.Point(208, 123);
-            this.titleTextBox.Name = "titleTextBox";
-            this.titleTextBox.Size = new System.Drawing.Size(100, 20);
-            this.titleTextBox.TabIndex = 17;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Azure;
-            this.ClientSize = new System.Drawing.Size(1084, 421);
+            this.ClientSize = new System.Drawing.Size(1084, 561);
             this.Controls.Add(this.loginBtn);
             this.Controls.Add(this.imageFullSize1);
             this.Controls.Add(this.loginWindow1);
@@ -487,13 +522,15 @@
             this.Controls.Add(this.objectiveControls);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(441, 278);
+            this.MinimumSize = new System.Drawing.Size(441, 500);
             this.Name = "MainForm";
             this.Text = "SSI";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.entryImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.yearBox)).EndInit();
             this.objectiveControls.ResumeLayout(false);
@@ -524,7 +561,6 @@
         private RegisterWindow registerWindow1;
         private System.Windows.Forms.Timer registTimer;
         private System.Windows.Forms.Button registerBtn;
-        private System.Windows.Forms.GroupBox objectiveControls;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.DateTimePicker dateTimePicker2;
         private System.Windows.Forms.Label label3;
@@ -542,5 +578,9 @@
         private System.Windows.Forms.Label savedLabel;
         private System.Windows.Forms.TextBox titleTextBox;
         private System.Windows.Forms.Label titleLabel;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.RichTextBox richTextBox2;
+        private System.Windows.Forms.Label objTextBox;
+        public System.Windows.Forms.GroupBox objectiveControls;
     }
 }
