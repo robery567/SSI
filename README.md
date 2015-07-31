@@ -24,7 +24,7 @@ impartasirea propriilor ganduri,sfaturi pentru viitor , chiar si imagini
 - Spatiu de stocare pentru imagini
 
 # Configurare API:
-- Configurarea se realizeaza in fisierul config.php din directorul settings
+- Configurarea se realizeaza in fisierul `config.php` din directorul `settings`
 ```php
 
 define ('development_mode', true | false); # Daca development_mode este setat pe true vor fi afisate toate erorile
@@ -38,4 +38,11 @@ $mysql = [
     'database' => '' # numele bazei de date unde vor fi stocate datele trimise si primite de catre aplicatie
 ];
 
+```
+- Se importa fisierul SQL `ssipdbFINAL.sql` in baza de date dorita
+SSH: 
+```
+# mysql - u nume_user -p 
+mysql> use nume_database;
+mysql> source cale/ssipdbFINAL.sql;
 ```
