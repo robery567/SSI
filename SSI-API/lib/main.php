@@ -3,8 +3,9 @@
 namespace SSI\Lib\Main;
 
 Class Actiune {
-  public function __construct($DB) {
+  public function __construct($DB, $mongo_db = false) {
   		$this->db = $DB;
+      $this->mongo_db = $mongo_db;
   }
 
   private function get_id ($email = NULL) {
@@ -28,12 +29,38 @@ Class Actiune {
     return $this->db->query("SELECT * FROM users WHERE email='{$email}'")->fetch_array(MYSQLI_ASSOC);
   }
 
-  public function get_user_events($email = NULL, $date = NULL) {
+  public function get_user_events($email = NULL, $date = NULL, $mongo = false) {
+    if ($mongo && class_exists('MongoClient') && !is_null($date)) {
+      $user_id = (is_null($email)) ? 0 : $this->get_id($email);
 
+      $data = $this->db->query("SELECT COUNT(*) AS events_number, MIN(id) AS min_id, MAX(id) AS max_id, data FROM events WHERE user_id='{$user_id}' AND date='{$date}'")->fetch_array(MYSQLI_ASSOC);
 
-	$user_id = (is_null($email)) ? 0 : $this->get_id($email);
+      for ($i = $data['min_id']; $i <= $data['max_id']; $i++) {
+          $query = $this->db->query("SELECT * FROM events WHERE user_id='{$user_id}' AND date='{$date}' AND id='{$i}'")->fetch_array(MYSQLI_ASSOC);
+          $work[$i]['data'] = json_decode($query['data']);
+          $collection_name  = $user_id;
+          $collection_name .= "_image_event";
+          $collection_name .= $i;
 
-    return (is_null($date)) ? $this->db->query("SELECT * FROM events WHERE user_id='{$user_id}'")->fetch_array(MYSQLI_ASSOC) : $this->db->query("SELECT * FROM events WHERE user_id='{$user_id}' AND date='{$date}'")->fetch_array(MYSQLI_ASSOC);
+          $collection = $mongo_db->$collection_name;
+          $cursor = $collection->find();
+
+          foreach ($cursor as $document) {
+              $work[$i]['data']['image'] = $document['image'];
+          }
+
+          $work[$i]['num'] = $i;
+          $work[$i]['user_id'] = $user_id;
+          $work[$i]['date'] = $query['date'];
+          $work[$i]['data'] = json_encode($work[$i][$data]);
+      }
+
+      return $work;
+
+    } else {
+  	  $user_id = (is_null($email)) ? 0 : $this->get_id($email);
+      return (is_null($date)) ? $this->db->query("SELECT * FROM events WHERE user_id='{$user_id}'")->fetch_array(MYSQLI_ASSOC) : $this->db->query("SELECT * FROM events WHERE user_id='{$user_id}' AND date='{$date}'")->fetch_array(MYSQLI_ASSOC);
+    }
   }
 
   public function get_user_event($email = NULL , $date = NULL) {

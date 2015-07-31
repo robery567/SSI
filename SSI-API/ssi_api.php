@@ -30,7 +30,7 @@ try {
 			if ($DB->connect_error) {
 				throw new \Exception("PROBLEMA_CONEXIUNE");
 			} else {
-				$operation = new Actiune( $DB );
+				$operation = new Actiune( $DB, $mongo_db );
 
 				if(!$operation->check_database($mysql['database'])) {
 					throw new \Exception("DATABASE_CORUPT");
@@ -129,7 +129,7 @@ try {
 									if (mongodb_store && class_exists('MongoClient')) {
 										$collection_name  = $operation->get_user_id($data['email']);
 										$collection_name .= "_image_event";
-										$collection_name .= $operation->get_last_user_event_id($data_['email'])+1;
+										$collection_name .= $operation->get_last_user_event_id($data['email'])+1;
 
 										$collection = $mongo_db->$collection_name;
 
