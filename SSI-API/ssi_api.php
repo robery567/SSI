@@ -118,11 +118,11 @@ try {
 						*/
 						case 'insert_event':
 							$data = [
-								'fbid' 			=> isset($_GET['fbid'])  ? $DB->real_escape_string($_GET['fbid'])  : NULL,
-								'email'	 		=> isset($_GET['email']) ? $DB->real_escape_string($_GET['email']) : NULL,
-								'date' 			=> isset($_GET['date'])  ? $DB->real_escape_string($_GET['date'])  : NULL,
-								'data' 			=> isset($_GET['data'])  ? $DB->real_escape_string($_GET['data'])  : NULL,
-								'num'       => isset($_GET['num'])   ? $DB->real_escape_string($_GET['num'])   : NULL,
+								'fbid' 			=> isset($_POST['fbid'])  ? $DB->real_escape_string($_POST['fbid'])  : NULL,
+								'email'	 		=> isset($_POST['email']) ? $DB->real_escape_string($_POST['email']) : NULL,
+								'date' 			=> isset($_POST['date'])  ? $DB->real_escape_string($_POST['date'])  : NULL,
+								'data' 			=> isset($_POST['data'])  ? $DB->real_escape_string($_POST['data'])  : NULL,
+								'num'       => isset($_POST['num'])   ? $DB->real_escape_string($_POST['num'])   : NULL,
 							];
 
 							if ($operation->user_exists($data['email'], $data['fbid']) && !$operation->event_exists($data['email'], $data['date'])) {

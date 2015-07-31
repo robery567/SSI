@@ -44,14 +44,20 @@ Class Actiune {
       $collection = $this->mongo_db->$collection_name;
 
       $cursor = $collection->find();
-
+      if($this->event_exists($email,$date))
+	  {
       $info = $this->db->query("SELECT * FROM events WHERE user_id = '{$user_id}' AND date='{$date}'")->fetch_array(MYSQLI_ASSOC);
       $data['num'] = $info['num'];
       $data['user_id'] = $user_id;
       $data['date'] = $date;
-      $data['data'] = iterator_to_array($cursor['data']);
+	  foreach ($cursor as $document)
+	      $data['data']=$document['data'];
+      echo($data['data']);
 
-      return json_encode($data);
+      return $data;
+	  }
+	  else
+		  return null;
     } else {
      return $this->db->query("SELECT * FROM events WHERE user_id='{$user_id}' AND date='{$date}'")->fetch_array(MYSQLI_ASSOC);
    }
