@@ -29,7 +29,7 @@ impartasirea propriilor ganduri,sfaturi pentru viitor , chiar si imagini
 - PHP >= 5.4
 - MongoDB
 - Mysql / MariaDB / PerconaDB
-- Spatiu de stocare pentru imagini
+- Spatiu de stocare pentru imagini 
 
 # Configurare API:
 - Configurarea se realizeaza in fisierul `config.php` din directorul `settings`
@@ -63,3 +63,15 @@ apilocation:
 ```
 localhost/ssi/
 ```
+
+# Mediu de dezvoltare utilizat :
+- FreeBSD 10.1 `MariaDB 10`
+- Ubuntu-Server 14.04.1 LTS 
+   ``` 
+     Server  web :
+      - Apache 2.2
+      - PHP 5.5.9 + Mongo extension + MySQL Extension + Memcached
+      
+     MongoDB-Server
+   ```
+  - Windows 10/8.1/7 `working`
