@@ -145,15 +145,25 @@ namespace SSI
                 }
                 break;
                 case "ssiuser":
-                {                                        
-                    string jsonResult = dbLink.GetInfo(userMail);
-                    JObject jsonArray = JObject.Parse(jsonResult);
-                    userFullName = jsonArray.GetValue("name").ToString();
-                    showElements();
-                    if(jsonArray.GetValue("image").ToString()!="")                    
-                    userPhoto.Image = dbLink.Base64ToImage(jsonArray.GetValue("image").ToString());
-                    logoutBtn.BackgroundImage = Resources.SSI_Logout_1;
-                    caller = "ssiuser";
+                {
+                    try
+                    {
+                        string jsonResult = dbLink.GetInfo(userMail);
+                        JObject jsonArray = JObject.Parse(jsonResult);
+                        userFullName = jsonArray.GetValue("name").ToString();
+                        showElements();
+                        if (jsonArray.GetValue("image").ToString() != "")
+                            userPhoto.Image = dbLink.Base64ToImage(jsonArray.GetValue("image").ToString());
+                        logoutBtn.BackgroundImage = Resources.SSI_Logout_1;
+                        caller = "ssiuser";
+                    }
+                    catch(Newtonsoft.Json.JsonReaderException ex)
+                    {
+                        MessageBox.Show(ex.Message + " You will be logged out now");
+                        Properties.Settings.Default.defkey = "notlogged";
+                        Properties.Settings.Default.Save();
+                        LoadData();
+                    }
                 }
                 break;
                 default:
@@ -535,7 +545,7 @@ namespace SSI
        {
            EventList objectiveList = new EventList();
            objectiveList.values.Add(new EventValues{text=richTextBox1.Text , title=textBox1.Text , color = objectiveControls.BackColor.ToString()});
-           //dbLink.InsertEvent(1,ssidefault@gmail.com)
+           
        }
        
     }
