@@ -23,4 +23,19 @@ impartasirea propriilor ganduri,sfaturi pentru viitor , chiar si imagini
 - Mysql / MariaDB / PerconaDB
 - Spatiu de stocare pentru imagini
 
-#
+# Configurare API:
+- Configurarea se realizeaza in fisierul config.php din directorul settings
+```php
+
+define ('development_mode', true | false); # Daca development_mode este setat pe true vor fi afisate toate erorile
+define ('mongodb_store', true | false);  # Daca mongodb_store este setat pe true imaginile vor fi stocate in colectii MongoDB
+
+$mysql = [
+    'driver' => 'mysqli',  # A nu se modifica
+    'hostname' => 'host_gazda', # ip-ul gazdei serverului mysql/mariadb
+    'username' => 'user_gazda', # username-ul autorizat de catre serverul gazda MySQL 
+    'password' => '', # Parola aferenta user-ului
+    'database' => '' # numele bazei de date unde vor fi stocate datele trimise si primite de catre aplicatie
+];
+
+```
