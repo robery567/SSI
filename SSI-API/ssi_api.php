@@ -128,20 +128,20 @@ try {
 							if ($operation->user_exists($data['email'], $data['fbid']) && !$operation->event_exists($data['email'], $data['date'])) {
 									if (mongodb_store && class_exists('MongoClient')) {
 										$collection_name  = $operation->get_user_id($data['email']);
-										$collection_name .= "_image_event";
+										$collection_name .= "_event";
 										$collection_name .= $operation->get_last_user_event_id($data['email'])+1;
 
 										$collection = $mongo_db->$collection_name;
 
 										$document = array(
-																			"image"		 => $data['image']
+																			"data"		 => $data['data']
 																		 );
 
 										$collection->insert($document);
 										$collection->save($document);
 									}
 
-									echo $operation->insert_event($data['email'], $data['date'], $data['data'], $operation->get_last_user_event_id($data['email'])+1) ? 1 : 0;
+									echo $operation->insert_event($data['email'], $data['date'], NULL, $operation->get_last_user_event_id($data['email'])+1) ? 1 : 0;
 							} else if ($operation->user_exists($data['email'], $data['fbid']) && $operation->event_exists($data['email'], $data['date']))
 								echo $operation->alter_event($data['email'], $data['date'], $data['data'], $data['num']) ? 1 : 0;
 
