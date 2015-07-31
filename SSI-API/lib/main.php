@@ -49,7 +49,7 @@ Class Actiune {
       $data['num'] = $info['num'];
       $data['user_id'] = $user_id;
       $data['date'] = $date;
-      $data['data'] = $cursor['data'];
+      $data['data'] = iterator_to_array($cursor['data']);
 
       return json_encode($data);
     } else {
