@@ -23,6 +23,7 @@ impartasirea propriilor ganduri,sfaturi pentru viitor , chiar si imagini
  Facebook.dll
  Newtonsoft.Json.dll
  ```
+ 
 # API: 
 - Apache/Nginx
 - PHP >= 5.4
