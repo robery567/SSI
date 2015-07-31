@@ -30,43 +30,27 @@ Class Actiune {
   }
 
   public function get_user_events($email = NULL, $date = NULL, $mongo = false) {
-    if ($mongo && class_exists('MongoClient') && !is_null($date)) {
-      $user_id = (is_null($email)) ? 0 : $this->get_id($email);
-
-      $data = $this->db->query("SELECT COUNT(*) AS events_number, MIN(id) AS min_id, MAX(id) AS max_id, data FROM events WHERE user_id='{$user_id}' AND date='{$date}'")->fetch_array(MYSQLI_ASSOC);
-
-      for ($i = $data['min_id']; $i <= $data['max_id']; $i++) {
-          $query = $this->db->query("SELECT * FROM events WHERE user_id='{$user_id}' AND date='{$date}' AND id='{$i}'")->fetch_array(MYSQLI_ASSOC);
-          $work[$i]['data'] = json_decode($query['data']);
-          $collection_name  = $user_id;
-          $collection_name .= "_image_event";
-          $collection_name .= $i;
-
-          $collection = $this->mongo_db->$collection_name;
-          $cursor = $collection->find();
-
-          foreach ($cursor as $document) {
-              $work[$i]['data']['image'] = $document['image'];
-          }
-
-          $work[$i]['num'] = $i;
-          $work[$i]['user_id'] = $user_id;
-          $work[$i]['date'] = $query['date'];
-          $work[$i]['data'] = json_encode($work[$i][$data]);
-      }
-
-      return $work;
-
-    } else {
   	  $user_id = (is_null($email)) ? 0 : $this->get_id($email);
       return (is_null($date)) ? $this->db->query("SELECT * FROM events WHERE user_id='{$user_id}'")->fetch_array(MYSQLI_ASSOC) : $this->db->query("SELECT * FROM events WHERE user_id='{$user_id}' AND date='{$date}'")->fetch_array(MYSQLI_ASSOC);
-    }
   }
 
-  public function get_user_event($email = NULL , $date = NULL) {
+  public function get_user_event($email = NULL , $date = NULL, $mongo = false) {
+    if ($mongo && class_exists('MongoClient') && !is_null($date)) {
+      $collection_name  = $this>get_id($email);
+      $collection_name .= "_event";
+      $collection_name .= $date;
 
-	$user_id = $this->get_id($email);
-    return $this->db->query("SELECT * FROM events WHERE user_id='{$user_id}' AND date='{$date}'")->fetch_array(MYSQLI_ASSOC);
+      $collection = $this->mongo_db->$collection_name;
+
+      $cursor = $collection->find();
+
+      foreach ($cursor as $document) {
+        return $document['data'];
+      }
+    } else {
+	   $user_id = $this->get_id($email);
+     return $this->db->query("SELECT * FROM events WHERE user_id='{$user_id}' AND date='{$date}'")->fetch_array(MYSQLI_ASSOC);
+   }
   }
   public function insert_user($fbid = NULL, $email = NULL, $name = NULL, $image = NULL, $password = NULL) {
 
