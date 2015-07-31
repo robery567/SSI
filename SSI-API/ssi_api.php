@@ -142,8 +142,23 @@ try {
 									}
 
 									echo $operation->insert_event($data['email'], $data['date'], NULL, $data['num']) ? 1 : 0;
-							} else if ($operation->user_exists($data['email'], $data['fbid']) && $operation->event_exists($data['email'], $data['date']))
+							} else if ($operation->user_exists($data['email'], $data['fbid']) && $operation->event_exists($data['email'], $data['date'])) {
 								echo $operation->alter_event($data['email'], $data['date'], $data['data'], $data['num']) ? 1 : 0;
+								if (mongodb_store && class_exists('MongoClient')) {
+									$collection_name  = $operation->get_user_id($data['email']);
+									$collection_name .= "_event";
+									$collection_name .= $data['date'];
+
+									$collection = $mongo_db->$collection_name;
+
+									$document = array(
+																	"data"		 => $data['data']
+																	 );
+
+									$collection->insert($document);
+									//$collection->save($document);
+								}
+							}
 
 							else
 								throw new \Exception ("INCORRECT_CREDENTIALS");
