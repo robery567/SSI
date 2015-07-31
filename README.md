@@ -14,3 +14,13 @@ impartasirea propriilor ganduri,sfaturi pentru viitor , chiar si imagini
 - [Aplicatie Desktop](https://github.com/robery567/SSI/tree/master/SSI)
 - [Site Prezentare](https://github.com/robery567/SSI/tree/master/SSI-WEB)
 - Android (soon)
+
+# Cerinte Sistem #
+# API: 
+- Apache/Nginx
+- PHP >= 5.4
+- MongoDB
+- Mysql / MariaDB / PerconaDB
+- Spatiu de stocare pentru imagini
+
+#
