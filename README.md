@@ -56,8 +56,9 @@ mysql> use nume_database;
 mysql> source cale/ssipdbFINAL.sql;
 ```
 # Configurare aplicatie Windows:
-- Se creeaza un fisier 'apilocation' (fara extensie) in folderul aplicatiei
-- In 'apilocation' se scrie locatia api-ului ('cale/director/') , de ex:
+- Se creeaza un fisier `apilocation` (fara extensie) in folderul aplicatiei
+- In `apilocation` se scrie locatia api-ului (`cale/director/`) , de ex:
+
 apilocation:
 ```
 localhost/ssi/
