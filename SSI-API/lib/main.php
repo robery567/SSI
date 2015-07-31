@@ -51,7 +51,7 @@ Class Actiune {
       $data['date'] = $date;
       $data['data'] = $cursor['data'];
 
-      return $data;
+      return json_encode($data);
     } else {
      return $this->db->query("SELECT * FROM events WHERE user_id='{$user_id}' AND date='{$date}'")->fetch_array(MYSQLI_ASSOC);
    }
