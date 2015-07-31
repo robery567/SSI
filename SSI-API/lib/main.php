@@ -42,7 +42,7 @@ Class Actiune {
           $collection_name .= "_image_event";
           $collection_name .= $i;
 
-          $collection = $mongo_db->$collection_name;
+          $collection = $this->mongo_db->$collection_name;
           $cursor = $collection->find();
 
           foreach ($cursor as $document) {
