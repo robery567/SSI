@@ -47,14 +47,16 @@ Class Actiune {
       if($this->event_exists($email,$date))
 	  {
       $info = $this->db->query("SELECT * FROM events WHERE user_id = '{$user_id}' AND date='{$date}'")->fetch_array(MYSQLI_ASSOC);
-      $data['num'] = $info['num'];
+	  	  foreach ($cursor as $document)
+	      $info['data']=stripslashes($document['data']);
+	  return $info;
+	  /*$data['num'] = $info['num'];
       $data['user_id'] = $user_id;
       $data['date'] = $date;
 	  foreach ($cursor as $document)
 	      $data['data']=$document['data'];
-      echo($data['data']);
 
-      return $data;
+      return json_encode($data);*/
 	  }
 	  else
 		  return null;
