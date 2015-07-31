@@ -129,7 +129,7 @@ try {
 									if (mongodb_store && class_exists('MongoClient')) {
 										$collection_name  = $operation->get_user_id($data['email']);
 										$collection_name .= "_event";
-										$collection_name .= date('Y-m-d');
+										$collection_name .= $data['date'];
 
 										$collection = $mongo_db->$collection_name;
 
