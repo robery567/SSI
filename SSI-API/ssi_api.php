@@ -7,7 +7,7 @@
 * @license http://opensource.org/licenses/Apache-2.0 Apache License, Version 2.0
 *
 */
-namespace SSI\DB\Connection;
+//namespace SSI\DB\Connection;
 
 require_once __DIR__.'/lib/main.php';
 require_once __DIR__.'/settings/config.php';;
