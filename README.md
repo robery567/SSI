@@ -40,6 +40,7 @@ $mysql = [
 
 ```
 - Se importa fisierul SQL `ssipdbFINAL.sql` in baza de date dorita
+
 SSH: 
 ```
 # mysql - u nume_user -p 
