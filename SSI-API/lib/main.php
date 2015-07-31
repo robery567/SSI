@@ -24,9 +24,26 @@ Class Actiune {
     return $this->db->query("SELECT COUNT(DISTINCT `table_name`) FROM `information_schema`.`columns` WHERE `table_schema` = '{$database}'")->num_rows;
  }
 
-  public function get_user_details($email = NULL) {
+  public function get_user_details($email = NULL, $mongo = true) {
+    if ($mongo && class_exists('MongoClient') && !is_null($email)) {
+      $data = $this->db->query("SELECT * FROM users WHERE email='{$email}'")->fetch_array(MYSQLI_ASSOC);
 
-    return $this->db->query("SELECT * FROM users WHERE email='{$email}'")->fetch_array(MYSQLI_ASSOC);	
+      $user_id= $operation->get_user_id($email);
+
+      $collection_name = $user_id;
+      $collection_name .= "_image";
+      $collection = $this->mongo_db->$collection_name;
+
+      $cursor = $collection->find();
+
+      foreach ($cursor as $document)
+          $data['image']=$document['image'];
+
+      return $data;
+
+    } else {
+      return $this->db->query("SELECT * FROM users WHERE email='{$email}'")->fetch_array(MYSQLI_ASSOC);
+    }
   }
 
   public function get_user_events($email = NULL, $date = NULL, $mongo = false) {
@@ -47,9 +64,14 @@ Class Actiune {
       if($this->event_exists($email,$date))
 	  {
       $info = $this->db->query("SELECT * FROM events WHERE user_id = '{$user_id}' AND date='{$date}'")->fetch_array(MYSQLI_ASSOC);
-	  	  foreach ($cursor as $document)
-	      $info['data']=stripslashes($document['data']);
-	  return $info;
+      $data['num'] = $info['num'];
+      $data['user_id'] = $user_id;
+      $data['date'] = $date;
+	  foreach ($cursor as $document)
+	      $data['data']=$document['data'];
+      echo $data['data'];
+
+      return $data;
 	  }
 	  else
 		  return null;
