@@ -22,6 +22,7 @@ namespace SSI
         {
             InitializeComponent();
         }
+        
         public static string TokenKey = " ";
         public static char loginOk = 'f';
         public static char registOk = 'f';
@@ -44,9 +45,8 @@ namespace SSI
         DatabaseLink dbLink = new DatabaseLink();
         EventArgs evAr = null;
         object last, lastPic;
-        bool first = true;
+        bool first = true;        
         
-       
         public string GetProfileImageUrl(string facebookId)
         {
             return "http://graph.facebook.com/" + facebookId + "/picture?width=150&height=150";
@@ -113,13 +113,14 @@ namespace SSI
                     eventComboBox.SelectedIndex = 0;
                     eventComboBox.Items.Add("New event");
                     entryBox.Text = eValues[0].text;                    
-                    entryImage.Image = dbLink.Base64ToImage(eValues[0].image64);   
+                    entryImage.Image = dbLink.Base64ToImage(eValues[0].image64);
+                    titleTextBox.Text = eValues[0].title;
                 }
             }
             else
             {
                 jsonNull = true;
-                eventComboBox.Items.Add("Event : 01 :");
+                eventComboBox.Items.Add("Event : 1 :");
                 eventComboBox.SelectedIndex = 0;
             }
            
@@ -339,6 +340,7 @@ namespace SSI
            dateLabel.Visible = true;
            entryBox.Clear();
            entryImage.Image = Resources.clickheretoselect;
+           titleTextBox.Text = null;
            dateLabel.Text = "Date: " + dtConv.GetDateInt(monthBox.Text) + "/" + ((Label)sender).Text + "/" + yearBox.Value.ToString();
            entryBox.Enabled = true;
            DateTime dateSend;
@@ -381,16 +383,17 @@ namespace SSI
                {
                    eValues[0].text = entryBox.Text;
                    eValues[0].image64 = dbLink.ImageToBase64(entryImage.Image, entryImage.Image.RawFormat);
-               }
-               if (eValues.Count > evNum && evNum > 0)
+                   eValues[0].title = titleTextBox.Text;
+               }else if (eValues.Count > evNum && evNum > 0)
                {
                    Console.WriteLine(eValues.Count + " " + evNum);
                    eValues[evNum].text = entryBox.Text;
                    eValues[evNum].image64 = dbLink.ImageToBase64(entryImage.Image, entryImage.Image.RawFormat);
+                   eValues[evNum].title = titleTextBox.Text;
                }
                else
                {
-                   eValues.Add(new EventValues { text = entryBox.Text, image64 = dbLink.ImageToBase64(entryImage.Image, entryImage.Image.RawFormat), title = "title" });
+                   eValues.Add(new EventValues { text = entryBox.Text, image64 = dbLink.ImageToBase64(entryImage.Image, entryImage.Image.RawFormat), title = titleTextBox.Text });
                    eventCount++;
                }
                string jsonArray = JsonConvert.SerializeObject(eValues);
@@ -400,7 +403,6 @@ namespace SSI
            catch(Exception ex)
            {
                MessageBox.Show("Please select a date");
-               MessageBox.Show(ex.Message);
            }
        }
         
@@ -506,6 +508,13 @@ namespace SSI
            {
                entryBox.Text = eValues[evNumber].text;
                entryImage.Image = dbLink.Base64ToImage(eValues[evNumber].image64);
+               titleTextBox.Text = eValues[evNumber].title;
+           }
+           if(eventComboBox.Text == "New event")
+           {
+               entryBox.Clear();
+               titleTextBox.Clear();
+               entryImage.Image = Resources.clickheretoselect;
            }
        }
        

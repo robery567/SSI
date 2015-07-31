@@ -34,6 +34,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.entryBox = new System.Windows.Forms.RichTextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.savedLabel = new System.Windows.Forms.Label();
             this.eventComboBox = new System.Windows.Forms.ComboBox();
             this.fullSizeImageButton = new System.Windows.Forms.Button();
             this.dateLabel = new System.Windows.Forms.Label();
@@ -47,6 +48,7 @@
             this.registTimer = new System.Windows.Forms.Timer(this.components);
             this.objectiveControls = new System.Windows.Forms.GroupBox();
             this.sendObjectiveBtn = new System.Windows.Forms.Button();
+            this.colorWindow1 = new SSI.ColorWindow();
             this.label5 = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -59,11 +61,11 @@
             this.loginSSIBtn = new System.Windows.Forms.Button();
             this.userPhoto = new System.Windows.Forms.PictureBox();
             this.logoutBtn = new System.Windows.Forms.Button();
-            this.savedLabel = new System.Windows.Forms.Label();
             this.imageFullSize1 = new SSI.ImageFullSize();
             this.loginWindow1 = new SSI.LoginWindow();
             this.registerWindow1 = new SSI.RegisterWindow();
-            this.colorWindow1 = new SSI.ColorWindow();
+            this.titleLabel = new System.Windows.Forms.Label();
+            this.titleTextBox = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.entryImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.yearBox)).BeginInit();
@@ -99,6 +101,8 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.titleTextBox);
+            this.groupBox1.Controls.Add(this.titleLabel);
             this.groupBox1.Controls.Add(this.savedLabel);
             this.groupBox1.Controls.Add(this.eventComboBox);
             this.groupBox1.Controls.Add(this.fullSizeImageButton);
@@ -114,6 +118,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Day Review";
             this.groupBox1.Visible = false;
+            // 
+            // savedLabel
+            // 
+            this.savedLabel.AutoSize = true;
+            this.savedLabel.Location = new System.Drawing.Point(170, 152);
+            this.savedLabel.Name = "savedLabel";
+            this.savedLabel.Size = new System.Drawing.Size(38, 13);
+            this.savedLabel.TabIndex = 15;
+            this.savedLabel.Text = "Saved";
+            this.savedLabel.Visible = false;
             // 
             // eventComboBox
             // 
@@ -276,6 +290,13 @@
             this.sendObjectiveBtn.Text = "Save Objective";
             this.sendObjectiveBtn.UseVisualStyleBackColor = true;
             // 
+            // colorWindow1
+            // 
+            this.colorWindow1.Location = new System.Drawing.Point(296, 72);
+            this.colorWindow1.Name = "colorWindow1";
+            this.colorWindow1.Size = new System.Drawing.Size(180, 78);
+            this.colorWindow1.TabIndex = 9;
+            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -402,16 +423,6 @@
             this.logoutBtn.UseVisualStyleBackColor = true;
             this.logoutBtn.Click += new System.EventHandler(this.logoutBtn_Click);
             // 
-            // savedLabel
-            // 
-            this.savedLabel.AutoSize = true;
-            this.savedLabel.Location = new System.Drawing.Point(170, 152);
-            this.savedLabel.Name = "savedLabel";
-            this.savedLabel.Size = new System.Drawing.Size(38, 13);
-            this.savedLabel.TabIndex = 15;
-            this.savedLabel.Text = "Saved";
-            this.savedLabel.Visible = false;
-            // 
             // imageFullSize1
             // 
             this.imageFullSize1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
@@ -439,12 +450,21 @@
             this.registerWindow1.TabIndex = 13;
             this.registerWindow1.Visible = false;
             // 
-            // colorWindow1
+            // titleLabel
             // 
-            this.colorWindow1.Location = new System.Drawing.Point(296, 72);
-            this.colorWindow1.Name = "colorWindow1";
-            this.colorWindow1.Size = new System.Drawing.Size(180, 78);
-            this.colorWindow1.TabIndex = 9;
+            this.titleLabel.AutoSize = true;
+            this.titleLabel.Location = new System.Drawing.Point(168, 123);
+            this.titleLabel.Name = "titleLabel";
+            this.titleLabel.Size = new System.Drawing.Size(33, 13);
+            this.titleLabel.TabIndex = 16;
+            this.titleLabel.Text = "Title: ";
+            // 
+            // titleTextBox
+            // 
+            this.titleTextBox.Location = new System.Drawing.Point(208, 123);
+            this.titleTextBox.Name = "titleTextBox";
+            this.titleTextBox.Size = new System.Drawing.Size(100, 20);
+            this.titleTextBox.TabIndex = 17;
             // 
             // MainForm
             // 
@@ -520,5 +540,7 @@
         private ImageFullSize imageFullSize1;
         private System.Windows.Forms.ComboBox eventComboBox;
         private System.Windows.Forms.Label savedLabel;
+        private System.Windows.Forms.TextBox titleTextBox;
+        private System.Windows.Forms.Label titleLabel;
     }
 }

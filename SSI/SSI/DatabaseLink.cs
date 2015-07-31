@@ -11,26 +11,29 @@ namespace SSI
 {
     class DatabaseLink
     {
+		//clasa contine metode ce apeleaza api-ul prin care trimite datele in baza de date ( mysql , mongodb in functie de date)
         public string error=null;
-        string defaultUri = "http://localhost/ssi/ssi_api.php?action=";
+        string defaultUri = "http://" + Properties.Settings.Default.apiaddress + "ssi_api.php?action=";
         string emailArg = "&email=";
         string dateArg = "&date=";
         string imageArg = "&image=";
+		//in momentul instantierii clasei se verifica conexiunea la api
         public DatabaseLink()
         {
-            
+            LoadApiAddress();
             WebClient wb = new WebClient();
             try
             {
                 string result = wb.DownloadString(defaultUri + "status_check");
             }
-            catch(System.Net.WebException ex)
+            catch (System.Net.WebException ex)
             {
                 System.Windows.Forms.MessageBox.Show(ex.Message);
                 Environment.Exit(0);
             }
-
         }
+		//fiecare metoda apeleaza ori GetRequest ori PostRequest (in functie de tipul requestului http) , ele primesc parametrii necesari
+       //unele metode sunt "overloaded" deoarece cativa parametrii sunt optionali
         public string GetUserEvent(string email, string date)
         {
             return GetRequest(defaultUri+"get_user_event"+emailArg+email+dateArg+date);                       
@@ -79,6 +82,7 @@ namespace SSI
             string parameters = "fbid=" + fbid + "&email=" + email + "&password=" + password + "&name=" + name + "&image=" + image;
             return PostRequest(address, parameters);
         }
+		//metoda ce verifica stringul returnat de api , in cazul in care acesta contine o eroare , este trimis in metoda ErrorParser
         public string ResultParser(string result)
         {
             error = null;
@@ -91,6 +95,7 @@ namespace SSI
             }
             else return result;
         }
+		//metoda de transformare a unui string base64 (ce contine datele unei imagini) intr-un obiect Image
         public Image Base64ToImage(string base64String)
         {
             byte[] imageBytes = Convert.FromBase64String(base64String);
@@ -101,6 +106,7 @@ namespace SSI
             Image image = Image.FromStream(ms, true);
             return image;
         }
+		//metoda de transformare a unei imagini intr-un string base64
         public string ImageToBase64(Image image, System.Drawing.Imaging.ImageFormat format)
         {
             using (MemoryStream ms = new MemoryStream())
@@ -111,6 +117,7 @@ namespace SSI
                 return base64String;
             }
         }
+		//"traduce" codul erorii, corespunzand desigur cu cele din api
         public string ErrorParser(string error)
         {
             switch (error)
@@ -133,6 +140,7 @@ namespace SSI
                     return "ERROR: INTERNAL SERVER ERROR";
             }
         }
+		//Trimiterea unui request GET si parsarea stringului returnat de api
         public string GetRequest(string address)
         {
             WebClient wb = new WebClient();
@@ -147,6 +155,7 @@ namespace SSI
             }
             return "ERROR: CAN'T CONNECT TO THE REMOTE SERVER";
         }
+		//Trimiterea unui request POST si parsarea stringului returnat de api
         public string PostRequest(string address,string parameters)
         {
             WebClient wb = new WebClient();
@@ -161,6 +170,20 @@ namespace SSI
                 System.Windows.Forms.MessageBox.Show(ex.Message);
             }
             return "ERROR: CAN'T CONNECT TO THE REMOTE SERVER";
+        }
+        void LoadApiAddress()
+        {
+            try
+            {
+                StreamReader sr = new StreamReader("apilocation");
+                Properties.Settings.Default.apiaddress = sr.ReadLine();
+                Properties.Settings.Default.Save();
+                defaultUri = "http://" + Properties.Settings.Default.apiaddress + "ssi_api.php?action=";
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message);
+            }
         }
     }
 }
