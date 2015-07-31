@@ -129,12 +129,12 @@ try {
 									if (mongodb_store && class_exists('MongoClient')) {
 										$collection_name  = $operation->get_user_id($data['email']);
 										$collection_name .= "_event";
-										$collection_name .= $operation->get_last_user_event_id($data['email'])+1;
+										$collection_name .= date('Y-m-d');
 
 										$collection = $mongo_db->$collection_name;
 
 										$document = array(
-																			"data"		 => $data['data']
+																			"data"		 => json_decode($data['data'])
 																		 );
 
 										$collection->insert($document);
