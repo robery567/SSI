@@ -26,7 +26,7 @@ Class Actiune {
 
   public function get_user_details($email = NULL) {
 
-    return $this->db->query("SELECT * FROM users WHERE email='{$email}'")->fetch_array(MYSQLI_ASSOC);
+    return $this->db->query("SELECT * FROM users WHERE email='{$email}'")->fetch_array(MYSQLI_ASSOC);	
   }
 
   public function get_user_events($email = NULL, $date = NULL, $mongo = false) {
@@ -50,13 +50,6 @@ Class Actiune {
 	  	  foreach ($cursor as $document)
 	      $info['data']=stripslashes($document['data']);
 	  return $info;
-	  /*$data['num'] = $info['num'];
-      $data['user_id'] = $user_id;
-      $data['date'] = $date;
-	  foreach ($cursor as $document)
-	      $data['data']=$document['data'];
-
-      return json_encode($data);*/
 	  }
 	  else
 		  return null;
