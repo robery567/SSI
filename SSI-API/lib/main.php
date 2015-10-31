@@ -23,7 +23,7 @@ Class Actiune {
 
     return $this->db->query("SELECT COUNT(DISTINCT `table_name`) FROM `information_schema`.`columns` WHERE `table_schema` = '{$database}'")->num_rows;
  }
-
+	//de ce nu pui prezentarea power point e github?
   public function get_user_details($email = NULL, $mongo = true) {
     if ($mongo && class_exists('MongoClient') && !is_null($email)) {
       $data = $this->db->query("SELECT * FROM users WHERE email='{$email}'")->fetch_array(MYSQLI_ASSOC);
